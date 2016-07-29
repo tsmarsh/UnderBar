@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>The Ocho</name>
+
+  <groupId>com.tailoredshapes.underbar</groupId>
+  <artifactId>core</artifactId>
+  <version>0.0.6-SNAPSHOT</version>
+
+  <parent>
+    <groupId>com.tailoredshapes</groupId>
+    <artifactId>underbar</artifactId>
+    <version>0.0.6-SNAPSHOT</version>
+  </parent>
+
+  <description>Foundational functions inspired by Clojure and underscore.js</description>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.12</version>
+        <configuration>
+          <message>Creating site for ${project.version}</message>
+          <path>core</path>
+          <merge>true</merge>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
