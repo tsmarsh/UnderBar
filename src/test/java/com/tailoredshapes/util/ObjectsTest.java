@@ -62,4 +62,17 @@ public class ObjectsTest {
     public void maybeBombsIfListIsLargerThan1() throws Exception {
         maybe(Arrays.asList(1, 2));
     }
+
+    @Test
+    public void ifAbsentCallsARunnableIfCollectionEmpty() throws Exception {
+        One<Boolean> empty = one(false);
+        One<Boolean> full = one(false);
+
+        ifAbsent(Optional.empty(), ()-> empty.value = true);
+        ifAbsent(Optional.of(1), ()-> full.value = true);
+
+        assertTrue(empty.value);
+        assertFalse(full.value);
+    }
+    
 }
