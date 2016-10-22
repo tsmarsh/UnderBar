@@ -8,6 +8,7 @@ import java.util.function.*;
 import static com.tailoredshapes.util.Objects.list;
 import static java.util.stream.Collectors.*;
 
+
 public class Bomb {
     public static RuntimeException bomb(Throwable e, String msg, Object ... args) {
         throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args), e);

@@ -1,4 +1,4 @@
-package com.tailoredshapes.util;
+package com.tailoredshapes.util.function;
 
 public interface TriConsumer<T, U, V> {
     void accept(T t, U u, V v);

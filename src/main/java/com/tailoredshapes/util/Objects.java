@@ -1,6 +1,6 @@
 package com.tailoredshapes.util;
 
-import com.tailoredshapes.util.functions.*;
+import com.tailoredshapes.util.function.*;
 import org.json.simple.JSONArray;
 
 import java.nio.ByteBuffer;

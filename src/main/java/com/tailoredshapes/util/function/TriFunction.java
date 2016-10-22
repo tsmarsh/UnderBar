@@ -1,4 +1,4 @@
-package com.tailoredshapes.util.functions;
+package com.tailoredshapes.util.function;
 
 public interface TriFunction<T, U, V, R> {
     R apply(T t, U u, V v);
