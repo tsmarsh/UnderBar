@@ -2,10 +2,7 @@ package com.tailoredshapes.util;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.tailoredshapes.util.Objects.*;
 import static org.junit.Assert.*;
@@ -31,5 +28,38 @@ public class ObjectsTest {
         the(Arrays.asList(1, 2));
     }
 
-    
+    @Test
+    public void theReturnsTheSoleValueOfAnArray() throws Exception {
+        Integer expected = 0;
+        assertEquals(expected, the(new Integer[]{expected}));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void theBombsIfArrayIsEmpty() throws Exception {
+        the(new Integer[]{});
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void theBombsIfArrayIsLargerThan1() throws Exception {
+        the(new Integer[]{0, 1});
+    }
+
+
+    @Test
+    public void maybeBehavesLikeTheWithOptional() throws Exception {
+        Integer expected = 5;
+        List<Integer> it = new ArrayList<>();
+        it.add(expected);
+        assertEquals(Optional.of(5), maybe(it));;
+    }
+
+    @Test
+    public void maybeReturnsEmptyIfListIsEmpty() throws Exception {
+        assertFalse(maybe(Collections.emptyList()).isPresent());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void maybeBombsIfListIsLargerThan1() throws Exception {
+        maybe(Arrays.asList(1, 2));
+    }
 }

@@ -35,8 +35,9 @@ public class Objects {
 
     public static <T> Optional<T> maybe(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
-        if (!i.hasNext())
+        if (!i.hasNext()) {
             return Optional.empty();
+        }
         T result = i.next();
         bombIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
         return Optional.of(result);
