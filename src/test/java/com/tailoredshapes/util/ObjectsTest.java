@@ -123,4 +123,12 @@ public class ObjectsTest {
         assertEquals(list("a", "b"), take(2, list("a", "b")));
         assertEquals(list("a", "b"), take(3, list("a", "b")));
     }
+
+
+    @Test
+    public void concatCombinesLists() throws Exception {
+        assertEquals(list("a"), concat(list(), list("a")));
+        assertEquals(list("a", "b"), concat(list("a"), list("b")));
+        assertEquals(list("a", "b", "c", "d"), concat(list("a", "b"), list("c"), list("d")));
+    }
 }
