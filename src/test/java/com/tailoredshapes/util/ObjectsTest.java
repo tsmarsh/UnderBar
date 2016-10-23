@@ -155,4 +155,16 @@ public class ObjectsTest {
         assertEquals(set(), difference(set("a"), set("a")));
         assertEquals(set("b"), difference(set("a", "b"), set("a")));
     }
+
+    @Test
+    public void zipMapCombinesCollectionsOfKeysAndValues() throws Exception {
+        assertEquals(map(), zipmap(list(), list()));
+        assertEquals(map("key", "value"), zipmap(list("key"), list("value")));
+        assertEquals(map("key", "value", "key2", "value2"), zipmap(list("key", "key2"), list("value", "value2")));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void zipMapRequiresAnEvenNumberOfElements() throws Exception {
+        zipmap(list(), list("nooope"));
+    }
 }
