@@ -75,4 +75,25 @@ public class ObjectsTest {
         assertFalse(full.value);
     }
 
+    @Test
+    public void optionallyConsumesThenCallsCallbackIfEmpty() throws Exception {
+        One<Boolean> calledBack = one(false);
+        One<Boolean> consumed = one(false);
+
+        optionally(Optional.of(true), (t)->consumed.value = t, () -> calledBack.value=true);
+
+        assertFalse(calledBack.value);
+        assertTrue(consumed.value);
+    }
+
+    @Test
+    public void optionallyCallsCallbackIfEmpty() throws Exception {
+        One<Boolean> calledBack = one(false);
+        One<Boolean> consumed = one(false);
+
+        optionally(Optional.empty(), (t)-> consumed.value = (Boolean) t, () -> calledBack.value=true);
+
+        assertTrue(calledBack.value);
+        assertFalse(consumed.value);
+    }
 }
