@@ -126,9 +126,33 @@ public class ObjectsTest {
 
 
     @Test
-    public void concatCombinesLists() throws Exception {
+    public void concatCombinesNLists() throws Exception {
         assertEquals(list("a"), concat(list(), list("a")));
         assertEquals(list("a", "b"), concat(list("a"), list("b")));
         assertEquals(list("a", "b", "c", "d"), concat(list("a", "b"), list("c"), list("d")));
+    }
+
+    @Test
+    public void unionJoinsNSets() throws Exception {
+        assertEquals(set(), union(set(), set()));
+        assertEquals(set("a"), union(set(), set("a")));
+        assertEquals(set("a"), union(set("a"), set("a")));
+        assertEquals(set("a", "b"), union(set("a", "b"), set("a")));
+    }
+
+    @Test
+    public void intersectionFindsMembersOfNSets() throws Exception {
+        assertEquals(set(), intersection(set(), set()));
+        assertEquals(set(), intersection(set(), set("a")));
+        assertEquals(set("a"), intersection(set("a"), set("a")));
+        assertEquals(set("a"), intersection(set("a", "b"), set("a")));
+    }
+
+    @Test
+    public void differenceFindsTheExclusiveMembersOfNSets() throws Exception {
+        assertEquals(set(), difference(set(), set()));
+        assertEquals(set(), difference(set(), set("a")));
+        assertEquals(set(), difference(set("a"), set("a")));
+        assertEquals(set("b"), difference(set("a", "b"), set("a")));
     }
 }
