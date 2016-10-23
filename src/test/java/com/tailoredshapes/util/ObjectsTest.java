@@ -167,4 +167,16 @@ public class ObjectsTest {
     public void zipMapRequiresAnEvenNumberOfElements() throws Exception {
         zipmap(list(), list("nooope"));
     }
+
+    @Test
+    public void zipReturnsAListOfMapEntry() throws Exception {
+        assertEquals(list(), zip(list(), list()));
+        assertEquals(list(entry("key", "value")), zip(list("key"), list("value")));
+        assertEquals(list(entry("key", "value"), entry("key2", "value2")), zip(list("key", "key2"), list("value", "value2")));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void zipRequiresAnEvenNumberOfElements() throws Exception {
+        zip(list(), list("nooope"));
+    }
 }
