@@ -94,5 +94,20 @@ public class ObjectsTest {
         assertFalse(consumed.value);
     }
 
+    @Test
+    public void firstReturnsHeadOfList() throws Exception {
+        assertEquals("a", first(list("a", "b")));
+    }
 
+    @Test
+    public void secondReturnsSecondofList() throws Exception {
+        assertEquals("b", second(list("a", "b")));
+        assertEquals("b", second(list("a", "b", "c")));
+    }
+
+    @Test
+    public void lastReturnsEndOfList() throws Exception {
+        assertEquals("b", last(list("a", "b")));
+        assertEquals("c", last(list("a", "b", "c")));
+    }
 }

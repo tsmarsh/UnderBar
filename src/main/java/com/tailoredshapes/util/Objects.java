@@ -131,7 +131,7 @@ public class Objects {
         return ts;
     }
 
-    public static <T> T firstExample(Iterable<T> ts) {
+    public static <T> T first(Iterable<T> ts) {
         Iterator<T> iterator = ts.iterator();
         bombUnless(iterator.hasNext(), () -> "can't take first of empty iterable");
         return iterator.next();
@@ -214,7 +214,7 @@ public class Objects {
     @SafeVarargs
     public static <K, V> Map<K, V> merge(Map<K, V>... ms) {
         List<Map<K, V>> maps = list(ms);
-        Map<K, V> result = new HashMap<>(firstExample(maps));
+        Map<K, V> result = new HashMap<>(first(maps));
         rest(maps).forEach(result::putAll);
         return result;
     }
@@ -550,7 +550,7 @@ public class Objects {
     }
 
     public static <T, U> boolean allMatchFirst(Iterable<T> ts, Function<T, U> toU) {
-        U first = toU.apply(firstExample(ts));
+        U first = toU.apply(first(ts));
         for (T t : ts)
             if (!toU.apply(t).equals(first))
                 return false;
@@ -783,7 +783,7 @@ public class Objects {
     public static Long min(Collection<Long> values) {
         if (isEmpty(values))
             return null;
-        long result = firstExample(values);
+        long result = first(values);
         for (long v : values)
             result = Math.min(result, v);
         return result;
@@ -792,7 +792,7 @@ public class Objects {
     public static Long max(Collection<Long> values) {
         if (isEmpty(values))
             return null;
-        long result = firstExample(values);
+        long result = first(values);
         for (long v : values)
             result = Math.max(result, v);
         return result;
