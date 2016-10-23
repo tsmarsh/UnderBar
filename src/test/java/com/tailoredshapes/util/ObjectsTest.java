@@ -110,4 +110,17 @@ public class ObjectsTest {
         assertEquals("b", last(list("a", "b")));
         assertEquals("c", last(list("a", "b", "c")));
     }
+
+    @Test
+    public void restReturnsEverythingButFirst() throws Exception {
+        assertEquals(list("b", "c"), rest(list("a", "b", "c")));
+    }
+
+    @Test
+    public void takeReturnsTheNthOfAList() throws Exception {
+        assertEquals(list(), take(0, list("a", "b")));
+        assertEquals(list("a"), take(1, list("a", "b")));
+        assertEquals(list("a", "b"), take(2, list("a", "b")));
+        assertEquals(list("a", "b"), take(3, list("a", "b")));
+    }
 }
