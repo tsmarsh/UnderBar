@@ -74,5 +74,5 @@ public class ObjectsTest {
         assertTrue(empty.value);
         assertFalse(full.value);
     }
-    
+
 }
