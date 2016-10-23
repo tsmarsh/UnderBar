@@ -47,20 +47,17 @@ public class ObjectsTest {
 
     @Test
     public void maybeBehavesLikeTheWithOptional() throws Exception {
-        Integer expected = 5;
-        List<Integer> it = new ArrayList<>();
-        it.add(expected);
-        assertEquals(Optional.of(5), maybe(it));;
+        assertEquals(Optional.of(5), maybe(list(5)));;
     }
 
     @Test
     public void maybeReturnsEmptyIfListIsEmpty() throws Exception {
-        assertFalse(maybe(Collections.emptyList()).isPresent());
+        assertFalse(maybe(emptyList()).isPresent());
     }
 
     @Test(expected = RuntimeException.class)
     public void maybeBombsIfListIsLargerThan1() throws Exception {
-        maybe(Arrays.asList(1, 2));
+        maybe(list(1, 2));
     }
 
     @Test
@@ -96,4 +93,6 @@ public class ObjectsTest {
         assertTrue(calledBack.value);
         assertFalse(consumed.value);
     }
+
+
 }
