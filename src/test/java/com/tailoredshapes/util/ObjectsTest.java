@@ -214,5 +214,10 @@ public class ObjectsTest {
     public void compactRemovesNulls() throws Exception {
         assertEquals(list(1, 2, 3), compact(list(1, null, 2, null, null, 3)));
     }
-    
+
+    @Test
+    public void compactOptionalsRemovesEmpties() throws Exception {
+        assertEquals(list(1,2,3),
+                compactOptionals(list(optional(1), optional(), optional(2), optional(), optional(), optional(3))));
+    }
 }
