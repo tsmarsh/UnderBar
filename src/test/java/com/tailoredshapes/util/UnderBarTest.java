@@ -416,8 +416,11 @@ public class UnderBarTest {
     public void tapCallsAFunction() throws Exception {
         One<Integer> sideEffect = one(0);
 
-        tap(1, (x) -> sideEffect.value = x);
+        assertEquals(1, (int)tap(1, (x) -> sideEffect.value = x));
         assertEquals(1, (int) sideEffect.value);
+
+        assertEquals(1, (int)tap_(1, () -> sideEffect.value = 5));
+        assertEquals(5, (int) sideEffect.value);
 
     }
 
