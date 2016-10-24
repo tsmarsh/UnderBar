@@ -16,7 +16,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 
-public class _ {
+public class UnderBar {
     public static final Random random = new Random();
 
     public static <T> T the(Iterable<T> ts) {
@@ -323,7 +323,7 @@ public class _ {
     }
 
     public static <K, V> Map<K, V> indexBy(Iterable<V> vs, Function<V, K> toK) {
-        return modifyValues(groupBy(vs, toK), _::the);
+        return modifyValues(groupBy(vs, toK), UnderBar::the);
     }
 
     public static <K, V> Map<K, V> indexBy(V[] vs, Function<V, K> toK) {
@@ -823,11 +823,11 @@ public class _ {
         bb.putLong(guid.getMostSignificantBits());
         bb.putLong(guid.getLeastSignificantBits());
         String encoded = Base64.getEncoder().encodeToString(bb.array());
-        return encoded.replaceFirst("==$", "").replace("+", "_").replace("/", "-");
+        return encoded.replaceFirst("==$", "").replace("+", "UnderBar").replace("/", "-");
     }
 
     public static UUID guidFromShortString(String encoded) {
-        encoded = encoded.replace("_", "+").replace("-", "/") + "==";
+        encoded = encoded.replace("UnderBar", "+").replace("-", "/") + "==";
         ByteBuffer byteBuffer = ByteBuffer.wrap(Base64.getDecoder().decode(encoded));
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }

@@ -5,10 +5,10 @@ import org.junit.Test;
 import java.io.Serializable;
 import java.util.*;
 
-import static com.tailoredshapes.util._.*;
+import static com.tailoredshapes.util.UnderBar.*;
 import static org.junit.Assert.*;
 
-public class ObjectsTest {
+public class UnderBarTest {
 
     @Test
     public void theReturnsTheSoleValueFromAnIterable() throws Exception {

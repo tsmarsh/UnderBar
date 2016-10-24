@@ -14,7 +14,7 @@ import java.util.function.*;
 
 import static com.tailoredshapes.util.Bomb.*;
 import static com.tailoredshapes.util.Dates.isoString;
-import static com.tailoredshapes.util._.*;
+import static com.tailoredshapes.util.UnderBar.*;
 import static com.tailoredshapes.util.Strings.urlEncode;
 import static java.util.Optional.ofNullable;
 import static org.joda.time.format.ISODateTimeFormat.dateTimeParser;
@@ -39,7 +39,7 @@ public class StringMap implements JSONAware {
     public static List<StringMap> parseJsonMaps(Path path) {
         String jsonString = rethrow(() -> new String(Files.readAllBytes(path)));
         JSONArray items = (JSONArray) rethrow(() -> JSONValue.parseWithException(jsonString));
-        return _.map(items, i -> new StringMap(((HashMap<String, Object>) i)));
+        return UnderBar.map(items, i -> new StringMap(((HashMap<String, Object>) i)));
     }
 
     public StringMap put(String k, Object v) {
@@ -125,7 +125,7 @@ public class StringMap implements JSONAware {
     }
 
     public <T> List<T> map(BiFunction<String, Object, T> toT) {
-        return _.map(m, toT);
+        return UnderBar.map(m, toT);
     }
 
     public Map<String, Object> putInto(Map<String, Object> other) {
@@ -162,7 +162,7 @@ public class StringMap implements JSONAware {
     public StringMap makeSmap(String key) { return new StringMap((Map<String, Object>)getCast(key, x -> (Map<String, Object>) x)); }
 
     public List<StringMap> smaps(String key) { return getCast(key, x -> (List<StringMap>) x); }
-    public List<StringMap> makeSmaps(String key) { return _.map((Collection<Map<String, Object>>) getCast(key, x -> (Collection<Map<String, Object>>) x), StringMap::new); }
+    public List<StringMap> makeSmaps(String key) { return UnderBar.map((Collection<Map<String, Object>>) getCast(key, x -> (Collection<Map<String, Object>>) x), StringMap::new); }
 
     public StringMap parseJson(String key) {
         return parseJSON(string(key));
@@ -215,7 +215,7 @@ public class StringMap implements JSONAware {
     }
 
     public StringMap filterKeys(Predicate<String> predicate) {
-        return new StringMap(_.filterKeys(m, predicate));
+        return new StringMap(UnderBar.filterKeys(m, predicate));
     }
 
     public StringMap rejectKeys(String ... keys) {
@@ -249,7 +249,7 @@ public class StringMap implements JSONAware {
                 result.put(key, ((StringMap) value).toMapDeeply());
             } else if (value instanceof Iterable<?>) {
                 Iterable<?> v = (Iterable<?>) value;
-                List<Object> convertedValue = _.map(v, (element) -> {
+                List<Object> convertedValue = UnderBar.map(v, (element) -> {
                     if (element instanceof StringMap) {
                         return ((StringMap) element).toMapDeeply();
                     }
@@ -307,7 +307,7 @@ public class StringMap implements JSONAware {
     }
 
     public StringMap merge(StringMap overrides) {
-        return new StringMap(_.merge(m, overrides.m));
+        return new StringMap(UnderBar.merge(m, overrides.m));
     }
 
     public static StringMap parseJSON(String json) {

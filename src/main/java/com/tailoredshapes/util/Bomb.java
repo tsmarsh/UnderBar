@@ -5,7 +5,7 @@ import com.diffplug.common.base.*;
 import java.util.*;
 import java.util.function.*;
 
-import static com.tailoredshapes.util._.list;
+import static com.tailoredshapes.util.UnderBar.list;
 import static java.util.stream.Collectors.*;
 
 
