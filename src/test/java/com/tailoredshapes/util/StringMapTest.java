@@ -275,12 +275,15 @@ public class StringMapTest {
 
     @Test
     public void hasContentTest() throws Exception {
-
+        assertFalse(smap("foo", "  ").hasContent("foo"));
+        assertTrue(smap("foo", "FOO").hasContent("foo"));
     }
 
     @Test
     public void stringOptionalTest() throws Exception {
-
+        assertEquals(
+                optional("foo"),
+                smap("bar", optional("foo")).stringOptional("bar"));
     }
 
     @Test
