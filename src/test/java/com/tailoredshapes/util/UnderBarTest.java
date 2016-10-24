@@ -308,4 +308,29 @@ public class UnderBarTest {
                         map("a", 1, "b", 2, "c", 3, "d", 4),
                         (k, v) -> v + 1));
     }
+
+    @Test
+    public void mapWorksOnOptionals() throws Exception {
+        assertEquals(
+                optional(3),
+                map(
+                        optional(2),
+                        (v) -> 1 + v));
+    }
+
+    @Test
+    public void doTimesRepeatsAFunction() throws Exception {
+        One<Integer> one = one(0);
+        doTimes(5, () -> one.value += 1);
+        assertEquals(5, (int)one.value);
+    }
+
+    @Test
+    public void doTimesRepeatsAFunctionWithAnIndex() throws Exception {
+        One<Integer> one = one(1);
+        doTimes(5, (i) -> one.value += i);
+        assertEquals(11, (int)one.value);
+    }
+
+
 }
