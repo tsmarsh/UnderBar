@@ -230,6 +230,13 @@ public class ObjectsTest {
 
     @Test
     public void mapFromPairsCreatesAMapFromPairsWithAFunction() throws Exception {
-        mapFromPairs(array(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1)));
+        assertEquals(map("a", 1, "b", 2),
+                mapFromPairs(list(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1))));
+    }
+
+    @Test
+    public void smapFromPairsCreatesAStringMapFromPairsWithAFunction() throws Exception {
+        assertEquals(new StringMap(map("a", 1, "b", 2)),
+                smapFromPairs(list(list("a", 1), list("b", 2)), (l) -> entry((String)l.get(0), l.get(1))));
     }
 }
