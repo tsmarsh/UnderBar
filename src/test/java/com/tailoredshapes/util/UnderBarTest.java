@@ -347,7 +347,7 @@ public class UnderBarTest {
 
     @Test
     public void allPassesIfAllValuesInTheCollectionPass() throws Exception {
-        assertFalse(all(list(), (x) -> x.equals(2)));
+        assertTrue(all(list(), (x) -> x.equals(2)));
         assertFalse(all(list(1, 1, 2, 1), (x) -> x == 2));
         assertTrue(all(list(1, 1, 1), (x) -> x == 1));
     }
