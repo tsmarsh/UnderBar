@@ -263,8 +263,8 @@ public class StringMapTest {
     @Test
     public void removeTest() throws Exception {
         assertEquals(
-                smap("bar", 2, "eggs", 3),
-                smap("foo", 1, "bar", 2, "eggs", 3)
+                2,
+                (int) smap("foo", 1, "bar", 2, "eggs", 3)
                         .remove("bar"));
     }
 
