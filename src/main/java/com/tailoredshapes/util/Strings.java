@@ -16,7 +16,7 @@ public class Strings {
 
 
     public static <T> String join(String separator, Map<String, T> m, BiFunction<String, T, String> f) {
-        return Joiner.on(separator).join(Objects.map(m, f));
+        return Joiner.on(separator).join(_.map(m, f));
     }
 
     public static <V> String toString(V v) {

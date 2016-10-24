@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.io.Serializable;
 import java.util.*;
 
-import static com.tailoredshapes.util.Objects.*;
+import static com.tailoredshapes.util._.*;
 import static org.junit.Assert.*;
 
 public class ObjectsTest {
@@ -293,4 +293,5 @@ public class ObjectsTest {
     public void mapWithIndexGivesAccessToAnIndexDuringAMap() throws Exception {
         assertEquals(modifiableList(1L, 3L, 5L, 7L, 9L), mapWithIndex(list(1, 2, 3, 4, 5), (i, v) -> i + v));
     }
+
 }

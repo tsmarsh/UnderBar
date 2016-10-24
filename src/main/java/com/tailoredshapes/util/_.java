@@ -16,7 +16,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 
-public class Objects {
+public class _ {
     public static final Random random = new Random();
 
     public static <T> T the(Iterable<T> ts) {
@@ -323,7 +323,7 @@ public class Objects {
     }
 
     public static <K, V> Map<K, V> indexBy(Iterable<V> vs, Function<V, K> toK) {
-        return modifyValues(groupBy(vs, toK), Objects::the);
+        return modifyValues(groupBy(vs, toK), _::the);
     }
 
     public static <K, V> Map<K, V> indexBy(V[] vs, Function<V, K> toK) {
