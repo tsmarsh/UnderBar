@@ -332,5 +332,12 @@ public class UnderBarTest {
         assertEquals(11, (int)one.value);
     }
 
+    @Test
+    public void allMatchFirstChecksThatResultsAreTheSame() throws Exception {
+        assertTrue(allMatchFirst(list(1), (x)->x));
+        assertTrue(allMatchFirst(list(1,1), (x)->x));
+        assertFalse(allMatchFirst(list(1,1,2), (x)->x));
+    }
 
+    
 }
