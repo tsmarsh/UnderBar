@@ -202,4 +202,11 @@ public class ObjectsTest {
         assertEquals(list(), reject(list(2), (x) -> !x.equals(1)));
         assertEquals(list(1), reject(list(1,2,3), (x) -> x != 1));
     }
+
+    @Test
+    public void negateInvertsAPredicate() throws Exception {
+        assertEquals(list(), reject(list(), negate((x) -> !x.equals(1))));
+        assertEquals(list(2), reject(list(2), negate((x) -> !x.equals(1))));
+        assertEquals(list(2,3), reject(list(1,2,3), negate((x) -> x != 1)));
+    }
 }
