@@ -740,7 +740,7 @@ public class UnderBar {
         return result;
     }
 
-    private static long sumInt(Collection<Integer> values) {
+    public static long sumInt(Collection<Integer> values) {
         long result = 0;
         for (long v : values)
             result += v;
