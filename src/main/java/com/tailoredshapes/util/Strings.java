@@ -33,4 +33,5 @@ public class Strings {
     public static boolean hasContent(String s) {
         return s.trim().length() > 0;
     }
+
 }
