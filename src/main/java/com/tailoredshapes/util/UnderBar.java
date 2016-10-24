@@ -647,10 +647,6 @@ public class UnderBar {
         return result;
     }
 
-    protected static <K, V> Function<Map<K, V>, V> f(K k) {
-        return m -> m.get(k);
-    }
-
     private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
 
     public static <T> Supplier<T> lazy(Supplier<T> makeT) {
