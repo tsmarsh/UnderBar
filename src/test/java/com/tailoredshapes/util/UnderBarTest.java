@@ -290,4 +290,8 @@ public class UnderBarTest {
         assertEquals(modifiableList(1L, 3L, 5L, 7L, 9L), mapWithIndex(list(1, 2, 3, 4, 5), (i, v) -> i + v));
     }
 
+    @Test
+    public void mapPerformsAFunctionOverACollection() throws Exception {
+        assertEquals(list(2,3,4,5), map( list(1,2,3,4), (x) -> x + 1));
+    }
 }
