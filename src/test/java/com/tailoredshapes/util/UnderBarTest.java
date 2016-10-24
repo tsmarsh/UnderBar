@@ -492,4 +492,20 @@ public class UnderBarTest {
                 "10", 10);
         assertEquals(10, map.size());
     }
+
+    @Test
+    public void superStringMapTest() throws Exception {
+        StringMap map = smap(
+                "a", 1,
+                "b", 2,
+                "c", 3,
+                "d", 4,
+                "e", 5,
+                "f", 6,
+                "g", 7,
+                "h", 8,
+                "i", 9,
+                "10", 10);
+        assertEquals(10, map.size());
+    }
 }
