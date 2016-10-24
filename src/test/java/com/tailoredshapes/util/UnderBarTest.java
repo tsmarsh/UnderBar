@@ -233,14 +233,14 @@ public class UnderBarTest {
 
     @Test
     public void smapFromPairsCreatesAStringMapFromPairsWithAFunction() throws Exception {
-        assertEquals(new StringMap(map("a", 1, "b", 2)),
+        assertEquals(smap("a", 1, "b", 2),
                 smapFromPairs(list(list("a", 1), list("b", 2)),
                         (l) -> entry((String) l.get(0), l.get(1))));
     }
 
     @Test
     public void smapFromKeysCreatesAStingMapFromKeysAndAFunction() throws Exception {
-        assertEquals(new StringMap(map("a", 1, "b", 1)),
+        assertEquals(smap("a", 1, "b", 1),
                 smapFromKeys(list("a", "b"),
                         (l) -> 1));
     }
