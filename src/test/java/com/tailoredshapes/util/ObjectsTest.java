@@ -209,4 +209,10 @@ public class ObjectsTest {
         assertEquals(list(2), reject(list(2), negate((x) -> !x.equals(1))));
         assertEquals(list(2,3), reject(list(1,2,3), negate((x) -> x != 1)));
     }
+
+    @Test
+    public void compactRemovesNulls() throws Exception {
+        assertEquals(list(1, 2, 3), compact(list(1, null, 2, null, null, 3)));
+    }
+    
 }
