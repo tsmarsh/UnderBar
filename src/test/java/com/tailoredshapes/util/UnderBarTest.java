@@ -12,7 +12,7 @@ public class UnderBarTest {
 
     @Test
     public void theReturnsTheSoleValueFromAnIterable() throws Exception {
-        assertEquals(5, (long)the(list(5)));
+        assertEquals(5, (long) the(list(5)));
     }
 
     @Test(expected = RuntimeException.class)
@@ -22,7 +22,7 @@ public class UnderBarTest {
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfListIsLargerThan1() throws Exception {
-        the(array(1,2));
+        the(array(1, 2));
     }
 
     @Test
@@ -292,6 +292,20 @@ public class UnderBarTest {
 
     @Test
     public void mapPerformsAFunctionOverACollection() throws Exception {
-        assertEquals(list(2,3,4,5), map( list(1,2,3,4), (x) -> x + 1));
+        assertEquals(list(2, 3, 4, 5), map(list(1, 2, 3, 4), (x) -> x + 1));
+    }
+
+    @Test
+    public void mapWorksOnArrays() throws Exception {
+        assertEquals(list(2, 3, 4, 5), map(array(1, 2, 3, 4), (x) -> x + 1));
+    }
+
+    @Test
+    public void mapWorksOnMaps() throws Exception {
+        assertEquals(
+                list(2, 3, 4, 5),
+                map(
+                        map("a", 1, "b", 2, "c", 3, "d", 4),
+                        (k, v) -> v + 1));
     }
 }
