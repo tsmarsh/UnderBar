@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.*;
 
-import static com.tailoredshapes.util.Bomb.*;
+import static com.tailoredshapes.util.Die.*;
 import static com.tailoredshapes.util.Dates.isoString;
 import static com.tailoredshapes.util.UnderBar.*;
 import static com.tailoredshapes.util.Strings.urlEncode;
@@ -77,7 +77,7 @@ public class StringMap implements JSONAware {
     public int integerValue(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.intValue(), result ->
-                bombUnless(result == value.longValue(), () -> "overflow detected!  cannot convert " + value + " to integer"));
+                dieUnless(result == value.longValue(), () -> "overflow detected!  cannot convert " + value + " to integer"));
     }
     public int parseInteger(String k, int default_) {
         return ofNullable((String) m.get(k)).map(Integer::parseInt).orElse(default_);
@@ -154,7 +154,7 @@ public class StringMap implements JSONAware {
     }
 
     private <T> T getCast(String k, Function<T, T> onT) {
-        Object value = bombMissing(m, k);
+        Object value = dieIfMissing(m, k);
         return rethrow(() -> onT.apply((T) value), () -> "failed to cast to T for key: " + k + ": value: " + value + " of type: " + value.getClass());
     }
 
@@ -275,7 +275,7 @@ public class StringMap implements JSONAware {
     }
 
     public Optional<String> stringOptional(String key) {
-        String value = (String) bombMissingKey(m, key);
+        String value = (String) dieIfMissingKey(m, key);
         return Strings.optional(value);
     }
 
@@ -303,7 +303,7 @@ public class StringMap implements JSONAware {
     public Optional<Boolean> boolish(String key) {  return (has(key) && !isNull(key)) ? optional(bool(key)) : optional();}
 
     public Optional<Boolean> booleanOptional(String key) {
-        return ofNullable((Boolean) bombMissingKey(m, key));
+        return ofNullable((Boolean) dieIfMissingKey(m, key));
     }
 
     public StringMap merge(StringMap overrides) {
@@ -311,12 +311,12 @@ public class StringMap implements JSONAware {
     }
 
     public static StringMap parseJSON(String json) {
-        return new StringMap((Map<String, Object>) bombNull(JSONValue.parse(json), ()-> "error parsing JSON: " + json));
+        return new StringMap((Map<String, Object>) dieIfNull(JSONValue.parse(json), ()-> "error parsing JSON: " + json));
     }
 
 
     public String asString(String key) {
-        return bombMissing(m, key).toString();
+        return dieIfMissing(m, key).toString();
     }
 
     public UUID uuid(String key) {
@@ -386,7 +386,7 @@ public class StringMap implements JSONAware {
     }
 
     public Optional<UUID> uuidMaybe(String key) {
-        return (Optional<UUID>) bombMissingKey(m, key);
+        return (Optional<UUID>) dieIfMissingKey(m, key);
     }
 
     public UUID uuidOrNull(String key){

@@ -12,21 +12,17 @@ public class UnderBarTest {
 
     @Test
     public void theReturnsTheSoleValueFromAnIterable() throws Exception {
-        Integer expected = 5;
-        List<Integer> it = new ArrayList<>();
-        it.add(expected);
-        Integer result = the(it);
-        assertEquals(expected, result);
+        assertEquals(5, (long)the(list(5)));
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfListIsEmpty() throws Exception {
-        the(Collections.emptyList());
+        the(list());
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfListIsLargerThan1() throws Exception {
-        the(Arrays.asList(1, 2));
+        the(array(1,2));
     }
 
     @Test
@@ -66,8 +62,8 @@ public class UnderBarTest {
         One<Boolean> empty = one(false);
         One<Boolean> full = one(false);
 
-        ifAbsent(Optional.empty(), ()-> empty.value = true);
-        ifAbsent(Optional.of(1), ()-> full.value = true);
+        ifAbsent(optional(), () -> empty.value = true);
+        ifAbsent(optional(1), () -> full.value = true);
 
         assertTrue(empty.value);
         assertFalse(full.value);
@@ -78,7 +74,7 @@ public class UnderBarTest {
         One<Boolean> calledBack = one(false);
         One<Boolean> consumed = one(false);
 
-        optionally(Optional.of(true), (t)->consumed.value = t, () -> calledBack.value=true);
+        optionally(optional(true), (t) -> consumed.value = t, () -> calledBack.value = true);
 
         assertFalse(calledBack.value);
         assertTrue(consumed.value);
@@ -89,7 +85,7 @@ public class UnderBarTest {
         One<Boolean> calledBack = one(false);
         One<Boolean> consumed = one(false);
 
-        optionally(Optional.empty(), (t)-> consumed.value = (Boolean) t, () -> calledBack.value=true);
+        optionally(optional(), (t) -> consumed.value = (Boolean) t, () -> calledBack.value = true);
 
         assertTrue(calledBack.value);
         assertFalse(consumed.value);
@@ -194,21 +190,21 @@ public class UnderBarTest {
     public void flattenCombinesCollections() throws Exception {
         assertEquals(list(), flatten(list()));
         assertEquals(list(1), flatten(list(list(), list(1))));
-        assertEquals(list(1, 2, 3, 4), flatten(list(list(1), list(2,3), list(4))));
+        assertEquals(list(1, 2, 3, 4), flatten(list(list(1), list(2, 3), list(4))));
     }
 
     @Test
     public void rejectBasedOnAPredicate() throws Exception {
         assertEquals(list(), reject(list(), (x) -> !x.equals(1)));
         assertEquals(list(), reject(list(2), (x) -> !x.equals(1)));
-        assertEquals(list(1), reject(list(1,2,3), (x) -> x != 1));
+        assertEquals(list(1), reject(list(1, 2, 3), (x) -> x != 1));
     }
 
     @Test
     public void negateInvertsAPredicate() throws Exception {
         assertEquals(list(), reject(list(), negate((x) -> !x.equals(1))));
         assertEquals(list(2), reject(list(2), negate((x) -> !x.equals(1))));
-        assertEquals(list(2,3), reject(list(1,2,3), negate((x) -> x != 1)));
+        assertEquals(list(2, 3), reject(list(1, 2, 3), negate((x) -> x != 1)));
     }
 
     @Test
@@ -218,7 +214,7 @@ public class UnderBarTest {
 
     @Test
     public void compactOptionalsRemovesEmpties() throws Exception {
-        assertEquals(list(1,2,3),
+        assertEquals(list(1, 2, 3),
                 compactOptionals(list(optional(1), optional(), optional(2), optional(), optional(), optional(3))));
     }
 
@@ -226,7 +222,7 @@ public class UnderBarTest {
     public void countShouldCount() throws Exception {
         assertEquals(0, count(list(), (x) -> x.equals(1)));
         assertEquals(1, count(list(1), (x) -> x.equals(1)));
-        assertEquals(3, count(list(1,1,2,1), (x) -> x.equals(1)));
+        assertEquals(3, count(list(1, 1, 2, 1), (x) -> x.equals(1)));
     }
 
     @Test

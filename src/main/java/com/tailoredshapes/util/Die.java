@@ -9,32 +9,32 @@ import static com.tailoredshapes.util.UnderBar.list;
 import static java.util.stream.Collectors.*;
 
 
-public class Bomb {
-    public static RuntimeException bomb(Throwable e, String msg, Object ... args) {
+public class Die {
+    public static RuntimeException die(Throwable e, String msg, Object ... args) {
         throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args), e);
     }
 
-    public static RuntimeException bomb(String msg, Object ... args) {
+    public static RuntimeException die(String msg, Object ... args) {
         throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args));
     }
 
-    public static void bombIf(boolean condition, Supplier<String> message) {
+    public static void dieIf(boolean condition, Supplier<String> message) {
         if(condition)
-            throw bomb(message.get());
+            throw die(message.get());
     }
 
-    public static void bombUnless(boolean condition, Supplier<String> message) {
-        bombIf(!condition, message);
+    public static void dieUnless(boolean condition, Supplier<String> message) {
+        dieIf(!condition, message);
     }
 
-    public static <T> T bombNull(T t, Supplier<String> message) {
+    public static <T> T dieIfNull(T t, Supplier<String> message) {
         if(t == null)
-            throw bomb(message.get());
+            throw die(message.get());
         return t;
     }
 
     public static <T> Collection<T> bombIfEmpty(Collection<T> ts, Supplier<String> message) {
-        bombIf(ts.isEmpty(), message);
+        dieIf(ts.isEmpty(), message);
         return ts;
     }
 
@@ -42,15 +42,15 @@ public class Bomb {
         return bombIfEmpty(list(tarray), message);
     }
 
-    public static <T> T bombNull(T t) {
-        return bombNull(t, () -> "unexpected null");
+    public static <T> T dieIfNull(T t) {
+        return dieIfNull(t, () -> "unexpected null");
     }
 
-    public static void bombNotNull(Object o, Supplier<String> message) {
-        bombUnless(o == null, message);
+    public static void dieIfNotNull(Object o, Supplier<String> message) {
+        dieUnless(o == null, message);
     }
 
-    private static <K, V> V bombMissing(Map<K, V> map, K key, Supplier<String> message, boolean checkValue) {
+    private static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message, boolean checkValue) {
         V result = map.get(key);
         if(result != null)
             return result;
@@ -59,25 +59,25 @@ public class Bomb {
         String errorString = key + ". " + "Example available keys: [" +
                 map.keySet().stream().limit(10).map(k -> String.format("%s = %s", k, Strings.toString(map.get(k)))).collect(joining(", ")) + "] \n" + message.get();
         if(map.containsKey(key))
-            throw bomb("Key present, but value is null: " + errorString);
-        throw bomb("Key missing: " + errorString);
+            throw die("Key present, but value is null: " + errorString);
+        throw die("Key missing: " + errorString);
     }
 
 
-    public static <K, V> V bombMissing(Map<K, V> map, K key, Supplier<String> message) {
-        return bombMissing(map, key, message, true);
+    public static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message) {
+        return dieIfMissing(map, key, message, true);
     }
 
-    public static <K, V> V bombMissing(Map<K, V> map, K key) {
-        return bombMissing(map, key, () -> "");
+    public static <K, V> V dieIfMissing(Map<K, V> map, K key) {
+        return dieIfMissing(map, key, () -> "");
     }
 
-    public static <K, V> V bombMissingKey(Map<K, V> map, K key) {
-        return bombMissingKey(map, key, () -> "");
+    public static <K, V> V dieIfMissingKey(Map<K, V> map, K key) {
+        return dieIfMissingKey(map, key, () -> "");
     }
 
-    public static <K, V> V bombMissingKey(Map<K, V> map, K key, Supplier<String> message) {
-        return bombMissing(map, key, message, false);
+    public static <K, V> V dieIfMissingKey(Map<K, V> map, K key, Supplier<String> message) {
+        return dieIfMissing(map, key, message, false);
     }
 
     public static void rethrow(Throwing.Runnable runnable) {
@@ -86,7 +86,7 @@ public class Bomb {
         } catch (RuntimeException re) {
             throw re;
         } catch (Throwable e) {
-            throw bomb(e, "exception caught");
+            throw die(e, "exception caught");
         }
     }
 
@@ -94,7 +94,7 @@ public class Bomb {
         try {
             runnable.run();
         } catch (Throwable e) {
-            throw bomb(e, errorMessage.get());
+            throw die(e, errorMessage.get());
         }
     }
 
@@ -104,7 +104,7 @@ public class Bomb {
         } catch (RuntimeException re) {
             throw re;
         } catch (Throwable e) {
-            throw bomb(e, "exception caught");
+            throw die(e, "exception caught");
         }
     }
 
@@ -112,15 +112,15 @@ public class Bomb {
         try {
             return supplier.get();
         } catch (Throwable e) {
-            throw bomb(e, errorMessage.get());
+            throw die(e, errorMessage.get());
         }
     }
 
     public static RuntimeException unimplemented() {
-        return bomb("unimplemented");
+        return die("unimplemented");
     }
 
     public static RuntimeException unimplemented(String thing) {
-        return bomb("unimplemented: " + thing);
+        return die("unimplemented: " + thing);
     }
 }

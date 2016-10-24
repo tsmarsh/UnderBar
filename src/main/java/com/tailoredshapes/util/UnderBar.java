@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.google.common.collect.Iterables.isEmpty;
-import static com.tailoredshapes.util.Bomb.*;
+import static com.tailoredshapes.util.Die.*;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
@@ -21,15 +21,15 @@ public class UnderBar {
 
     public static <T> T the(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
-        bombUnless(i.hasNext(), () -> "input to 'the' cannot be empty");
+        dieUnless(i.hasNext(), () -> "input to 'the' cannot be empty");
         T result = i.next();
-        bombIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
+        dieIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
         return result;
     }
 
     public static <T> T the(T[] ts) {
-        bombNull(ts, () -> "input to 'the' cannot be null");
-        bombUnless(ts.length == 1, () -> "length of input to 'the' must be 1. " + Strings.commaSep(list(ts)));
+        dieIfNull(ts, () -> "input to 'the' cannot be null");
+        dieUnless(ts.length == 1, () -> "length of input to 'the' must be 1. " + Strings.commaSep(list(ts)));
         return ts[0];
     }
 
@@ -39,7 +39,7 @@ public class UnderBar {
             return Optional.empty();
         }
         T result = i.next();
-        bombIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
+        dieIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
         return Optional.of(result);
     }
 
@@ -133,12 +133,12 @@ public class UnderBar {
 
     public static <T> T first(Iterable<T> ts) {
         Iterator<T> iterator = ts.iterator();
-        bombUnless(iterator.hasNext(), () -> "can't take first of empty iterable");
+        dieUnless(iterator.hasNext(), () -> "can't take first of empty iterable");
         return iterator.next();
     }
 
     public static <T> T last(List<T> ts) {
-        bombIf(isEmpty(ts), () -> "can't take last of empty list!");
+        dieIf(isEmpty(ts), () -> "can't take last of empty list!");
         return ts.get(ts.size() - 1);
     }
 
@@ -196,7 +196,7 @@ public class UnderBar {
     }
 
     public static <K, V> Map<K, V> zipmap(Collection<? extends K> keys, Collection<? extends V> values) {
-        bombUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
         HashMap<K, V> result = new HashMap<>();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.put(k, vi.next()));
@@ -204,7 +204,7 @@ public class UnderBar {
     }
 
     public static <K, V> List<Map.Entry<K, V>> zip(Collection<? extends K> keys, Collection<? extends V> values) {
-        bombUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
         List<Map.Entry<K, V>> result = emptyList();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.add(entry(k, vi.next())));
@@ -277,7 +277,7 @@ public class UnderBar {
             result.put(entry.getKey(), entry.getValue());
         });
         List<K> duplicateKeys = map(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
-        bombUnless(duplicateKeys.isEmpty(), () -> "Duplicate keys encountered!  Keys/Produced-from: " + filterKeys(results, duplicateKeys::contains));
+        dieUnless(duplicateKeys.isEmpty(), () -> "Duplicate keys encountered!  Keys/Produced-from: " + filterKeys(results, duplicateKeys::contains));
         return result;
     }
 
