@@ -2,6 +2,7 @@ package com.tailoredshapes.util;
 
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static com.tailoredshapes.util.Objects.*;
@@ -272,4 +273,19 @@ public class ObjectsTest {
         assertEquals(out, filterKeys(in, (k) -> k.equals("foo")));
     }
 
+    @Test
+    public void groupByCollatesBasedOnAFunction() throws Exception {
+        assertEquals(map(String.class, list("a", "b"), Integer.class, list(1, 3, 2)),
+                groupBy(list("a", 1, "b", 3, 2), Serializable::getClass));
+
+        assertEquals(map(0, list(2, 4), 1, list(1, 3, 5)),
+                groupBy(list(1, 2, 3, 4, 5), ((v) -> v % 2)));
+    }
+
+    @Test
+    public void bifurcateSplitsACollectionBasedOnAPredicate() throws Exception {
+        InOut<Integer> out = bifurcate(list(1, 2, 3, 4), (v) -> v % 2 == 0);
+        assertEquals(list(2, 4), out.in);
+        assertEquals(list(1, 3), out.out);
+    }
 }
