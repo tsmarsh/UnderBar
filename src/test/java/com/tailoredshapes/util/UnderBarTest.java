@@ -421,8 +421,34 @@ public class UnderBarTest {
 
         assertEquals(1, (int)tap_(1, () -> sideEffect.value = 5));
         assertEquals(5, (int) sideEffect.value);
-
     }
 
+    @Test
+    public void getMedianValue() throws Exception {
+        assertEquals(5.0, median(list(1L,3L,5L,2L,6L)), 0);
+        assertEquals(Double.NaN, median(list()), 0);
+    }
 
+    @Test
+    public void xorTest() throws Exception {
+        assertFalse(xor(true, true));
+        assertTrue(xor(false, true));
+        assertTrue(xor(true, false));
+        assertFalse(xor(false,false));
+    }
+
+    @Test
+    public void averageTest() throws Exception {
+        assertEquals(1, average(list(1L,1L,1L)), 0);
+    }
+
+    @Test
+    public void averageIntTest() throws Exception {
+        assertEquals(1, averageInt(list(1,1,1)), 0);
+    }
+
+    @Test
+    public void averageDoubleTest() throws Exception {
+        assertEquals(1.0, averageDouble(list(1.0,1.0,1.0)), 0);
+    }
 }
