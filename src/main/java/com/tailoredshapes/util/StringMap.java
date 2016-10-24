@@ -83,8 +83,8 @@ public class StringMap implements JSONAware {
         return ofNullable((String) m.get(k)).map(Integer::parseInt).orElse(default_);
     }
 
-    public long parseLong(String key) {
-        return Long.parseLong(string(key));
+    public long parseLong(String key, long default_) {
+        return ofNullable((String) m.get(key)).map(Long::parseLong).orElse(default_);
     }
 
     public Optional<Integer> integerMaybe(String k) {
