@@ -455,7 +455,41 @@ public class UnderBarTest {
     public void maxMinTest() throws Exception {
         assertEquals(3L, (long) max(list(1L,2L,3L)));
         assertEquals(1L, (long) min(list(1L,2L,3L)));
-
     }
 
+    @Test
+    public void partitionTest() throws Exception {
+        assertEquals(
+                list(list(1,2), list(3,4), list(5)),
+                partition(list(1,2,3,4,5), 2));
+    }
+
+    @Test
+    public void dedupeAList() throws Exception {
+        assertEquals(
+                list(1,2,3,4),
+                deduplicateMaintainingOrder(list(1,1,2,1,2,2,3,4,4))
+        );
+    }
+
+    @Test
+    public void extractDomainFromEmail() throws Exception {
+        assertEquals("gmail.com", extractDomain("ts.marsh@gmail.com"));
+    }
+
+    @Test
+    public void superMapTest() throws Exception {
+        Map<String, Integer> map = map(
+                "a", 1,
+                "b", 2,
+                "c", 3,
+                "d", 4,
+                "e", 5,
+                "f", 6,
+                "g", 7,
+                "h", 8,
+                "i", 9,
+                "10", 10);
+        assertEquals(10, map.size());
+    }
 }
