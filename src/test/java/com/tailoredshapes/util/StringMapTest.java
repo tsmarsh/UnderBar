@@ -283,37 +283,47 @@ public class StringMapTest {
     public void stringOptionalTest() throws Exception {
         assertEquals(
                 optional("foo"),
-                smap("bar", optional("foo")).stringOptional("bar"));
+                smap("bar", "foo").stringOptional("bar"));
     }
 
     @Test
     public void stringishTest() throws Exception {
-
+        assertEquals(optional(), smap().stringish("foo"));
+        assertEquals(optional("bar"), smap("foo", "bar").stringish("foo"));
+        assertEquals(optional("bar"), smap("foo", optional("bar")).stringish("foo"));
     }
 
     @Test
     public void longishTest() throws Exception {
-
+        assertEquals(optional(), smap().longish("foo"));
+        assertEquals(optional(1L), smap("foo", 1L).longish("foo"));
+        assertEquals(optional(1L), smap("foo", optional(1L)).longish("foo"));
     }
 
     @Test
     public void dateishTest() throws Exception {
-
+        assertEquals(optional(), smap().dateish("foo"));
+        assertEquals(optional(date("1979-10-10")), smap("foo", date("1979-10-10")).dateish("foo"));
+        assertEquals(optional(date("1979-10-10")), smap("foo", optional(date("1979-10-10"))).dateish("foo"));
     }
 
     @Test
     public void doublishTest() throws Exception {
-
+        assertEquals(optional(), smap().doublish("foo"));
+        assertEquals(optional(1.1), smap("foo", 1.1).doublish("foo"));
+        assertEquals(optional(1.1), smap("foo", optional(1.1)).doublish("foo"));
     }
 
     @Test
     public void boolishTest() throws Exception {
-
+        assertEquals(optional(), smap().longish("foo"));
+        assertEquals(optional(true), smap("foo", true).boolish("foo"));
     }
 
     @Test
     public void booleanOptionalTest() throws Exception {
-
+        assertEquals(optional(true), smap("foo", true).booleanOptional("foo"));
+        assertEquals(optional(), smap("foo", null).booleanOptional("foo"));
     }
 
     @Test
@@ -431,10 +441,6 @@ public class StringMapTest {
 
     }
 
-    @Test
-    public void parseJSON1Test() throws Exception {
-
-    }
 
     @Test
     public void doubleToLongTest() throws Exception {
