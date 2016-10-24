@@ -12,7 +12,7 @@ import static com.tailoredshapes.util.UnderBar.*;
  * Created by tmarsh on 10/24/16.
  */
 public class StringMapTest {
-    
+
     @Test
     public void parseJsonMapsTest() throws Exception {
 
@@ -150,7 +150,7 @@ public class StringMapTest {
     public void mapTest() throws Exception {
         StringMap smap = smap("foo", 1L);
 
-        assertEquals(list("foo: 1"), smap.map((k,v) -> String.format("%s: %s", k,v)));
+        assertEquals(list("foo: 1"), smap.map((k, v) -> String.format("%s: %s", k, v)));
     }
 
     @Test
@@ -162,19 +162,19 @@ public class StringMapTest {
 
     @Test
     public void hasTest() throws Exception {
-        assertTrue( smap("eggs", "spam").has("eggs"));
-        assertFalse( smap("eggs", "spam").has("ham"));
+        assertTrue(smap("eggs", "spam").has("eggs"));
+        assertFalse(smap("eggs", "spam").has("ham"));
     }
 
     @Test
     public void hasValueTest() throws Exception {
-        assertTrue( smap("eggs", optional("spam")).hasValue("eggs"));
-        assertFalse( smap("eggs", optional()).hasValue("eggs"));
+        assertTrue(smap("eggs", optional("spam")).hasValue("eggs"));
+        assertFalse(smap("eggs", optional()).hasValue("eggs"));
     }
 
     @Test
     public void boolTest() throws Exception {
-        assertTrue( smap("eggs", true).bool("eggs"));
+        assertTrue(smap("eggs", true).bool("eggs"));
     }
 
 
@@ -212,47 +212,65 @@ public class StringMapTest {
 
     @Test
     public void filterKeysTest() throws Exception {
-
+        assertEquals(
+                smap("foo", 1, "eggs", 3),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .filterKeys(negate((k) -> k.equals("bar"))));
     }
 
     @Test
     public void rejectKeysTest() throws Exception {
+        assertEquals(
+                smap("foo", 1, "eggs", 3),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .rejectKeys("bar"));
 
+        assertEquals(
+                smap("foo", 1),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .rejectKeys("bar", "eggs"));
+
+        assertEquals(
+                smap("foo", 1),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .rejectKeys(list("bar", "eggs")));
     }
 
     @Test
     public void selectKeysTest() throws Exception {
+        assertEquals(
+                smap("bar", 2),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .selectKeys("bar"));
 
-    }
+        assertEquals(
+                smap("bar", 2, "eggs", 3),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .selectKeys("bar", "eggs"));
 
-    @Test
-    public void selectKeys1Test() throws Exception {
-
-    }
-
-    @Test
-    public void rejectKeys1Test() throws Exception {
-
+        assertEquals(
+                smap("bar", 2, "eggs", 3),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .selectKeys(list("bar", "eggs")));
     }
 
     @Test
     public void toMapTest() throws Exception {
-
+        assertEquals(map("bar", 2), smap("bar", 2).toMap());
     }
 
-    @Test
-    public void toMapDeeplyTest() throws Exception {
-
-    }
 
     @Test
     public void removeTest() throws Exception {
-
+        assertEquals(
+                smap("bar", 2, "eggs", 3),
+                smap("foo", 1, "bar", 2, "eggs", 3)
+                        .remove("bar"));
     }
 
     @Test
     public void parseDateTest() throws Exception {
-
+        assertEquals(date("1979-10-10"), smap("eggs", "1979-10-10").parseDate("eggs"));
     }
 
     @Test
