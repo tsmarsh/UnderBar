@@ -179,4 +179,27 @@ public class ObjectsTest {
     public void zipRequiresAnEvenNumberOfElements() throws Exception {
         zip(list(), list("nooope"));
     }
+
+    @Test
+    public void mergeCombinesMaps() throws Exception {
+        assertEquals(map(), merge(map()));
+        assertEquals(map("a", 1), merge(map("a", 1)));
+        assertEquals(map("a", 1, "b", 2), merge(map("a", 1), map("b", 2)));
+        assertEquals(map("a", 1, "b", 2, "c", 3), merge(map("a", 1), map("b", 2, "c", 3)));
+        assertEquals(map("a", 2), merge(map("a", 1), map("a", 2)));
+    }
+
+    @Test
+    public void flattenCombinesCollections() throws Exception {
+        assertEquals(list(), flatten(list()));
+        assertEquals(list(1), flatten(list(list(), list(1))));
+        assertEquals(list(1, 2, 3, 4), flatten(list(list(1), list(2,3), list(4))));
+    }
+
+    @Test
+    public void rejectBasedOnAPredicate() throws Exception {
+        assertEquals(list(), reject(list(), (x) -> !x.equals(1)));
+        assertEquals(list(), reject(list(2), (x) -> !x.equals(1)));
+        assertEquals(list(1), reject(list(1,2,3), (x) -> x != 1));
+    }
 }
