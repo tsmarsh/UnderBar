@@ -159,7 +159,7 @@ public class StringMap implements JSONAware {
     }
 
     public StringMap smap(String k) { return getCast(k, smap -> (StringMap) smap); }
-    public StringMap makeSmap(String key) { return new StringMap((Map<String, Object>)getCast(key, x -> (Map<String, Object>) x)); }
+    public StringMap makeSmap(String key) { return new StringMap((Map<String, Object>)getCast(key, x -> x)); }
 
     public List<StringMap> smaps(String key) { return getCast(key, x -> (List<StringMap>) x); }
     public List<StringMap> makeSmaps(String key) { return UnderBar.map((Collection<Map<String, Object>>) getCast(key, x -> (Collection<Map<String, Object>>) x), StringMap::new); }

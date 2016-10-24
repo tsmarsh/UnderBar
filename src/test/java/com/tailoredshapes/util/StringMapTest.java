@@ -2,6 +2,8 @@ package com.tailoredshapes.util;
 
 import org.junit.Test;
 
+import java.util.Map;
+
 import static com.tailoredshapes.util.Dates.date;
 import static org.junit.Assert.*;
 import static com.tailoredshapes.util.UnderBar.*;
@@ -178,22 +180,23 @@ public class StringMapTest {
 
     @Test
     public void smapTest() throws Exception {
-
+        assertEquals(smap("eggs", "ham"), smap("foo", smap("eggs", "ham")).smap("foo"));
     }
 
     @Test
     public void makeSmapTest() throws Exception {
+        assertEquals(smap("foo", 3), smap("eggs", map("foo", 3)).makeSmap("eggs"));
 
     }
 
     @Test
     public void smapsTest() throws Exception {
-
+        assertEquals(list(smap("eggs", "ham")), smap("foo", list(smap("eggs", "ham"))).smaps("foo"));
     }
 
     @Test
     public void makeSmapsTest() throws Exception {
-
+        assertEquals(list(smap("eggs", "ham")), smap("foo", list(map("eggs", "ham"))).makeSmaps("foo"));
     }
 
     @Test
