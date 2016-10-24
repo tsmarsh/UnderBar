@@ -328,7 +328,12 @@ public class StringMapTest {
 
     @Test
     public void mergeTest() throws Exception {
-
+        assertEquals(
+                smap("foo", 1, "bar", 2),
+                smap("foo", 1).merge(smap("bar", 2)));
+        assertEquals(
+                smap("foo", 3, "bar", 2),
+                smap("foo", 1).merge(smap("bar", 2, "foo", 3)));
     }
 
     @Test
