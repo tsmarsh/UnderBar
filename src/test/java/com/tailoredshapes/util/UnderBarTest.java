@@ -371,4 +371,11 @@ public class UnderBarTest {
     public void sleepShouldWork() throws Exception {
         sleep(1);
     }
+
+    @Test
+    public void withVoidDoesNotReturnAValue() throws Exception {
+        One<Integer> sideEffect = one(0);
+        withVoid(5, (x)-> sideEffect.value=x);
+        assertEquals(5, (int) sideEffect.value);
+    }
 }
