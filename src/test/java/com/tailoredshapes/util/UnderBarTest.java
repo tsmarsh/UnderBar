@@ -377,5 +377,12 @@ public class UnderBarTest {
         One<Integer> sideEffect = one(0);
         withVoid(5, (x)-> sideEffect.value=x);
         assertEquals(5, (int) sideEffect.value);
+
+        withVoid(1,2, (x,y) -> sideEffect.value = x+y);
+        assertEquals(3, (int) sideEffect.value);
+
+        withVoid(1,2,3, (x,y,z) -> sideEffect.value = x+y+z);
+        assertEquals(6, (int) sideEffect.value);
+        
     }
 }
