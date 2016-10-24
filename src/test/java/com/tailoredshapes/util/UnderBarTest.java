@@ -357,5 +357,13 @@ public class UnderBarTest {
         assertEquals(list(1,1,1,1,1), repeat(1, 5));
     }
 
+    @Test
+    public void sortBySortsAListByAComparable() throws Exception {
+        assertEquals(list(1,2,3,4,5), sortBy(list(1,3,5,2,4), (x) -> x));
+    }
 
+    @Test
+    public void sortSortsAListOfComparables() throws Exception {
+        assertEquals(list(1,2,3,4,5), sort(list(1,3,5,2,4)));
+    }
 }
