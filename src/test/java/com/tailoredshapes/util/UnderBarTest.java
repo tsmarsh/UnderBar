@@ -354,17 +354,17 @@ public class UnderBarTest {
 
     @Test
     public void repeatRepeatsAFunction() throws Exception {
-        assertEquals(list(1,1,1,1,1), repeat(1, 5));
+        assertEquals(list(1, 1, 1, 1, 1), repeat(1, 5));
     }
 
     @Test
     public void sortBySortsAListByAComparable() throws Exception {
-        assertEquals(list(1,2,3,4,5), sortBy(list(1,3,5,2,4), (x) -> x));
+        assertEquals(list(1, 2, 3, 4, 5), sortBy(list(1, 3, 5, 2, 4), (x) -> x));
     }
 
     @Test
     public void sortSortsAListOfComparables() throws Exception {
-        assertEquals(list(1,2,3,4,5), sort(list(1,3,5,2,4)));
+        assertEquals(list(1, 2, 3, 4, 5), sort(list(1, 3, 5, 2, 4)));
     }
 
     @Test
@@ -375,14 +375,40 @@ public class UnderBarTest {
     @Test
     public void withVoidDoesNotReturnAValue() throws Exception {
         One<Integer> sideEffect = one(0);
-        withVoid(5, (x)-> sideEffect.value=x);
+        withVoid(5, (x) -> sideEffect.value = x);
         assertEquals(5, (int) sideEffect.value);
 
-        withVoid(1,2, (x,y) -> sideEffect.value = x+y);
+        withVoid(1, 2, (x, y) -> sideEffect.value = x + y);
         assertEquals(3, (int) sideEffect.value);
 
-        withVoid(1,2,3, (x,y,z) -> sideEffect.value = x+y+z);
+        withVoid(1, 2, 3, (x, y, z) -> sideEffect.value = x + y + z);
         assertEquals(6, (int) sideEffect.value);
-        
+
+    }
+
+    @Test
+    public void withAppliesAndReturns() throws Exception {
+        assertEquals(1, (int) with(1, (x) -> x));
+        assertEquals(
+                list(1, 2),
+                with(1, 2, (x, y) -> list(x, y)));
+        assertEquals(
+                list(1, 2, 3),
+                with(1, 2, 3, (x, y, z) -> list(x, y, z)));
+        assertEquals(
+                list(1, 2, 3, 4),
+                with(1, 2, 3, 4, (x, y, z, a) -> list(x, y, z, a)));
+        assertEquals(
+                list(1, 2, 3, 4, 5),
+                with(1, 2, 3, 4, 5, (a, b, c, d, e) -> list(a, b, c, d, e)));
+        assertEquals(
+                list(1, 2, 3, 4, 5, 6),
+                with(1, 2, 3, 4, 5, 6, (a, b, c, d, e, f) -> list(a, b, c, d, e, f)));
+        assertEquals(
+                list(1, 2, 3, 4, 5, 6, 7),
+                with(1, 2, 3, 4, 5, 6, 7, (a, b, c, d, e, f, g) -> list(a, b, c, d, e, f, g)));
+        assertEquals(
+                list(1, 2, 3, 4, 5, 6, 7, 8),
+                with(1, 2, 3, 4, 5, 6, 7, 8, (a, b, c, d, e, f, g, h) -> list(a, b, c, d, e, f, g, h)));
     }
 }
