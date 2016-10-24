@@ -276,14 +276,14 @@ public class StringMap implements JSONAware {
 
     public Optional<String> stringOptional(String key) {
         String value = (String) dieIfMissingKey(m, key);
-        return Strings.optional(value);
+        return optional(value);
     }
 
     public Optional<String> stringish(String key) {
         if (!has(key) || isNull(key)) return optional();
         if (type(key) == Optional.class) return stringMaybe(key);
         if (type(key) != String.class) return optional(m.get(key).toString());
-        return Strings.optional(string(key));
+        return optional(string(key));
     }
 
     public Optional<Long> longish(String key) {

@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+import static com.tailoredshapes.util.Die.rethrow;
+
+
 public class Strings {
     public static <T> String commaSep(List<T> list) {
         return Joiner.on(",").join(list);
@@ -23,20 +26,8 @@ public class Strings {
         return v.toString();
     }
 
-    public static String urlEncode(String s){
-        try {
-            return URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public static Optional<String> optional(String value) {
-        if (value != null){
-            return Optional.of(value);
-        }
-        return Optional.empty();
+    public static String urlEncode(String s) {
+        return rethrow(() -> URLEncoder.encode(s, "UTF-8"));
     }
 
     public static boolean hasContent(String s) {
