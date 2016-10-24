@@ -248,4 +248,28 @@ public class ObjectsTest {
                         (l) -> 1));
     }
 
+    @Test
+    public void modifyKeysShouldChangeTheKeysInAMap() throws Exception {
+        Map<String, Integer> in = map("wrong", 1, "foo", 1);
+        Map<String, Integer> out = map("right", 1, "foo", 1);
+
+        assertEquals(out, modifyKeys(in, (k) -> k.equals("wrong") ? "right" : k));
+    }
+
+    @Test
+    public void modifyValueShouldChangeTheValuesInAMap() throws Exception {
+        Map<String, Integer> in = map("bar", 1, "foo", 1);
+        Map<String, Integer> out = map("bar", 2, "foo", 2);
+
+        assertEquals(out, modifyValues(in, (v) -> v + 1));
+    }
+
+    @Test
+    public void filterKeysShouldReturnAMapWithKeysThatPassPredicate() throws Exception {
+        Map<String, Integer> in = map("wrong", 1, "foo", 1);
+        Map<String, Integer> out = map("foo", 1);
+
+        assertEquals(out, filterKeys(in, (k) -> k.equals("foo")));
+    }
+
 }
