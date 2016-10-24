@@ -322,22 +322,33 @@ public class UnderBarTest {
     public void doTimesRepeatsAFunction() throws Exception {
         One<Integer> one = one(0);
         doTimes(5, () -> one.value += 1);
-        assertEquals(5, (int)one.value);
+        assertEquals(5, (int) one.value);
     }
 
     @Test
     public void doTimesRepeatsAFunctionWithAnIndex() throws Exception {
         One<Integer> one = one(1);
         doTimes(5, (i) -> one.value += i);
-        assertEquals(11, (int)one.value);
+        assertEquals(11, (int) one.value);
     }
 
     @Test
     public void allMatchFirstChecksThatResultsAreTheSame() throws Exception {
-        assertTrue(allMatchFirst(list(1), (x)->x));
-        assertTrue(allMatchFirst(list(1,1), (x)->x));
-        assertFalse(allMatchFirst(list(1,1,2), (x)->x));
+        assertTrue(allMatchFirst(list(1), (x) -> x));
+        assertTrue(allMatchFirst(list(1, 1), (x) -> x));
+        assertFalse(allMatchFirst(list(1, 1, 2), (x) -> x));
     }
 
-    
+    @Test
+    public void anyPassesIfAnyValuesInTheCollectionPass() throws Exception {
+        assertFalse(any(list(), (x) -> x.equals(2)));
+        assertTrue(any(list(1, 1, 2, 1), (x) -> x == 2));
+    }
+
+    @Test
+    public void allPassesIfAllValuesInTheCollectionPass() throws Exception {
+        assertFalse(all(list(), (x) -> x.equals(2)));
+        assertFalse(all(list(1, 1, 2, 1), (x) -> x == 2));
+        assertTrue(all(list(1, 1, 1), (x) -> x == 1));
+    }
 }
