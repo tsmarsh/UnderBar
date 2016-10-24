@@ -201,28 +201,14 @@ public class StringMapTest {
 
     @Test
     public void parseJsonTest() throws Exception {
-
+        assertEquals(smap("foo", 5), smap("eggs", "{\"foo\": 5}").parseJson("eggs"));
     }
 
     @Test
     public void toJSONStringTest() throws Exception {
-
+        assertEquals("{\"eggs\":4}", smap("eggs", 4).toJSONString());
     }
 
-    @Test
-    public void toStringTest() throws Exception {
-
-    }
-
-    @Test
-    public void equalsTest() throws Exception {
-
-    }
-
-    @Test
-    public void hashCodeTest() throws Exception {
-
-    }
 
     @Test
     public void filterKeysTest() throws Exception {
