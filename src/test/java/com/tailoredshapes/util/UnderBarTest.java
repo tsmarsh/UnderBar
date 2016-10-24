@@ -351,4 +351,11 @@ public class UnderBarTest {
         assertFalse(all(list(1, 1, 2, 1), (x) -> x == 2));
         assertTrue(all(list(1, 1, 1), (x) -> x == 1));
     }
+
+    @Test
+    public void repeatRepeatsAFunction() throws Exception {
+        assertEquals(list(1,1,1,1,1), repeat(1, 5));
+    }
+
+
 }
