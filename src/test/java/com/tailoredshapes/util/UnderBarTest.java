@@ -505,7 +505,18 @@ public class UnderBarTest {
                 "g", 7,
                 "h", 8,
                 "i", 9,
-                "10", 10);
-        assertEquals(10, map.size());
+                "j", 10,
+                "k", 11,
+                "l", 12,
+                "m", 13,
+                "n", 14,
+                "o", 15,
+                "p", 16,
+                "q", 17,
+                "r", 18,
+                "s", 19,
+                "t", 20,
+                "u", 21);
+        assertEquals(21, map.size());
     }
 }
