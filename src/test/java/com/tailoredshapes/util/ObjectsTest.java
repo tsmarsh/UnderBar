@@ -288,4 +288,9 @@ public class ObjectsTest {
         assertEquals(list(2, 4), out.in);
         assertEquals(list(1, 3), out.out);
     }
+
+    @Test
+    public void mapWithIndexGivesAccessToAnIndexDuringAMap() throws Exception {
+        assertEquals(modifiableList(1L, 3L, 5L, 7L, 9L), mapWithIndex(list(1, 2, 3, 4, 5), (i, v) -> i + v));
+    }
 }
