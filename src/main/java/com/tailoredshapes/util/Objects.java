@@ -641,23 +641,6 @@ public class Objects {
         return t;
     }
 
-    @Deprecated
-    public static <T> List<T> dbg(List<T> t) {
-        t.forEach(System.out::println);
-        System.out.println("]");
-        return t;
-    }
-
-    @Deprecated
-    public static <T> T dbg(T t) {
-        return t;
-    }
-
-    @Deprecated
-    public static <T> T dbg(T t, String msg) {
-        return t;
-    }
-
     public static <T> JSONArray jsonArray(Collection<T> stringMaps) {
         JSONArray result = new JSONArray();
         result.addAll(stringMaps);

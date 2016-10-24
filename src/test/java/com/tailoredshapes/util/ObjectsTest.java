@@ -220,4 +220,16 @@ public class ObjectsTest {
         assertEquals(list(1,2,3),
                 compactOptionals(list(optional(1), optional(), optional(2), optional(), optional(), optional(3))));
     }
+
+    @Test
+    public void countShouldCount() throws Exception {
+        assertEquals(0, count(list(), (x) -> x.equals(1)));
+        assertEquals(1, count(list(1), (x) -> x.equals(1)));
+        assertEquals(3, count(list(1,1,2,1), (x) -> x.equals(1)));
+    }
+
+    @Test
+    public void mapFromPairsCreatesAMapFromPairsWithAFunction() throws Exception {
+        mapFromPairs(array(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1)));
+    }
 }
