@@ -3,8 +3,9 @@ package com.tailoredshapes.underbar;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static com.tailoredshapes.underbar.Dates.*;
+import static com.tailoredshapes.underbar.Dates.date;
+import static com.tailoredshapes.underbar.Dates.isoString;
+import static org.junit.Assert.assertEquals;
 
 
 /**

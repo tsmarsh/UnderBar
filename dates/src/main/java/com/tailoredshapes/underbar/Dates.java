@@ -7,7 +7,7 @@ public class Dates {
         return new DateTime(string);
     }
 
-    public static String isoString(DateTime time){
+    public static String isoString(DateTime time) {
         return time.toDateTimeISO().toString();
     }
 }

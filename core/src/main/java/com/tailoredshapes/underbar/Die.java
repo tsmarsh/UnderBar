@@ -1,25 +1,26 @@
 package com.tailoredshapes.underbar;
 
-import com.diffplug.common.base.*;
+import com.diffplug.common.base.Throwing;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.tailoredshapes.underbar.UnderBar.list;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.joining;
 
 
 public class Die {
-    public static RuntimeException die(Throwable e, String msg, Object ... args) {
+    public static RuntimeException die(Throwable e, String msg, Object... args) {
         throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args), e);
     }
 
-    public static RuntimeException die(String msg, Object ... args) {
+    public static RuntimeException die(String msg, Object... args) {
         throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args));
     }
 
     public static void dieIf(boolean condition, Supplier<String> message) {
-        if(condition)
+        if (condition)
             throw die(message.get());
     }
 
@@ -28,7 +29,7 @@ public class Die {
     }
 
     public static <T> T dieIfNull(T t, Supplier<String> message) {
-        if(t == null)
+        if (t == null)
             throw die(message.get());
         return t;
     }
@@ -52,13 +53,13 @@ public class Die {
 
     private static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message, boolean checkValue) {
         V result = map.get(key);
-        if(result != null)
+        if (result != null)
             return result;
         if (!checkValue && map.containsKey(key))
             return null;
         String errorString = key + ". " + "Example available keys: [" +
                 map.keySet().stream().limit(10).map(k -> String.format("%s = %s", k, Strings.toString(map.get(k)))).collect(joining(", ")) + "] \n" + message.get();
-        if(map.containsKey(key))
+        if (map.containsKey(key))
             throw die("Key present, but value is null: " + errorString);
         throw die("Key missing: " + errorString);
     }

@@ -1,5 +1,6 @@
 package com.tailoredshapes.underbar;
 
+import com.tailoredshapes.underbar.function.*;
 import org.json.simple.JSONArray;
 
 import java.nio.ByteBuffer;
@@ -8,7 +9,6 @@ import java.util.function.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import com.tailoredshapes.underbar.function.*;
 
 import static com.google.common.collect.Iterables.isEmpty;
 import static com.tailoredshapes.underbar.Die.*;
@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 public class UnderBar {
     public static final Random random = new Random();
+    private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
 
     public static <T> T the(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
@@ -110,14 +111,6 @@ public class UnderBar {
 
     public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
-    }
-
-    public static class One<T> {
-        public T value;
-
-        public One(T value) {
-            this.value = value;
-        }
     }
 
     // stack allocation of heap pointer to "value" so that you can assign to value in lambdas
@@ -332,21 +325,10 @@ public class UnderBar {
         return optional();
     }
 
-    public static class InOut<T> {
-        public final List<T> in;
-        public final List<T> out;
-
-        public InOut(List<T> in, List<T> out) {
-            this.in = in;
-            this.out = out;
-        }
-    }
-
     public static <T> InOut<T> bifurcate(Iterable<T> ts, Function<T, Boolean> isIn) {
         Map<Boolean, List<T>> result = groupBy(ts, isIn);
         return new InOut<>(result.getOrDefault(true, list()), result.getOrDefault(false, list()));
     }
-
 
     public static <T> Stream<T> stream(Iterable<T> in) {
         return StreamSupport.stream(in.spliterator(), false);
@@ -551,8 +533,6 @@ public class UnderBar {
         return result;
     }
 
-    private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
-
     public static <T> Supplier<T> lazy(Supplier<T> makeT) {
         return () -> (T) lazyCache.computeIfAbsent(makeT, Supplier::get);
     }
@@ -691,7 +671,6 @@ public class UnderBar {
         return result;
     }
 
-
     //    this removes duplicates after the first occurrence of the item
 //    this is not a good idea for large lists as this will take a long time
     public static <T> List<T> deduplicateMaintainingOrder(List<T> orderedDuplicates) {
@@ -734,5 +713,23 @@ public class UnderBar {
 
     public static String extractDomain(String email) {
         return email.replaceFirst(".*@(.*)$", "$1");
+    }
+
+    public static class One<T> {
+        public T value;
+
+        public One(T value) {
+            this.value = value;
+        }
+    }
+
+    public static class InOut<T> {
+        public final List<T> in;
+        public final List<T> out;
+
+        public InOut(List<T> in, List<T> out) {
+            this.in = in;
+            this.out = out;
+        }
     }
 }

@@ -3,7 +3,8 @@ package com.tailoredshapes.underbar;
 import org.junit.Test;
 
 import static com.tailoredshapes.underbar.Die.*;
-import static com.tailoredshapes.underbar.UnderBar.*;
+import static com.tailoredshapes.underbar.UnderBar.list;
+import static com.tailoredshapes.underbar.UnderBar.map;
 
 
 public class DieTest {
@@ -73,7 +74,9 @@ public class DieTest {
 
     @Test(expected = RuntimeException.class)
     public void rethrowTest() throws Exception {
-        rethrow(() -> {throw new Exception();});
+        rethrow(() -> {
+            throw new Exception();
+        });
     }
 
 

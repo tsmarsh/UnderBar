@@ -3,16 +3,14 @@ package com.tailoredshapes.stringmap;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.UUID;
 
+import static com.tailoredshapes.stringmap.StringMap.*;
 import static com.tailoredshapes.underbar.Dates.date;
+import static com.tailoredshapes.underbar.UnderBar.*;
 import static java.util.UUID.randomUUID;
 import static org.junit.Assert.*;
-import static com.tailoredshapes.underbar.UnderBar.*;
-import static com.tailoredshapes.stringmap.StringMap.*;
 
 /**
  * Created by tmarsh on 10/24/16.
@@ -375,12 +373,12 @@ public class StringMapTest {
 
     @Test
     public void asUrlTest() throws Exception {
-        assertEquals("?arg3=bar&arg1=foo",smap("arg1", "foo", "arg3", "bar").asUrl());
+        assertEquals("?arg3=bar&arg1=foo", smap("arg1", "foo", "arg3", "bar").asUrl());
     }
 
     @Test
     public void isEmptyTest() throws Exception {
-        assertFalse(smap("foo",1).isEmpty());
+        assertFalse(smap("foo", 1).isEmpty());
         assertTrue(smap().isEmpty());
         assertFalse(smap("foo", "bar").isEmpty("foo")); //Suspect, why not just use hasContent?
         assertTrue(smap("foo", " ").isEmpty("foo"));
@@ -438,7 +436,7 @@ public class StringMapTest {
     @Test
     public void keysTest() throws Exception {
         assertEquals(
-                list( "bar", "foo"),
+                list("bar", "foo"),
                 sort(smap("foo", 1, "bar", 2).keys()));
     }
 

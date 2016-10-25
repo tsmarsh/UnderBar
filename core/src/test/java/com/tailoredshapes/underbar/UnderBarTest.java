@@ -3,7 +3,8 @@ package com.tailoredshapes.underbar;
 import org.junit.Test;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.tailoredshapes.underbar.UnderBar.*;
 import static org.junit.Assert.*;
@@ -402,16 +403,16 @@ public class UnderBarTest {
     public void tapCallsAFunction() throws Exception {
         One<Integer> sideEffect = one(0);
 
-        assertEquals(1, (int)tap(1, (x) -> sideEffect.value = x));
+        assertEquals(1, (int) tap(1, (x) -> sideEffect.value = x));
         assertEquals(1, (int) sideEffect.value);
 
-        assertEquals(1, (int)tap_(1, () -> sideEffect.value = 5));
+        assertEquals(1, (int) tap_(1, () -> sideEffect.value = 5));
         assertEquals(5, (int) sideEffect.value);
     }
 
     @Test
     public void getMedianValue() throws Exception {
-        assertEquals(5.0, median(list(1L,3L,5L,2L,6L)), 0);
+        assertEquals(5.0, median(list(1L, 3L, 5L, 2L, 6L)), 0);
         assertEquals(Double.NaN, median(list()), 0);
     }
 
@@ -420,41 +421,41 @@ public class UnderBarTest {
         assertFalse(xor(true, true));
         assertTrue(xor(false, true));
         assertTrue(xor(true, false));
-        assertFalse(xor(false,false));
+        assertFalse(xor(false, false));
     }
 
     @Test
     public void averageTest() throws Exception {
-        assertEquals(1, average(list(1L,1L,1L)), 0);
-        assertEquals(1, averageInt(list(1,1,1)), 0);
-        assertEquals(1.0, averageDouble(list(1.0,1.0,1.0)), 0);
+        assertEquals(1, average(list(1L, 1L, 1L)), 0);
+        assertEquals(1, averageInt(list(1, 1, 1)), 0);
+        assertEquals(1.0, averageDouble(list(1.0, 1.0, 1.0)), 0);
     }
 
     @Test
     public void sumIt() throws Exception {
-        assertEquals(6, sum(list(1L,2L,3L)));
-        assertEquals(6L, sumInt(list(1,2,3)));
-        assertEquals(6.0, sumDouble(list(1.0,2.0,3.0)), 0);
+        assertEquals(6, sum(list(1L, 2L, 3L)));
+        assertEquals(6L, sumInt(list(1, 2, 3)));
+        assertEquals(6.0, sumDouble(list(1.0, 2.0, 3.0)), 0);
     }
 
     @Test
     public void maxMinTest() throws Exception {
-        assertEquals(3L, (long) max(list(1L,2L,3L)));
-        assertEquals(1L, (long) min(list(1L,2L,3L)));
+        assertEquals(3L, (long) max(list(1L, 2L, 3L)));
+        assertEquals(1L, (long) min(list(1L, 2L, 3L)));
     }
 
     @Test
     public void partitionTest() throws Exception {
         assertEquals(
-                list(list(1,2), list(3,4), list(5)),
-                partition(list(1,2,3,4,5), 2));
+                list(list(1, 2), list(3, 4), list(5)),
+                partition(list(1, 2, 3, 4, 5), 2));
     }
 
     @Test
     public void dedupeAList() throws Exception {
         assertEquals(
-                list(1,2,3,4),
-                deduplicateMaintainingOrder(list(1,1,2,1,2,2,3,4,4))
+                list(1, 2, 3, 4),
+                deduplicateMaintainingOrder(list(1, 1, 2, 1, 2, 2, 3, 4, 4))
         );
     }
 
