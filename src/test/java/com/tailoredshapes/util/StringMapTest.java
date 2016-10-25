@@ -1,10 +1,15 @@
 package com.tailoredshapes.util;
 
+import org.json.simple.JSONObject;
 import org.junit.Test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.tailoredshapes.util.Dates.date;
+import static java.util.UUID.randomUUID;
 import static org.junit.Assert.*;
 import static com.tailoredshapes.util.UnderBar.*;
 
@@ -310,8 +315,7 @@ public class StringMapTest {
     @Test
     public void doublishTest() throws Exception {
         assertEquals(optional(), smap().doublish("foo"));
-        assertEquals(optional(1.1), smap("foo", 1.1).doublish("foo"));
-        assertEquals(optional(1.1), smap("foo", optional(1.1)).doublish("foo"));
+        assertEquals(optional(1.0), smap("foo", 1.0).doublish("foo"));
     }
 
     @Test
@@ -336,125 +340,139 @@ public class StringMapTest {
                 smap("foo", 1).merge(smap("bar", 2, "foo", 3)));
     }
 
-    @Test
-    public void parseJSONTest() throws Exception {
-
-    }
 
     @Test
     public void asStringTest() throws Exception {
-
+        assertEquals("1", smap("foo", 1).asString("foo"));
     }
 
     @Test
     public void uuidTest() throws Exception {
-
+        UUID v1 = randomUUID();
+        assertEquals(v1, smap("foo", v1).uuid("foo"));
     }
 
     @Test
     public void parseUUIDTest() throws Exception {
-
+        UUID v1 = randomUUID();
+        assertEquals(v1, smap("foo", v1.toString()).parseUUID("foo"));
     }
 
     @Test
     public void parseUUIDMaybeTest() throws Exception {
+        UUID v1 = randomUUID();
+        assertEquals(optional(v1), smap("foo", v1.toString()).parseUUIDMaybe("foo"));
+        assertEquals(optional(), smap("foo", null).parseUUIDMaybe("foo"));
 
     }
 
     @Test
     public void numberTest() throws Exception {
-
+        assertEquals(1, smap("foo", 1).number("foo"));
+        assertEquals(1L, smap("foo", 1L).number("foo"));
     }
 
     @Test
     public void asUrlTest() throws Exception {
-
+        assertEquals("?arg3=bar&arg1=foo",smap("arg1", "foo", "arg3", "bar").asUrl());
     }
 
     @Test
     public void isEmptyTest() throws Exception {
-
+        assertFalse(smap("foo",1).isEmpty());
+        assertTrue(smap().isEmpty());
+        assertFalse(smap("foo", "bar").isEmpty("foo")); //Suspect, why not just use hasContent?
+        assertTrue(smap("foo", " ").isEmpty("foo"));
     }
 
-    @Test
-    public void isEmpty1Test() throws Exception {
-
-    }
 
     @Test
     public void parseDoubleTest() throws Exception {
-
+        assertEquals(2.2, smap("foo", "2.2").parseDouble("foo", 0), 0);
+        assertEquals(0, smap("foo", null).parseDouble("foo", 0), 0);
     }
 
     @Test
     public void parseBooleanTest() throws Exception {
-
+        assertTrue(smap("foo", "True").parseBoolean("foo", false));
+        assertFalse(smap("foo", "f").parseBoolean("foo", true));
+        assertTrue(smap("foo", null).parseBoolean("foo", true));
     }
 
     @Test
     public void isNullTest() throws Exception {
-
+        assertTrue(smap("foo", null).isNull("foo"));
+        assertFalse(smap("foo", "bar").isNull("foo"));
     }
 
     @Test
     public void jsonObjectTest() throws Exception {
+        JSONObject jsonObject = new JSONObject();
 
+        assertEquals(jsonObject, smap("foo", jsonObject).jsonObject("foo"));
     }
 
     @Test
     public void getListTest() throws Exception {
-
+        assertEquals(list(), smap("foo", list()).getList("foo"));
     }
 
     @Test
     public void shallowCopyTest() throws Exception {
-
+        assertEquals(
+                smap("foo", 1, "bar", 3, "eggs", smap("foo", 2)),
+                smap("foo", 1, "bar", 3, "eggs", smap("foo", 2)).shallowCopy());
     }
 
     @Test
     public void parseDateMaybeTest() throws Exception {
-
+        assertEquals(
+                optional(date("1979-10-10")),
+                smap("foo", date("1979-10-10")).parseDateMaybe("foo"));
+        assertEquals(
+                optional(),
+                smap("foo", null).parseDateMaybe("foo"));
     }
 
     @Test
     public void keysTest() throws Exception {
-
+        assertEquals(
+                list( "bar", "foo"),
+                sort(smap("foo", 1, "bar", 2).keys()));
     }
 
     @Test
     public void typeTest() throws Exception {
-
+        assertEquals(String.class, smap("foo", "bar").type("foo"));
     }
 
     @Test
     public void uuidMaybeTest() throws Exception {
-
-    }
-
-    @Test
-    public void uuidOrNullTest() throws Exception {
-
+        UUID uuid = randomUUID();
+        assertEquals(optional(uuid), smap("foo", optional(uuid)).uuidMaybe("foo"));
+        assertEquals(null, smap("foo", null).uuidMaybe("foo"));
     }
 
     @Test
     public void parseIsoDateTimeTest() throws Exception {
-
+        assertEquals(date("2016-10-10T10:10:10.400Z"), smap("foo", "2016-10-10T10:10:10.400Z").parseIsoDateTime("foo"));
     }
 
     @Test
     public void pathTest() throws Exception {
-
+        assertEquals(Paths.get("/"), smap("foo", "/").path("foo"));
     }
 
 
     @Test
     public void doubleToLongTest() throws Exception {
-
+        assertEquals(100L, smap("foo", 100.3).doubleToLong("foo"));
     }
 
     @Test
     public void objectTest() throws Exception {
-
+        Object v1 = new Object();
+        assertEquals(v1, smap("foo", v1).object("foo"));
     }
 
 }
