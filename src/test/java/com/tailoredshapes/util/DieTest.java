@@ -1,11 +1,9 @@
 package com.tailoredshapes.util;
 
 import org.junit.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static com.tailoredshapes.util.Die.*;
 import static com.tailoredshapes.util.UnderBar.*;
-import static org.junit.Assert.*;
 
 
 public class DieTest {
@@ -43,12 +41,12 @@ public class DieTest {
 
     @Test(expected = RuntimeException.class)
     public void bombIfEmptyTest() throws Exception {
-        bombIfEmpty(list(), () -> "foo");
+        dieIfEmpty(list(), () -> "foo");
     }
 
     @Test
     public void bombIfEmptyTest2() throws Exception {
-        bombIfEmpty(list(1), () -> "foo");
+        dieIfEmpty(list(1), () -> "foo");
     }
 
 

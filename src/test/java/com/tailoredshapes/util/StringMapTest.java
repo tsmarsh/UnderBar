@@ -12,6 +12,7 @@ import static com.tailoredshapes.util.Dates.date;
 import static java.util.UUID.randomUUID;
 import static org.junit.Assert.*;
 import static com.tailoredshapes.util.UnderBar.*;
+import static com.tailoredshapes.util.StringMap.*;
 
 /**
  * Created by tmarsh on 10/24/16.
@@ -475,4 +476,45 @@ public class StringMapTest {
         assertEquals(v1, smap("foo", v1).object("foo"));
     }
 
+    @Test
+    public void smapFromPairsCreatesAStringMapFromPairsWithAFunction() throws Exception {
+        assertEquals(smap("a", 1, "b", 2),
+                smapFromPairs(list(list("a", 1), list("b", 2)),
+                        (l) -> entry((String) l.get(0), l.get(1))));
+    }
+
+    @Test
+    public void smapFromKeysCreatesAStingMapFromKeysAndAFunction() throws Exception {
+        assertEquals(smap("a", 1, "b", 1),
+                smapFromKeys(list("a", "b"),
+                        (l) -> 1));
+    }
+
+
+    @Test
+    public void superStringMapTest() throws Exception {
+        StringMap map = smap(
+                "a", 1,
+                "b", 2,
+                "c", 3,
+                "d", 4,
+                "e", 5,
+                "f", 6,
+                "g", 7,
+                "h", 8,
+                "i", 9,
+                "j", 10,
+                "k", 11,
+                "l", 12,
+                "m", 13,
+                "n", 14,
+                "o", 15,
+                "p", 16,
+                "q", 17,
+                "r", 18,
+                "s", 19,
+                "t", 20,
+                "u", 21);
+        assertEquals(21, map.size());
+    }
 }

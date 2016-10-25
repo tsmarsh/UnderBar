@@ -33,13 +33,13 @@ public class Die {
         return t;
     }
 
-    public static <T> Collection<T> bombIfEmpty(Collection<T> ts, Supplier<String> message) {
+    public static <T> Collection<T> dieIfEmpty(Collection<T> ts, Supplier<String> message) {
         dieIf(ts.isEmpty(), message);
         return ts;
     }
 
-    public static <T> Collection<T> bombIfEmpty(T[] tarray, Supplier<String> message) {
-        return bombIfEmpty(list(tarray), message);
+    public static <T> Collection<T> dieIfEmpty(T[] tarray, Supplier<String> message) {
+        return dieIfEmpty(list(tarray), message);
     }
 
     public static <T> T dieIfNull(T t) {

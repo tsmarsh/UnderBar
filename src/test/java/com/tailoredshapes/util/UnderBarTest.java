@@ -232,20 +232,6 @@ public class UnderBarTest {
     }
 
     @Test
-    public void smapFromPairsCreatesAStringMapFromPairsWithAFunction() throws Exception {
-        assertEquals(smap("a", 1, "b", 2),
-                smapFromPairs(list(list("a", 1), list("b", 2)),
-                        (l) -> entry((String) l.get(0), l.get(1))));
-    }
-
-    @Test
-    public void smapFromKeysCreatesAStingMapFromKeysAndAFunction() throws Exception {
-        assertEquals(smap("a", 1, "b", 1),
-                smapFromKeys(list("a", "b"),
-                        (l) -> 1));
-    }
-
-    @Test
     public void modifyKeysShouldChangeTheKeysInAMap() throws Exception {
         Map<String, Integer> in = map("wrong", 1, "foo", 1);
         Map<String, Integer> out = map("right", 1, "foo", 1);
@@ -491,32 +477,5 @@ public class UnderBarTest {
                 "i", 9,
                 "10", 10);
         assertEquals(10, map.size());
-    }
-
-    @Test
-    public void superStringMapTest() throws Exception {
-        StringMap map = smap(
-                "a", 1,
-                "b", 2,
-                "c", 3,
-                "d", 4,
-                "e", 5,
-                "f", 6,
-                "g", 7,
-                "h", 8,
-                "i", 9,
-                "j", 10,
-                "k", 11,
-                "l", 12,
-                "m", 13,
-                "n", 14,
-                "o", 15,
-                "p", 16,
-                "q", 17,
-                "r", 18,
-                "s", 19,
-                "t", 20,
-                "u", 21);
-        assertEquals(21, map.size());
     }
 }
