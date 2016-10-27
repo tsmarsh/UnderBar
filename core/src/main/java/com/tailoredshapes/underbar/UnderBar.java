@@ -149,6 +149,13 @@ public class UnderBar {
         return ts.subList(0, Math.min(n, ts.size()));
     }
 
+    public static <T> Optional<T> takeWhile(Iterable<T> ts, Predicate<T> p){
+        for (T next : ts) {
+            if (p.test(next)) return optional(next);
+        }
+        return optional();
+    }
+
     public static boolean hasContent(Collection<?> coll) {
         return coll != null && coll.size() > 0;
     }

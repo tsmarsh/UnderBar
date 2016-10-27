@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static com.tailoredshapes.underbar.UnderBar.*;
 import static org.junit.Assert.*;
@@ -478,5 +479,23 @@ public class UnderBarTest {
                 "i", 9,
                 "10", 10);
         assertEquals(10, map.size());
+    }
+
+    @Test
+    public void takeWhileTest() throws Exception {
+        One<Boolean> one = one(false);
+        One<Boolean> two = one(false);
+        Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
+                list(lazy(() -> (Supplier<Boolean>) () -> {
+                    one.value = true;
+                    return true;
+                }), lazy(() -> (Supplier<Boolean>) () -> {
+                    two.value = true;
+                    return true;
+                })), (x) -> x.get().get());
+
+        assertTrue(supplierSupplier.get().get().get());
+        assertTrue(one.value);
+        assertFalse(two.value);
     }
 }
