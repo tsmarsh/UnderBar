@@ -485,6 +485,7 @@ public class UnderBarTest {
     public void takeWhileTest() throws Exception {
         One<Boolean> one = one(false);
         One<Boolean> two = one(false);
+
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(lazy(() -> (Supplier<Boolean>) () -> {
                     one.value = true;
@@ -497,5 +498,32 @@ public class UnderBarTest {
         assertTrue(supplierSupplier.get().get().get());
         assertTrue(one.value);
         assertFalse(two.value);
+    }
+
+    @Test
+    public void takeWhileDeepTest() throws Exception {
+        One<Integer> one = one(0);
+        One<Integer> two = one(0);
+        One<Integer> three = one(0);
+
+        Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
+                list(
+                        lazy(() -> (Supplier<Boolean>) () ->{
+                                    one.value= 1;
+                                    return false;
+                        }),
+                        lazy(() -> (Supplier<Boolean>) () -> {
+                            two.value = 2;
+                            return true;
+                        }),
+                        lazy(() -> (Supplier<Boolean>) () ->{
+                            three.value= 3;
+                            return false;
+                        })), (x) -> x.get().get());
+
+        assertTrue(supplierSupplier.get().get().get());
+        assertEquals(2, (int) two.value);
+        assertEquals(1, (int) one.value);
+        assertEquals(0, (int) three.value);
     }
 }
