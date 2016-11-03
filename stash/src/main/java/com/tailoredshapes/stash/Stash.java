@@ -487,10 +487,14 @@ public class Stash implements JSONAware, Cloneable {
         return m.get(key).getClass();
     }
 
+    public String join(String seperator, BiFunction<String, Object, String> bf){
+        return UnderString.join(seperator, map(bf));
+    }
+
     public String toUrlParameters() {
         return isEmpty()
                 ? ""
-                : "?" + UnderString.join("&", m, (k, v) -> urlEncode(k) + "=" + urlEncode((v == null ? "" : v).toString()));
+                : "?" + join("&", (k, v) -> urlEncode(k) + "=" + urlEncode((v == null ? "" : v).toString()));
     }
 
     @Override

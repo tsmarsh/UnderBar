@@ -23,7 +23,7 @@ public class UnderStringTest {
 
     @Test
     public void joinTest() throws Exception {
-        assertEquals("key2:3+key:value", join("+", map("key", "value", "key2", 3), (k, v) -> k + ":" + v));
+        assertEquals("1+2+3", join("+", list(1,2,3)));
     }
 
     @Test

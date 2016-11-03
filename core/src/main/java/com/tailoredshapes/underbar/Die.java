@@ -1,6 +1,6 @@
 package com.tailoredshapes.underbar;
 
-import com.diffplug.common.base.Throwing;
+import com.tailoredshapes.underbar.function.ExceptionalFunctions;
 
 import java.util.Collection;
 import java.util.Map;
@@ -81,17 +81,8 @@ public class Die {
         return dieIfMissing(map, key, message, false);
     }
 
-    public static void rethrow(Throwing.Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (RuntimeException re) {
-            throw re;
-        } catch (Throwable e) {
-            throw die(e, "exception caught");
-        }
-    }
 
-    public static void rethrow(Throwing.Runnable runnable, Supplier<String> errorMessage) {
+    public static void rethrow(ExceptionalFunctions.RunnableWithOops runnable, Supplier<String> errorMessage) {
         try {
             runnable.run();
         } catch (Throwable e) {
@@ -99,7 +90,7 @@ public class Die {
         }
     }
 
-    public static <T> T rethrow(Throwing.Supplier<T> supplier) {
+    public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier) {
         try {
             return supplier.get();
         } catch (RuntimeException re) {
@@ -109,7 +100,7 @@ public class Die {
         }
     }
 
-    public static <T> T rethrow(Throwing.Supplier<T> supplier, Supplier<String> errorMessage) {
+    public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier, Supplier<String> errorMessage) {
         try {
             return supplier.get();
         } catch (Throwable e) {

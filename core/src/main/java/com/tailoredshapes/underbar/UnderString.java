@@ -1,17 +1,12 @@
 package com.tailoredshapes.underbar;
 
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-
 import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.tailoredshapes.underbar.Die.rethrow;
+import static com.tailoredshapes.underbar.UnderBar.map;
 
 
 public class UnderString {
@@ -19,17 +14,30 @@ public class UnderString {
         return new StringBuilder(s).reverse().toString();
     }
 
-    public static String reQuoteReplacement(CharSequence replacement){
+    public static String reQuoteReplacement(CharSequence replacement) {
         return Matcher.quoteReplacement(replacement.toString());
     }
 
     public static <T> String commaSep(List<T> list) {
-        return Joiner.on(",").join(list);
+        return join(",", list);
     }
 
+    public static String join(Iterable<String> coll) {
+        StringBuilder sb = new StringBuilder();
+        map(coll, sb::append);
+        return sb.toString();
+    }
 
-    public static <T> String join(String separator, Map<String, T> m, BiFunction<String, T, String> f) {
-        return Joiner.on(separator).join(UnderBar.map(m, f));
+    public static <T> String join(String separator, Iterable<T> coll) {
+        Iterator<T> iterator = coll.iterator();
+
+        StringBuilder sb = new StringBuilder(iterator.next().toString());
+
+        while (iterator.hasNext()) {
+            sb.append(separator).append(iterator.next());
+        }
+
+        return sb.toString();
     }
 
     public static <V> String toString(V v) {

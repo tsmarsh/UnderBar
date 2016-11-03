@@ -1,16 +1,15 @@
 package com.tailoredshapes.underbar;
 
 import com.tailoredshapes.underbar.function.*;
-import org.json.simple.JSONArray;
 
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collector;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static com.google.common.collect.Iterables.isEmpty;
 import static com.tailoredshapes.underbar.Die.*;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
@@ -32,6 +31,10 @@ public class UnderBar {
         dieIfNull(ts, () -> "input to 'nonce' cannot be null");
         dieUnless(ts.length == 1, () -> "length of input to 'nonce' must be 1. " + UnderString.commaSep(list(ts)));
         return ts[0];
+    }
+
+    public static <T> boolean isEmpty(Collection<T> coll){
+        return coll.isEmpty();
     }
 
     public static <T> Optional<T> maybe(Iterable<T> ts) {
@@ -460,10 +463,6 @@ public class UnderBar {
         return sortBy(ts, identity());
     }
 
-    public static void sleep(long millis) {
-        rethrow(() -> Thread.sleep(millis));
-    }
-
     public static <T> void withVoid(T t, Consumer<T> onT) {
         onT.accept(t);
     }
@@ -516,12 +515,6 @@ public class UnderBar {
     public static <T> T tap_(T t, Runnable doSomething) {
         doSomething.run();
         return t;
-    }
-
-    public static <T> JSONArray jsonArray(Collection<T> stringMaps) {
-        JSONArray result = new JSONArray();
-        result.addAll(stringMaps);
-        return result;
     }
 
     public static <T> Supplier<T> lazy(Supplier<T> makeT) {
