@@ -12,7 +12,7 @@
   <modules>
     <module>core</module>
     <module>dates</module>
-    <module>stringmap</module>
+    <module>stash</module>
   </modules>
 
   <distributionManagement>

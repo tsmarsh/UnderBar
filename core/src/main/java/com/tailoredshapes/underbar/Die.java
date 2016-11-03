@@ -58,7 +58,7 @@ public class Die {
         if (!checkValue && map.containsKey(key))
             return null;
         String errorString = key + ". " + "Example available keys: [" +
-                map.keySet().stream().limit(10).map(k -> String.format("%s = %s", k, Strings.toString(map.get(k)))).collect(joining(", ")) + "] \n" + message.get();
+                map.keySet().stream().limit(10).map(k -> String.format("%s = %s", k, UnderString.toString(map.get(k)))).collect(joining(", ")) + "] \n" + message.get();
         if (map.containsKey(key))
             throw die("Key present, but value is null: " + errorString);
         throw die("Key missing: " + errorString);

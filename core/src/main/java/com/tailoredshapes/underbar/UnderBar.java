@@ -20,17 +20,17 @@ public class UnderBar {
     public static final Random random = new Random();
     private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
 
-    public static <T> T the(Iterable<T> ts) {
+    public static <T> T nonce(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
-        dieUnless(i.hasNext(), () -> "input to 'the' cannot be empty");
+        dieUnless(i.hasNext(), () -> "input to 'nonce' cannot be empty");
         T result = i.next();
-        dieIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
+        dieIf(i.hasNext(), () -> "input to 'nonce' has length > 1: " + ts);
         return result;
     }
 
-    public static <T> T the(T[] ts) {
-        dieIfNull(ts, () -> "input to 'the' cannot be null");
-        dieUnless(ts.length == 1, () -> "length of input to 'the' must be 1. " + Strings.commaSep(list(ts)));
+    public static <T> T nonce(T[] ts) {
+        dieIfNull(ts, () -> "input to 'nonce' cannot be null");
+        dieUnless(ts.length == 1, () -> "length of input to 'nonce' must be 1. " + UnderString.commaSep(list(ts)));
         return ts[0];
     }
 
@@ -40,7 +40,7 @@ public class UnderBar {
             return Optional.empty();
         }
         T result = i.next();
-        dieIf(i.hasNext(), () -> "input to 'the' has length > 1: " + ts);
+        dieIf(i.hasNext(), () -> "input to 'nonce' has length > 1: " + ts);
         return Optional.of(result);
     }
 
@@ -49,25 +49,19 @@ public class UnderBar {
             noT.run();
     }
 
-    public static <T> void optionally(Optional<T> maybe, Consumer<T> onT, Runnable noT) {
-        maybe.ifPresent(t -> onT.accept(t));
-        if (!maybe.isPresent())
-            noT.run();
-    }
-
     public static <T, R> R maybeNull(T maybeNull, Function<T, R> onT, Supplier<R> noT) {
-        return optionally_(ofNullable(maybeNull), onT, noT);
+        return optionally(ofNullable(maybeNull), onT, noT);
     }
 
-    public static <T, R> R optionally_(Optional<T> maybe, Function<T, R> onT, Supplier<R> noT) {
-        One<R> one = one(null);
+    public static <T, R> R optionally(Optional<T> maybe, Function<T, R> onT, Supplier<R> noT) {
+        Heap<R> one = heap(null);
         maybe.ifPresent(t -> one.value = onT.apply(t));
         if (!maybe.isPresent())
             one.value = noT.get();
         return one.value;
     }
 
-    public static <K, V, R> R optionallyGet_(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
+    public static <K, V, R> R optionallyGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
         return maybeNull(maybe.get(k), onT, noT);
     }
 
@@ -77,11 +71,6 @@ public class UnderBar {
 
     @SafeVarargs
     public static <T> List<T> list(T... ts) {
-        return Arrays.asList(ts);
-    }
-
-    @SafeVarargs
-    public static <T> List<T> list_(T... ts) {
         return Arrays.asList(ts);
     }
 
@@ -113,10 +102,9 @@ public class UnderBar {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
     }
 
-    // stack allocation of heap pointer to "value" so that you can assign to value in lambdas
-    // to avoid the (can't use non-final values in lambda) error.
-    public static <T> One<T> one(T t) {
-        return new One<>(t);
+
+    public static <T> Heap<T> heap(T t) {
+        return new Heap<>(t);
     }
 
     @SafeVarargs
@@ -196,7 +184,7 @@ public class UnderBar {
     }
 
     public static <K, V> Map<K, V> zipmap(Collection<? extends K> keys, Collection<? extends V> values) {
-        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
         HashMap<K, V> result = new HashMap<>();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.put(k, vi.next()));
@@ -204,7 +192,7 @@ public class UnderBar {
     }
 
     public static <K, V> List<Map.Entry<K, V>> zip(Collection<? extends K> keys, Collection<? extends V> values) {
-        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
         List<Map.Entry<K, V>> result = emptyList();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.add(entry(k, vi.next())));
@@ -221,10 +209,6 @@ public class UnderBar {
 
     public static <K, V> Map<K, V> map() {
         return new HashMap<>();
-    }
-
-    public static <K, V> Map<K, V> synchronizedMap() {
-        return Collections.synchronizedMap(map());
     }
 
     private static <K, V> Map<K, V> mapWith(Map<K, V> m, K k, V v) {
@@ -264,11 +248,11 @@ public class UnderBar {
         return filter(ts, matches).size();
     }
 
-    public static <T, K, V> Map<K, V> mapFromPairs(T[] ts, Function<T, Map.Entry<K, V>> toEntry) {
-        return mapFromPairs(list(ts), toEntry);
+    public static <T, K, V> Map<K, V> mapFromEntry(T[] ts, Function<T, Map.Entry<K, V>> toEntry) {
+        return mapFromEntry(list(ts), toEntry);
     }
 
-    public static <T, K, V> Map<K, V> mapFromPairs(Iterable<T> ts, Function<T, Map.Entry<K, V>> toEntry) {
+    public static <T, K, V> Map<K, V> mapFromEntry(Iterable<T> ts, Function<T, Map.Entry<K, V>> toEntry) {
         Map<K, V> result = new LinkedHashMap<>();
         Map<K, List<T>> results = new HashMap<>();
         ts.forEach(t -> {
@@ -277,7 +261,7 @@ public class UnderBar {
             result.put(entry.getKey(), entry.getValue());
         });
         List<K> duplicateKeys = map(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
-        dieUnless(duplicateKeys.isEmpty(), () -> "Duplicate keys encountered!  Keys/Produced-from: " + filterKeys(results, duplicateKeys::contains));
+        dieUnless(duplicateKeys.isEmpty(), () -> "Duplicates: " + filterKeys(results, duplicateKeys::contains));
         return result;
     }
 
@@ -303,7 +287,7 @@ public class UnderBar {
     }
 
     public static <K, V> Map<K, V> filterKeys(Map<K, V> m, Predicate<K> predicate) {
-        // This collect implementation is safe because we don't modify the keys, so don't need to protect against duplicate keys
+        // This collect implementation is safe because we don't modify nonce keys, so don't need to protect against duplicate keys
         return m.entrySet().stream()
                 .filter(entry -> predicate.test(entry.getKey()))
                 .collect(HashMap::new, (m1, entry) -> m1.put(entry.getKey(), entry.getValue()), HashMap::putAll);
@@ -315,7 +299,7 @@ public class UnderBar {
     }
 
     public static <K, V> Map<K, V> indexBy(Iterable<V> vs, Function<V, K> toK) {
-        return modifyValues(groupBy(vs, toK), UnderBar::the);
+        return modifyValues(groupBy(vs, toK), UnderBar::nonce);
     }
 
     public static <K, V> Map<K, V> indexBy(V[] vs, Function<V, K> toK) {
@@ -332,7 +316,7 @@ public class UnderBar {
         return optional();
     }
 
-    public static <T> InOut<T> bifurcate(Iterable<T> ts, Function<T, Boolean> isIn) {
+    public static <T> InOut<T> tee(Iterable<T> ts, Function<T, Boolean> isIn) {
         Map<Boolean, List<T>> result = groupBy(ts, isIn);
         return new InOut<>(result.getOrDefault(true, list()), result.getOrDefault(false, list()));
     }
@@ -346,7 +330,7 @@ public class UnderBar {
     }
 
     public static <T, F> List<T> mapWithIndex(Iterable<F> fs, BiFunction<F, Long, T> toT) {
-        One<Long> index = one(0L);
+        Heap<Long> index = heap(0L);
         return stream(fs).map(f -> toT.apply(f, index.value++)).collect(toList());
     }
 
@@ -678,7 +662,7 @@ public class UnderBar {
         return result;
     }
 
-    //    this removes duplicates after the first occurrence of the item
+    //    this removes duplicates after nonce first occurrence of nonce item
 //    this is not a good idea for large lists as this will take a long time
     public static <T> List<T> deduplicateMaintainingOrder(List<T> orderedDuplicates) {
         return deduplicateMaintainingOrder(orderedDuplicates, element -> element);
@@ -722,10 +706,10 @@ public class UnderBar {
         return email.replaceFirst(".*@(.*)$", "$1");
     }
 
-    public static class One<T> {
+    public static class Heap<T> {
         public T value;
 
-        public One(T value) {
+        public Heap(T value) {
             this.value = value;
         }
     }

@@ -14,33 +14,33 @@ public class UnderBarTest {
 
     @Test
     public void theReturnsTheSoleValueFromAnIterable() throws Exception {
-        assertEquals(5, (long) the(list(5)));
+        assertEquals(5, (long) nonce(list(5)));
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfListIsEmpty() throws Exception {
-        the(list());
+        nonce(list());
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfListIsLargerThan1() throws Exception {
-        the(array(1, 2));
+        nonce(array(1, 2));
     }
 
     @Test
     public void theReturnsTheSoleValueOfAnArray() throws Exception {
         Integer expected = 0;
-        assertEquals(expected, the(new Integer[]{expected}));
+        assertEquals(expected, nonce(new Integer[]{expected}));
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfArrayIsEmpty() throws Exception {
-        the(new Integer[]{});
+        nonce(new Integer[]{});
     }
 
     @Test(expected = RuntimeException.class)
     public void theBombsIfArrayIsLargerThan1() throws Exception {
-        the(new Integer[]{0, 1});
+        nonce(new Integer[]{0, 1});
     }
 
 
@@ -61,8 +61,8 @@ public class UnderBarTest {
 
     @Test
     public void ifAbsentCallsARunnableIfCollectionEmpty() throws Exception {
-        One<Boolean> empty = one(false);
-        One<Boolean> full = one(false);
+        Heap<Boolean> empty = heap(false);
+        Heap<Boolean> full = heap(false);
 
         ifAbsent(optional(), () -> empty.value = true);
         ifAbsent(optional(1), () -> full.value = true);
@@ -73,8 +73,8 @@ public class UnderBarTest {
 
     @Test
     public void optionallyConsumesThenCallsCallbackIfEmpty() throws Exception {
-        One<Boolean> calledBack = one(false);
-        One<Boolean> consumed = one(false);
+        Heap<Boolean> calledBack = heap(false);
+        Heap<Boolean> consumed = heap(false);
 
         optionally(optional(true), (t) -> consumed.value = t, () -> calledBack.value = true);
 
@@ -84,8 +84,8 @@ public class UnderBarTest {
 
     @Test
     public void optionallyCallsCallbackIfEmpty() throws Exception {
-        One<Boolean> calledBack = one(false);
-        One<Boolean> consumed = one(false);
+        Heap<Boolean> calledBack = heap(false);
+        Heap<Boolean> consumed = heap(false);
 
         optionally(optional(), (t) -> consumed.value = (Boolean) t, () -> calledBack.value = true);
 
@@ -230,7 +230,7 @@ public class UnderBarTest {
     @Test
     public void mapFromPairsCreatesAMapFromPairsWithAFunction() throws Exception {
         assertEquals(map("a", 1, "b", 2),
-                mapFromPairs(list(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1))));
+                mapFromEntry(list(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1))));
     }
 
     @Test
@@ -268,7 +268,7 @@ public class UnderBarTest {
 
     @Test
     public void bifurcateSplitsACollectionBasedOnAPredicate() throws Exception {
-        InOut<Integer> out = bifurcate(list(1, 2, 3, 4), (v) -> v % 2 == 0);
+        InOut<Integer> out = tee(list(1, 2, 3, 4), (v) -> v % 2 == 0);
         assertEquals(list(2, 4), out.in);
         assertEquals(list(1, 3), out.out);
     }
@@ -308,14 +308,14 @@ public class UnderBarTest {
 
     @Test
     public void doTimesRepeatsAFunction() throws Exception {
-        One<Integer> one = one(0);
+        Heap<Integer> one = heap(0);
         doTimes(5, () -> one.value += 1);
         assertEquals(5, (int) one.value);
     }
 
     @Test
     public void doTimesRepeatsAFunctionWithAnIndex() throws Exception {
-        One<Integer> one = one(1);
+        Heap<Integer> one = heap(1);
         doTimes(5, (i) -> one.value += i);
         assertEquals(11, (int) one.value);
     }
@@ -362,7 +362,7 @@ public class UnderBarTest {
 
     @Test
     public void withVoidDoesNotReturnAValue() throws Exception {
-        One<Integer> sideEffect = one(0);
+        Heap<Integer> sideEffect = heap(0);
         withVoid(5, (x) -> sideEffect.value = x);
         assertEquals(5, (int) sideEffect.value);
 
@@ -402,7 +402,7 @@ public class UnderBarTest {
 
     @Test
     public void tapCallsAFunction() throws Exception {
-        One<Integer> sideEffect = one(0);
+        Heap<Integer> sideEffect = heap(0);
 
         assertEquals(1, (int) tap(1, (x) -> sideEffect.value = x));
         assertEquals(1, (int) sideEffect.value);
@@ -483,8 +483,8 @@ public class UnderBarTest {
 
     @Test
     public void takeWhileTest() throws Exception {
-        One<Boolean> one = one(false);
-        One<Boolean> two = one(false);
+        Heap<Boolean> one = heap(false);
+        Heap<Boolean> two = heap(false);
 
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(lazy(() -> (Supplier<Boolean>) () -> {
@@ -502,9 +502,9 @@ public class UnderBarTest {
 
     @Test
     public void takeWhileDeepTest() throws Exception {
-        One<Integer> one = one(0);
-        One<Integer> two = one(0);
-        One<Integer> three = one(0);
+        Heap<Integer> one = heap(0);
+        Heap<Integer> two = heap(0);
+        Heap<Integer> three = heap(0);
 
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(
