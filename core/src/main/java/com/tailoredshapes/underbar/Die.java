@@ -90,6 +90,30 @@ public class Die {
         }
     }
 
+    public static void rethrow(ExceptionalFunctions.RunnableThatMight runnable, Supplier<String> errorMessage) {
+        try {
+            runnable.run();
+        } catch (Throwable e) {
+            throw die(e, errorMessage.get());
+        }
+    }
+
+    public static void rethrow(ExceptionalFunctions.RunnableWithOops runnable) {
+        try {
+            runnable.run();
+        } catch (Throwable e) {
+            throw die(e, "exception caught");
+        }
+    }
+
+    public static void rethrow(ExceptionalFunctions.RunnableThatMight runnable) {
+        try {
+            runnable.run();
+        } catch (Throwable e) {
+            throw die(e, "exception caught");
+        }
+    }
+
     public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier) {
         try {
             return supplier.get();
@@ -100,7 +124,25 @@ public class Die {
         }
     }
 
+    public static <T, E extends Throwable> T rethrow(ExceptionalFunctions.SupplierThatMight<T, E> supplier) {
+        try {
+            return supplier.get();
+        } catch (RuntimeException re) {
+            throw re;
+        } catch (Throwable e) {
+            throw die(e, "exception caught");
+        }
+    }
+
     public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier, Supplier<String> errorMessage) {
+        try {
+            return supplier.get();
+        } catch (Throwable e) {
+            throw die(e, errorMessage.get());
+        }
+    }
+
+    public static <T, E extends Throwable> T rethrow(ExceptionalFunctions.SupplierThatMight<T, E> supplier, Supplier<String> errorMessage) {
         try {
             return supplier.get();
         } catch (Throwable e) {
