@@ -5,7 +5,6 @@ import com.tailoredshapes.underbar.function.*;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collector;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -471,7 +470,7 @@ public class UnderBar {
         onTandU.accept(t, u);
     }
 
-    public static <T, U, V> void withVoid(T t, U u, V v, TriConsumer<T, U, V> onTandUandV) {
+    public static <T, U, V> void withVoid(T t, U u, V v, RegularFunctions.TriConsumer<T, U, V> onTandUandV) {
         onTandUandV.accept(t, u, v);
     }
 
@@ -483,27 +482,27 @@ public class UnderBar {
         return onT.apply(t, u);
     }
 
-    public static <T, U, V, R> R with(T t, U u, V v, TriFunction<T, U, V, R> onT) {
+    public static <T, U, V, R> R with(T t, U u, V v, RegularFunctions.TriFunction<T, U, V, R> onT) {
         return onT.apply(t, u, v);
     }
 
-    public static <T, U, V, W, R> R with(T t, U u, V v, W w, QuadFunction<T, U, V, W, R> onT) {
+    public static <T, U, V, W, R> R with(T t, U u, V v, W w, RegularFunctions.QuadFunction<T, U, V, W, R> onT) {
         return onT.apply(t, u, v, w);
     }
 
-    public static <T, U, V, W, X, R> R with(T t, U u, V v, W w, X x, PentaFunction<T, U, V, W, X, R> onT) {
+    public static <T, U, V, W, X, R> R with(T t, U u, V v, W w, X x, RegularFunctions.PentaFunction<T, U, V, W, X, R> onT) {
         return onT.apply(t, u, v, w, x);
     }
 
-    public static <T, U, V, W, X, Y, R> R with(T t, U u, V v, W w, X x, Y y, HexFunction<T, U, V, W, X, Y, R> onT) {
+    public static <T, U, V, W, X, Y, R> R with(T t, U u, V v, W w, X x, Y y, RegularFunctions.HexFunction<T, U, V, W, X, Y, R> onT) {
         return onT.apply(t, u, v, w, x, y);
     }
 
-    public static <T, U, V, W, X, Y, Z, R> R with(T t, U u, V v, W w, X x, Y y, Z z, SeptaFunction<T, U, V, W, X, Y, Z, R> onT) {
+    public static <T, U, V, W, X, Y, Z, R> R with(T t, U u, V v, W w, X x, Y y, Z z, RegularFunctions.SeptaFunction<T, U, V, W, X, Y, Z, R> onT) {
         return onT.apply(t, u, v, w, x, y, z);
     }
 
-    public static <T, U, V, W, X, Y, Z, A, R> R with(T t, U u, V v, W w, X x, Y y, Z z, A a, OctaFunction<T, U, V, W, X, Y, Z, A, R> onT) {
+    public static <T, U, V, W, X, Y, Z, A, R> R with(T t, U u, V v, W w, X x, Y y, Z z, A a, RegularFunctions.OctaFunction<T, U, V, W, X, Y, Z, A, R> onT) {
         return onT.apply(t, u, v, w, x, y, z, a);
     }
 
