@@ -1,5 +1,7 @@
 package com.tailoredshapes.underbar;
 
+import com.tailoredshapes.underbar.data.Fork;
+import com.tailoredshapes.underbar.data.Heap;
 import com.tailoredshapes.underbar.function.RegularFunctions;
 
 import java.util.*;

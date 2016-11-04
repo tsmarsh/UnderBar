@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.data;
 
 public class Heap<T> {
     public T value;

@@ -1,5 +1,7 @@
 package com.tailoredshapes.underbar;
 
+import com.tailoredshapes.underbar.data.Fork;
+import com.tailoredshapes.underbar.data.Heap;
 import org.junit.Test;
 
 import java.io.Serializable;
