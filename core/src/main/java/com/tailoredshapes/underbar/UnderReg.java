@@ -1,5 +1,6 @@
 package com.tailoredshapes.underbar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,11 +20,14 @@ public class UnderReg {
     }
 
     public static List<String> groups(Matcher m) {
-        List<String> l = list();
+        List<String> l = new ArrayList<>();
+        if(!m.matches()){ return l; }
+
         int groupCount = m.groupCount();
 
-        for (int c = 0; c < groupCount; c++) {
-            l.add(m.group(c));
+        for (int c = 1; c <= groupCount; c++) {
+            String group = m.group(c);
+            l.add(group);
         }
 
         return l;

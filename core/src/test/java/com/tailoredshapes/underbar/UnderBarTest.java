@@ -3,6 +3,7 @@ package com.tailoredshapes.underbar;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -268,7 +269,7 @@ public class UnderBarTest {
 
     @Test
     public void bifurcateSplitsACollectionBasedOnAPredicate() throws Exception {
-        InOut<Integer> out = tee(list(1, 2, 3, 4), (v) -> v % 2 == 0);
+        Fork<Integer> out = tee(list(1, 2, 3, 4), (v) -> v % 2 == 0);
         assertEquals(list(2, 4), out.in);
         assertEquals(list(1, 3), out.out);
     }
@@ -318,13 +319,6 @@ public class UnderBarTest {
         Heap<Integer> one = heap(1);
         doTimes(5, (i) -> one.value += i);
         assertEquals(11, (int) one.value);
-    }
-
-    @Test
-    public void allMatchFirstChecksThatResultsAreTheSame() throws Exception {
-        assertTrue(allMatchFirst(list(1), (x) -> x));
-        assertTrue(allMatchFirst(list(1, 1), (x) -> x));
-        assertFalse(allMatchFirst(list(1, 1, 2), (x) -> x));
     }
 
     @Test
@@ -402,42 +396,8 @@ public class UnderBarTest {
         assertEquals(1, (int) tap(1, (x) -> sideEffect.value = x));
         assertEquals(1, (int) sideEffect.value);
 
-        assertEquals(1, (int) tap_(1, () -> sideEffect.value = 5));
+        assertEquals(1, (int) tapVoid(1, () -> sideEffect.value = 5));
         assertEquals(5, (int) sideEffect.value);
-    }
-
-    @Test
-    public void getMedianValue() throws Exception {
-        assertEquals(5.0, median(list(1L, 3L, 5L, 2L, 6L)), 0);
-        assertEquals(Double.NaN, median(list()), 0);
-    }
-
-    @Test
-    public void xorTest() throws Exception {
-        assertFalse(xor(true, true));
-        assertTrue(xor(false, true));
-        assertTrue(xor(true, false));
-        assertFalse(xor(false, false));
-    }
-
-    @Test
-    public void averageTest() throws Exception {
-        assertEquals(1, average(list(1L, 1L, 1L)), 0);
-        assertEquals(1, averageInt(list(1, 1, 1)), 0);
-        assertEquals(1.0, averageDouble(list(1.0, 1.0, 1.0)), 0);
-    }
-
-    @Test
-    public void sumIt() throws Exception {
-        assertEquals(6, sum(list(1L, 2L, 3L)));
-        assertEquals(6L, sumInt(list(1, 2, 3)));
-        assertEquals(6.0, sumDouble(list(1.0, 2.0, 3.0)), 0);
-    }
-
-    @Test
-    public void maxMinTest() throws Exception {
-        assertEquals(3L, (long) max(list(1L, 2L, 3L)));
-        assertEquals(1L, (long) min(list(1L, 2L, 3L)));
     }
 
     @Test
@@ -445,14 +405,6 @@ public class UnderBarTest {
         assertEquals(
                 list(list(1, 2), list(3, 4), list(5)),
                 partition(list(1, 2, 3, 4, 5), 2));
-    }
-
-    @Test
-    public void dedupeAList() throws Exception {
-        assertEquals(
-                list(1, 2, 3, 4),
-                deduplicateMaintainingOrder(list(1, 1, 2, 1, 2, 2, 3, 4, 4))
-        );
     }
 
     @Test
@@ -503,16 +455,16 @@ public class UnderBarTest {
 
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(
-                        lazy(() -> (Supplier<Boolean>) () ->{
-                                    one.value= 1;
-                                    return false;
+                        lazy(() -> (Supplier<Boolean>) () -> {
+                            one.value = 1;
+                            return false;
                         }),
                         lazy(() -> (Supplier<Boolean>) () -> {
                             two.value = 2;
                             return true;
                         }),
-                        lazy(() -> (Supplier<Boolean>) () ->{
-                            three.value= 3;
+                        lazy(() -> (Supplier<Boolean>) () -> {
+                            three.value = 3;
                             return false;
                         })), (x) -> x.get().get());
 
@@ -520,5 +472,68 @@ public class UnderBarTest {
         assertEquals(2, (int) two.value);
         assertEquals(1, (int) one.value);
         assertEquals(0, (int) three.value);
+    }
+
+    @Test
+    public void makeTimesTest() throws Exception {
+        assertEquals(list("foo", "foo", "foo"), makeTimes(3, () -> "foo"));
+        assertEquals(list("foo0", "foo1", "foo2"), makeTimes(3, (i) -> "foo" + i));
+    }
+
+    @Test
+    public void almostEqualTest() throws Exception {
+        assertTrue(almostEqual(0.000001, 0.0000001));
+        assertFalse(almostEqual(0.000001, 0.000002));
+
+        assertTrue(almostEqual(0.1, 1 / 10.0f));
+    }
+
+    @Test
+    public void rangeTest() throws Exception {
+        assertEquals(list(0,1,2,3), range(4));
+
+        assertEquals(list(2,3), range(2,4));
+    }
+
+    @Test
+    public void shuffleTest() throws Exception {
+        List<Integer> deck = range(52);
+        assertNotEquals(deck, shuffle(deck));
+    }
+
+    @Test
+    public void randUnderTest() throws Exception {
+        assertTrue(randUnder(52) < 52);
+        assertTrue(randUnder(52) > 0);
+    }
+
+    @Test
+    public void randomItemTest() throws Exception {
+        List<Integer> deck = range(52);
+        Integer integer = randomItem(deck);
+        assertTrue(indexOf(deck, integer::equals).isPresent());
+    }
+
+    @Test
+    public void mapFromEntryTest() throws Exception {
+        Map<String, Integer> result = mapFromEntry(
+                array("h", "e", "l", "o"),
+                (c) -> entry(c, (int) c.charAt(0)));
+
+        assertEquals(map("h", 104, "e", 101, "l", 108, "o", 111), result);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void mapFromEntryDuplicateTest() throws Exception {
+        mapFromEntry(
+                array("h", "e", "l", "l", "o"),
+                (c) -> entry(c, (int) c.charAt(0)));
+    }
+
+    @Test
+    public void forEachTest() throws Exception {
+        Heap<Integer> s = heap(0);
+        forEach(zipmap(range(5), range(5,10)), (k, v) -> s.value += k+v);
+        assertEquals(45, s.value.intValue());
     }
 }

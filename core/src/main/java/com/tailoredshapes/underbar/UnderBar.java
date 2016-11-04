@@ -1,8 +1,7 @@
 package com.tailoredshapes.underbar;
 
-import com.tailoredshapes.underbar.function.*;
+import com.tailoredshapes.underbar.function.RegularFunctions;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.IntStream;
@@ -32,7 +31,7 @@ public class UnderBar {
         return ts[0];
     }
 
-    public static <T> boolean isEmpty(Collection<T> coll){
+    public static <T> boolean isEmpty(Collection<T> coll) {
         return coll.isEmpty();
     }
 
@@ -100,6 +99,11 @@ public class UnderBar {
         return result;
     }
 
+    public static <T, F> Set<T> set(Iterable<F> fs, Function<F, T> toT) {
+        return set(map(fs, toT));
+    }
+
+
     public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
     }
@@ -139,7 +143,7 @@ public class UnderBar {
         return ts.subList(0, Math.min(n, ts.size()));
     }
 
-    public static <T> Optional<T> takeWhile(Iterable<T> ts, Predicate<T> p){
+    public static <T> Optional<T> takeWhile(Iterable<T> ts, Predicate<T> p) {
         for (T next : ts) {
             if (p.test(next)) return optional(next);
         }
@@ -300,16 +304,9 @@ public class UnderBar {
                 result.computeIfAbsent(toK.apply(v), k -> emptyList()).add(v)));
     }
 
-    public static <K, V> Map<K, V> indexBy(Iterable<V> vs, Function<V, K> toK) {
-        return modifyValues(groupBy(vs, toK), UnderBar::nonce);
-    }
-
-    public static <K, V> Map<K, V> indexBy(V[] vs, Function<V, K> toK) {
-        return indexBy(list(vs), toK);
-    }
-
     public static <T> Optional<Long> indexOf(Iterable<T> ts, Function<T, Boolean> isItem) {
         long i = 0L;
+
         for (T t : ts) {
             if (isItem.apply(t))
                 return optional(i);
@@ -318,9 +315,9 @@ public class UnderBar {
         return optional();
     }
 
-    public static <T> InOut<T> tee(Iterable<T> ts, Function<T, Boolean> isIn) {
+    public static <T> Fork<T> tee(Iterable<T> ts, Function<T, Boolean> isIn) {
         Map<Boolean, List<T>> result = groupBy(ts, isIn);
-        return new InOut<>(result.getOrDefault(true, list()), result.getOrDefault(false, list()));
+        return new Fork<>(result.getOrDefault(true, list()), result.getOrDefault(false, list()));
     }
 
     public static <T> Stream<T> stream(Iterable<T> in) {
@@ -336,9 +333,6 @@ public class UnderBar {
         return stream(fs).map(f -> toT.apply(f, index.value++)).collect(toList());
     }
 
-    public static <T, F> Set<T> set(Iterable<F> fs, Function<F, T> toT) {
-        return set(map(fs, toT));
-    }
 
     public static <T, F> List<T> map(F[] fs, Function<F, T> toT) {
         return map(Arrays.asList(fs), toT);
@@ -374,7 +368,9 @@ public class UnderBar {
 
     public static <R> List<R> makeTimes(int n, Function<Integer, R> r) {
         return tap(emptyList(), result -> {
-            for (int i = 0; i < n; i++) result.add(r.apply(i));
+            for (int i = 0; i < n; i++) {
+                result.add(r.apply(i));
+            }
         });
     }
 
@@ -426,14 +422,6 @@ public class UnderBar {
 
     public static <K, V> Map<K, V> map(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7, K k8, V v8, K k9, V v9, K k10, V v10) {
         return mapWith(map(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9), k10, v10);
-    }
-
-    public static <T, U> boolean allMatchFirst(Iterable<T> ts, Function<T, U> toU) {
-        U first = toU.apply(first(ts));
-        for (T t : ts)
-            if (!toU.apply(t).equals(first))
-                return false;
-        return true;
     }
 
     public static <T> boolean any(Iterable<T> ts, Predicate<T> pred) {
@@ -511,7 +499,7 @@ public class UnderBar {
         return t;
     }
 
-    public static <T> T tap_(T t, Runnable doSomething) {
+    public static <T> T tapVoid(T t, Runnable doSomething) {
         doSomething.run();
         return t;
     }
@@ -550,100 +538,6 @@ public class UnderBar {
         return nl;
     }
 
-    public static boolean oneIn(int max) {
-        return randUnder(max) == 0;
-    }
-
-    public static double medianInt(List<Integer> values) {
-        if (isEmpty(values))
-            return Double.NaN;
-        int count = values.size();
-        int half = count / 2;
-        return count % 2 == 1
-                ? values.get(half).doubleValue()
-                : (values.get(half - 1) + values.get(half)) / 2.0;
-    }
-
-    public static double median(List<Long> values) {
-        if (isEmpty(values))
-            return Double.NaN;
-        int count = values.size();
-        int half = count / 2;
-        return count % 2 == 1
-                ? values.get(half).doubleValue()
-                : (values.get(half - 1) + values.get(half)) / 2.0;
-    }
-
-    public static boolean xor(boolean a, boolean b) {
-        return (a || b) && !(a && b);
-    }
-
-    public static double average(Collection<Long> values) {
-        if (isEmpty(values))
-            return Double.NaN;
-        return ((double) sum(values)) / values.size();
-    }
-
-    public static double averageInt(Collection<Integer> values) {
-        if (isEmpty(values))
-            return Double.NaN;
-        return ((double) sumInt(values)) / values.size();
-    }
-
-    public static double averageDouble(Collection<Double> values) {
-        if (isEmpty(values))
-            return Double.NaN;
-        return ((double) sumDouble(values)) / values.size();
-    }
-
-    public static <T> long sum(Iterable<T> ts, Function<T, Long> makeLong) {
-        return sum(map(ts, makeLong));
-    }
-
-    public static long sum(Collection<Long> values) {
-        long result = 0;
-        for (long v : values)
-            result += v;
-        return result;
-    }
-
-    public static long sumInt(Collection<Integer> values) {
-        long result = 0;
-        for (long v : values)
-            result += v;
-        return result;
-    }
-
-    public static double sumDouble(Collection<Double> values) {
-        double result = 0;
-        for (double v : values)
-            result += v;
-        return result;
-    }
-
-    public static double percentInRange(long start, long end, long value, double nanValue) {
-        if (end - start == 0) return nanValue;
-        return ((value - start) * 100.0) / (end - start);
-    }
-
-    public static Long min(Collection<Long> values) {
-        if (isEmpty(values))
-            return null;
-        long result = first(values);
-        for (long v : values)
-            result = Math.min(result, v);
-        return result;
-    }
-
-    public static Long max(Collection<Long> values) {
-        if (isEmpty(values))
-            return null;
-        long result = first(values);
-        for (long v : values)
-            result = Math.max(result, v);
-        return result;
-    }
-
     public static <T> List<List<T>> partition(List<T> ts, int size) {
         List<List<T>> result = emptyList();
         int i = 0;
@@ -654,22 +548,8 @@ public class UnderBar {
         return result;
     }
 
-    //    this removes duplicates after nonce first occurrence of nonce item
-//    this is not a good idea for large lists as this will take a long time
-    public static <T> List<T> deduplicateMaintainingOrder(List<T> orderedDuplicates) {
-        return deduplicateMaintainingOrder(orderedDuplicates, element -> element);
-    }
-
-    // Remove duplicates from a list based on provided criterion of uniqueness
-    public static <T, R> List<T> deduplicateMaintainingOrder(List<T> origin, Function<T, R> criterion) {
-        List<T> result = emptyList();
-        Set<R> seen = set();
-        for (T t : origin) {
-            if (seen.contains(criterion.apply(t))) continue;
-            seen.add(criterion.apply(t));
-            result.add(t);
-        }
-        return result;
+    public static String extractDomain(String email) {
+        return email.replaceFirst(".*@(.*)$", "$1");
     }
 
     public static boolean almostEqual(Double lvalue, Double rvalue) {
@@ -680,39 +560,12 @@ public class UnderBar {
         return almostEqual(lvalue, rvalue.doubleValue());
     }
 
-    public static String shortStringGuid(UUID guid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(guid.getMostSignificantBits());
-        bb.putLong(guid.getLeastSignificantBits());
-        String encoded = Base64.getEncoder().encodeToString(bb.array());
-        return encoded.replaceFirst("==$", "").replace("+", "UnderBar").replace("/", "-");
+    public static List<Integer> range(int max){
+        return makeTimes(max, i->i);
     }
 
-    public static UUID guidFromShortString(String encoded) {
-        encoded = encoded.replace("UnderBar", "+").replace("-", "/") + "==";
-        ByteBuffer byteBuffer = ByteBuffer.wrap(Base64.getDecoder().decode(encoded));
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    public static List<Integer> range(int start, int end){
+        return makeTimes(end - start, i->i+start);
     }
 
-    public static String extractDomain(String email) {
-        return email.replaceFirst(".*@(.*)$", "$1");
-    }
-
-    public static class Heap<T> {
-        public T value;
-
-        public Heap(T value) {
-            this.value = value;
-        }
-    }
-
-    public static class InOut<T> {
-        public final List<T> in;
-        public final List<T> out;
-
-        public InOut(List<T> in, List<T> out) {
-            this.in = in;
-            this.out = out;
-        }
-    }
 }

@@ -27,6 +27,11 @@ public class UnderStringTest {
     }
 
     @Test
+    public void joinNoSeperatorTest() throws Exception {
+        assertEquals("123", join(list("1","2","3")));
+    }
+
+    @Test
     public void toStringTest() throws Exception {
         assertEquals("1", UnderString.toString(1));
     }
