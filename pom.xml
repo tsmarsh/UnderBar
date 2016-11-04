@@ -4,7 +4,7 @@
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -15,7 +15,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:tsmarsh/UnderBar.git</developerConnection>
-      <tag>underbar-0.0.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>

@@ -4,12 +4,12 @@
 
   <groupId>com.tailoredshapes.underbar</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
 
   <build>
