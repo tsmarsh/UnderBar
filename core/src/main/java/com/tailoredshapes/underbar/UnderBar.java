@@ -570,4 +570,11 @@ public class UnderBar {
         return makeTimes(end - start, i->i+start);
     }
 
+    public static <T, R> R reduce(Collection<T> col, R identity, BiFunction<R, T, R> fn){
+        Heap<R> h = heap(identity);
+        for(T t: col){
+            h.value = fn.apply(h.value, t);
+        }
+        return h.value;
+    }
 }

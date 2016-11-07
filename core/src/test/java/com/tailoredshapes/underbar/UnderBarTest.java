@@ -5,6 +5,7 @@ import com.tailoredshapes.underbar.data.Heap;
 import org.junit.Test;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -538,4 +539,19 @@ public class UnderBarTest {
         forEach(zipmap(range(5), range(5,10)), (k, v) -> s.value += k+v);
         assertEquals(45, s.value.intValue());
     }
+
+
+    @Test
+    public void shouldReduceACollectionWithIdentity() throws Exception {
+        assertEquals("prefix123", reduce(list(1,2,3), "prefix", (a,v) -> a+v));
+        assertEquals("prefix", reduce(new ArrayList<String>(), "prefix", (a,v) -> a+v));
+    }
+
+
+    @Test
+    public void shouldReduceACollectionToAnInteger() throws Exception {
+        assertEquals(Integer.valueOf(6), reduce(list("1", "2", "3"), 0, (Integer a, String v) -> a + Integer.parseInt(v)));
+    }
+
+
 }

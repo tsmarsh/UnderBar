@@ -11,6 +11,7 @@
         <module>core</module>
         <module>dates</module>
         <module>stash</module>
+        <module>io</module>
     </modules>
 
     <scm>
