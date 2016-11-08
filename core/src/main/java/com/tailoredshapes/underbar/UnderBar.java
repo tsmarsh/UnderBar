@@ -22,8 +22,11 @@ public class UnderBar {
     /**
      * Asserts that a collection contains exactly one value and returns it
      *
-     * Examples:
      * {@link com.tailoredshapes.underbar.UnderBarTest#nonceReturnsTheSoleValueFromAnIterable() nonceReturnsTheSoleValueFromAnIterable}
+     *
+     * @param ts An iterable containing T
+     * @param <T> The type of the list
+     * @return
      */
     public static <T> T nonce(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
