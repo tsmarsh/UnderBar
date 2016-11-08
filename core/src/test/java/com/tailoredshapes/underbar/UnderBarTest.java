@@ -17,33 +17,33 @@ import static org.junit.Assert.*;
 public class UnderBarTest {
 
     @Test
-    public void theReturnsTheSoleValueFromAnIterable() throws Exception {
+    public void nonceReturnsTheSoleValueFromAnIterable() throws Exception {
         assertEquals(5, (long) nonce(list(5)));
     }
 
     @Test(expected = RuntimeException.class)
-    public void theBombsIfListIsEmpty() throws Exception {
+    public void nonceBombsIfListIsEmpty() throws Exception {
         nonce(list());
     }
 
     @Test(expected = RuntimeException.class)
-    public void theBombsIfListIsLargerThan1() throws Exception {
+    public void nonceBombsIfListIsLargerThan1() throws Exception {
         nonce(array(1, 2));
     }
 
     @Test
-    public void theReturnsTheSoleValueOfAnArray() throws Exception {
+    public void nonceReturnsTheSoleValueOfAnArray() throws Exception {
         Integer expected = 0;
         assertEquals(expected, nonce(new Integer[]{expected}));
     }
 
     @Test(expected = RuntimeException.class)
-    public void theBombsIfArrayIsEmpty() throws Exception {
+    public void nonceBombsIfArrayIsEmpty() throws Exception {
         nonce(new Integer[]{});
     }
 
     @Test(expected = RuntimeException.class)
-    public void theBombsIfArrayIsLargerThan1() throws Exception {
+    public void nonceBombsIfArrayIsLargerThan1() throws Exception {
         nonce(new Integer[]{0, 1});
     }
 
@@ -449,6 +449,7 @@ public class UnderBarTest {
         assertTrue(one.value);
         assertFalse(two.value);
     }
+
 
     @Test
     public void takeWhileDeepTest() throws Exception {

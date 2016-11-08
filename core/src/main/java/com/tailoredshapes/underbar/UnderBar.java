@@ -19,6 +19,13 @@ public class UnderBar {
     public static final Random random = new Random();
     private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
 
+    /**
+     * Asserts that a collection contains exactly one value and returns it
+     *
+     * @param ts A collection with a single value
+     * @param <T> The type of the value
+     * @return the value in the collection
+     */
     public static <T> T nonce(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
         dieUnless(i.hasNext(), () -> "input to 'nonce' cannot be empty");
@@ -27,13 +34,26 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Asserts that an array contains exactly one value and returns it
+     *
+     * @param ts An array with a single value
+     * @param <T> The type of the value
+     * @return the value in the array
+     */
     public static <T> T nonce(T[] ts) {
         dieIfNull(ts, () -> "input to 'nonce' cannot be null");
         dieUnless(ts.length == 1, () -> "length of input to 'nonce' must be 1. " + UnderString.commaSep(list(ts)));
         return ts[0];
     }
 
-    public static <T> boolean isEmpty(Collection<T> coll) {
+    /**
+     * Returns true if the collection isEmpty
+     *
+     * @param coll a collection
+     * @return true if the collection isEmpty
+     */
+    public static boolean isEmpty(Collection<?> coll) {
         return coll.isEmpty();
     }
 
@@ -47,15 +67,38 @@ public class UnderBar {
         return Optional.of(result);
     }
 
-    public static <T> void ifAbsent(Optional<T> maybe, Runnable noT) {
+    /**
+     * Executes a runnable if an optional is empty
+     * @param maybe the optional under test
+     * @param noT the runnable you'd like to execute
+     */
+    public static void ifAbsent(Optional<?> maybe, Runnable noT) {
         if (!maybe.isPresent())
             noT.run();
     }
 
+    /**
+     * Checks if a value is null. If it isn't execute a function, otherwise execute a supplier
+     * @param maybeNull the value under test
+     * @param onT what to do if the value isn't null
+     * @param noT what to do if the value is null
+     * @param <T> The type of the incoming value
+     * @param <R> The type of out going value
+     * @return The result of either onT or noT
+     */
     public static <T, R> R maybeNull(T maybeNull, Function<T, R> onT, Supplier<R> noT) {
         return optionally(ofNullable(maybeNull), onT, noT);
     }
 
+    /**
+     * Checks if a optional is present. If it isn't execute a function, otherwise execute a supplier
+     * @param maybe the value under test
+     * @param onT what to do if the value isn't null
+     * @param noT what to do if the value is null
+     * @param <T> The type of the incoming value
+     * @param <R> The type of out going value
+     * @return The result of either onT or noT
+     */
     public static <T, R> R optionally(Optional<T> maybe, Function<T, R> onT, Supplier<R> noT) {
         Heap<R> one = heap(null);
         maybe.ifPresent(t -> one.value = onT.apply(t));
@@ -64,25 +107,62 @@ public class UnderBar {
         return one.value;
     }
 
+    /**
+     * Provides a mechanism for getting the value from a map, or a default value
+     *
+     * @param maybe the map
+     * @param k The key
+     * @param onT The function to execute if the key is present
+     * @param noT The function to execute if the key is not present
+     * @param <K> The type of the key
+     * @param <V> The type of the value in the map
+     * @param <R> The return type of the function and supplier
+     * @return The calculated value of either onT or noT
+     */
     public static <K, V, R> R optionallyGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
         return maybeNull(maybe.get(k), onT, noT);
     }
 
+    /**
+     *
+     * @param <T>
+     * @return An empty ArrayList
+     */
     public static <T> List<T> emptyList() {
         return new ArrayList<>();
     }
 
+    /**
+     * Returns an fixed size list with ts in it
+     * @param ts the values
+     * @param <T> The type of the list
+     * @return An ArrayList containing ts.
+     */
     @SafeVarargs
     public static <T> List<T> list(T... ts) {
         return Arrays.asList(ts);
     }
 
+
+    /**
+     * Returns a modifiable list from an iterable
+     * @param ts the values
+     * @param <T> The type of the list
+     * @return An ArrayList containing ts.
+     */
     public static <T> List<T> list(Iterable<T> ts) {
         ArrayList<T> result = new ArrayList<>();
         ts.forEach(result::add);
         return result;
     }
 
+    /**
+     * Returns a modifiable list with ts in it
+     *
+     * @param ts the values
+     * @param <T> the type of the list
+     * @return the list
+     */
     @SafeVarargs
     public static <T> List<T> modifiableList(T... ts) {
         List<T> result = new ArrayList<>();
@@ -90,61 +170,119 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Creates a new HashSet of ts
+     *
+     * @param ts the values
+     * @param <T> the type of the Set contents
+     * @return the set
+     */
     @SafeVarargs
     public static <T> Set<T> set(T... ts) {
         return new HashSet<>(Arrays.asList(ts));
     }
 
+    /**
+     * Creates a new HashSet of ts from an iterable
+     *
+     * @param ts the values
+     * @param <T> the type of the Set contents
+     * @return the set
+     */
     public static <T> Set<T> set(Iterable<T> ts) {
         HashSet<T> result = new HashSet<>();
         ts.forEach(result::add);
         return result;
     }
 
-    public static <T, F> Set<T> set(Iterable<F> fs, Function<F, T> toT) {
-        return set(map(fs, toT));
+    /**
+     * Creates a new HashSet of T from an iterable of F using a convertion function
+     *
+     * @param is the values
+     * @param <T> the type of the Set contents
+     * @return the set
+     */
+    public static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
+        return set(map(is, toT));
     }
 
 
+    /**
+     * Creates a sorted list of Map.Entry from a map and a comparator
+     *
+     * @param kv the map
+     * @param comparator the sorting function
+     * @return
+     */
     public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
     }
 
 
+    /**
+     * Lambda require the objects they mutate to be either effectively final or heap allocated.
+     * This function heap allocates an object.
+     *
+     * @param t the object heap allocate
+     * @param <T> the type
+     * @return Returns a {@link com.tailoredshapes.underbar.data.Heap}
+     */
     public static <T> Heap<T> heap(T t) {
         return new Heap<>(t);
     }
 
+    /**
+     * A convenience function for creating an array
+     */
     @SafeVarargs
     public static <T> T[] array(T... ts) {
         return ts;
     }
 
+    /**
+     * Returns the first member of an iterable collection
+     */
     public static <T> T first(Iterable<T> ts) {
         Iterator<T> iterator = ts.iterator();
         dieUnless(iterator.hasNext(), () -> "can't take first of empty iterable");
         return iterator.next();
     }
 
+    /**
+     * Returns the last member of an iterable collection
+     */
     public static <T> T last(List<T> ts) {
         dieIf(isEmpty(ts), () -> "can't take last of empty list!");
         return ts.get(ts.size() - 1);
     }
 
+    /**
+     * Returns the second member of an iterable.
+     *
+     */
     public static <T> T second(Iterable<T> ts) {
         Iterator<T> iterator = ts.iterator();
         iterator.next();
         return iterator.next();
     }
 
+    /**
+     * Returns everything but the first member of a collection
+     */
     public static <T> List<T> rest(List<T> ts) {
         return ts.subList(1, ts.size());
     }
 
+    /**
+     * Returns the first n of a collection
+     */
     public static <T> List<T> take(int n, List<T> ts) {
         return ts.subList(0, Math.min(n, ts.size()));
     }
 
+    /**
+     * Pretty sure this is broken
+     */
     public static <T> Optional<T> takeWhile(Iterable<T> ts, Predicate<T> p) {
         for (T next : ts) {
             if (p.test(next)) return optional(next);
@@ -152,11 +290,21 @@ public class UnderBar {
         return optional();
     }
 
+    /**
+     * Checks for null and size
+     */
     public static boolean hasContent(Collection<?> coll) {
         return coll != null && coll.size() > 0;
     }
 
 
+    /**
+     * Joins one dimensional collections
+     *
+     * @param collections
+     * @param <T>
+     * @return
+     */
     @SafeVarargs
     public static <T> List<T> concat(Collection<T>... collections) {
         ArrayList<T> result = new ArrayList<>(collections[0]);
@@ -165,6 +313,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * A union over N sets
+     */
     @SafeVarargs
     public static <T> Set<T> union(Set<T>... s) {
         List<Set<T>> sets = list(s);
@@ -175,6 +326,9 @@ public class UnderBar {
 
     }
 
+    /**
+     * The intersection of N sets
+     */
     @SafeVarargs
     public static <T> Set<T> intersection(Set<T>... sets) {
         Set<T> result = new HashSet<>(sets[0]);
@@ -183,6 +337,10 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * The difference of N sets
+     *
+     */
     @SafeVarargs
     public static <T> Set<T> difference(Set<T>... sets) {
         Set<T> result = new HashSet<>(sets[0]);
@@ -191,6 +349,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Join a collection of keys and a collection of values into a map
+     */
     public static <K, V> Map<K, V> zipmap(Collection<? extends K> keys, Collection<? extends V> values) {
         dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
         HashMap<K, V> result = new HashMap<>();
@@ -199,6 +360,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Pairs and lists keys and values from two collections
+     */
     public static <K, V> List<Map.Entry<K, V>> zip(Collection<? extends K> keys, Collection<? extends V> values) {
         dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
         List<Map.Entry<K, V>> result = emptyList();
@@ -207,6 +371,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Like concat, for maps
+     */
     @SafeVarargs
     public static <K, V> Map<K, V> merge(Map<K, V>... ms) {
         List<Map<K, V>> maps = list(ms);
@@ -215,6 +382,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * returns an empty HashMap
+     */
     public static <K, V> Map<K, V> map() {
         return new HashMap<>();
     }
@@ -224,37 +394,63 @@ public class UnderBar {
         return m;
     }
 
+    /**
+     * FlatMaps a function over an iterable
+     */
     public static <T, U> List<T> collectAll(Iterable<U> us, Function<U, Iterable<T>> toTs) {
         return stream(us).flatMap(u -> stream(toTs.apply(u))).collect(toList());
     }
 
+    /**
+     * fells trees into lists
+     */
     public static <T, L extends Iterable<T>> List<T> flatten(Iterable<L> listsOfT) {
         return collectAll(listsOfT, list -> list);
     }
 
+
+    /**
+     * The inverse of filter
+     */
     public static <T> List<T> reject(Iterable<T> ts, Predicate<T> predicate) {
         return filter(ts, negate(predicate));
     }
 
+    /**
+     * Inverts a predicate
+     */
     public static <T> Predicate<T> negate(Predicate<T> pred) {
         return t -> !pred.test(t);
     }
 
+    /**
+     * Removes nulls from a collection
+     */
     public static <T> List<T> compact(Iterable<T> ts) {
         return filter(ts, t -> t != null);
     }
 
+    /**
+     * Removes empty optionals from a collection
+     */
     public static <T> List<T> compactOptionals(Iterable<Optional<T>> ts) {
         return compact(map(ts, t -> t.orElse(null)));
     }
 
+    /**
+     * Convenience function for creating Map.Entry
+     */
     public static <K, V> Map.Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);
     }
 
+    /**
+     * Returns the number of members of a collection that satisfy a predicate
+     */
     public static <T> int count(Iterable<T> ts, Predicate<T> matches) {
         return filter(ts, matches).size();
     }
+
 
     public static <T, K, V> Map<K, V> mapFromEntry(T[] ts, Function<T, Map.Entry<K, V>> toEntry) {
         return mapFromEntry(list(ts), toEntry);

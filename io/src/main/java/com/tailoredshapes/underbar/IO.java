@@ -3,6 +3,7 @@ package com.tailoredshapes.underbar;
 import com.tailoredshapes.stash.Stash;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import static com.tailoredshapes.underbar.Die.rethrow;
@@ -28,7 +29,9 @@ public class IO {
     }
 
     public static BufferedWriter writer(OutputStream outputStream, Stash opts) {
-        return new BufferedWriter(new OutputStreamWriter(outputStream), opts.get("encoding"));
+        Charset encoding = optionally(opts.optional("encoding"), Charset::forName, () -> Charset.forName("UTF-8"));
+
+        return new BufferedWriter(rethrow(() -> new OutputStreamWriter(outputStream, encoding)));
     }
 
     public static BufferedWriter writer(OutputStream outputStream) {
