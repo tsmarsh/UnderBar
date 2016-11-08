@@ -12,6 +12,7 @@
     <version>0.0.3-SNAPSHOT</version>
   </parent>
 
+  <description>Convenience functions to make Java 8s data classes more accessible</description>
   
   <build>
     <plugins>
@@ -39,6 +40,5 @@
         </configuration>
       </plugin>
     </plugins>
-
   </build>
 </project>

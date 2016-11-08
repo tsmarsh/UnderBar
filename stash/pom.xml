@@ -12,6 +12,7 @@
     <version>0.0.3-SNAPSHOT</version>
   </parent>
 
+  <description>Java 8s missing STring HaSH.</description>
   
   <build>
     <plugins>

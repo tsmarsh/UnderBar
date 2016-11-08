@@ -22,9 +22,8 @@ public class UnderBar {
     /**
      * Asserts that a collection contains exactly one value and returns it
      *
-     * @param ts A collection with a single value
-     * @param <T> The type of the value
-     * @return the value in the collection
+     * Examples:
+     * {@link com.tailoredshapes.underbar.UnderBarTest#nonceReturnsTheSoleValueFromAnIterable() nonceReturnsTheSoleValueFromAnIterable}
      */
     public static <T> T nonce(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
@@ -119,13 +118,11 @@ public class UnderBar {
      * @param <R> The return type of the function and supplier
      * @return The calculated value of either onT or noT
      */
-    public static <K, V, R> R optionallyGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
+    public static <K, V, R> R maybeGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
         return maybeNull(maybe.get(k), onT, noT);
     }
 
     /**
-     *
-     * @param <T>
      * @return An empty ArrayList
      */
     public static <T> List<T> emptyList() {
@@ -544,11 +541,11 @@ public class UnderBar {
         return stream(ts).filter(predicate).collect(toList());
     }
 
-    public static <K, V> void forEach(Map<K, V> m, BiConsumer<K, V> onKV) {
+    public static <K, V> void each(Map<K, V> m, BiConsumer<K, V> onKV) {
         m.entrySet().forEach(entry -> onKV.accept(entry.getKey(), entry.getValue()));
     }
 
-    public static <K, V> void forEach(List<Map.Entry<K, V>> items, BiConsumer<K, V> onKV) {
+    public static <K, V> void each(List<Map.Entry<K, V>> items, BiConsumer<K, V> onKV) {
         items.forEach(entry -> onKV.accept(entry.getKey(), entry.getValue()));
     }
 

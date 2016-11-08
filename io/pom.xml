@@ -12,6 +12,7 @@
     <version>0.0.3-SNAPSHOT</version>
   </parent>
 
+  <description>Functional wrappers for Java 8 IO</description>
   
   <build>
     <plugins>

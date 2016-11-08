@@ -33,7 +33,7 @@ public class Stash implements JSONAware, Cloneable {
     private final Map<String, Object> m = new HashMap<>();
 
     public Stash(Map<String, ?> m) {
-        forEach(m, this::update);
+        each(m, this::update);
     }
 
     public Stash() {

@@ -537,7 +537,7 @@ public class UnderBarTest {
     @Test
     public void forEachTest() throws Exception {
         Heap<Integer> s = heap(0);
-        forEach(zipmap(range(5), range(5,10)), (k, v) -> s.value += k+v);
+        each(zipmap(range(5), range(5,10)), (k, v) -> s.value += k+v);
         assertEquals(45, s.value.intValue());
     }
 
@@ -555,4 +555,10 @@ public class UnderBarTest {
     }
 
 
+    @Test
+    public void shouldMakeAccessingAMapSafer() throws Exception {
+        Map<String, String> map = map("foo", "bar");
+        assertEquals("bar", maybeGet(map, "foo", x -> x, () -> "nope"));
+        assertEquals("nope", maybeGet(map, "derp", x -> x, () -> "nope"));
+    }
 }

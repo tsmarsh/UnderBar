@@ -12,6 +12,8 @@
     <version>0.0.3-SNAPSHOT</version>
   </parent>
 
+  <description>Foundational functions inspired by Clojure and underscore.js</description>
+
   <build>
     <plugins>
       <plugin>
@@ -38,7 +40,6 @@
         </configuration>
       </plugin>
     </plugins>
-
   </build>
 
 </project>
