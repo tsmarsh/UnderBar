@@ -21,12 +21,6 @@ public class UnderBar {
 
     /**
      * Asserts that a collection contains exactly one value and returns it
-     *
-     * {@link com.tailoredshapes.underbar.UnderBarTest#nonceReturnsTheSoleValueFromAnIterable() nonceReturnsTheSoleValueFromAnIterable}
-     *
-     * @param ts An iterable containing T
-     * @param <T> The type of the list
-     * @return
      */
     public static <T> T nonce(Iterable<T> ts) {
         Iterator<T> i = ts.iterator();
@@ -38,10 +32,6 @@ public class UnderBar {
 
     /**
      * Asserts that an array contains exactly one value and returns it
-     *
-     * @param ts An array with a single value
-     * @param <T> The type of the value
-     * @return the value in the array
      */
     public static <T> T nonce(T[] ts) {
         dieIfNull(ts, () -> "input to 'nonce' cannot be null");
@@ -52,8 +42,6 @@ public class UnderBar {
     /**
      * Returns true if the collection isEmpty
      *
-     * @param coll a collection
-     * @return true if the collection isEmpty
      */
     public static boolean isEmpty(Collection<?> coll) {
         return coll.isEmpty();
@@ -71,8 +59,6 @@ public class UnderBar {
 
     /**
      * Executes a runnable if an optional is empty
-     * @param maybe the optional under test
-     * @param noT the runnable you'd like to execute
      */
     public static void ifAbsent(Optional<?> maybe, Runnable noT) {
         if (!maybe.isPresent())
@@ -81,12 +67,6 @@ public class UnderBar {
 
     /**
      * Checks if a value is null. If it isn't execute a function, otherwise execute a supplier
-     * @param maybeNull the value under test
-     * @param onT what to do if the value isn't null
-     * @param noT what to do if the value is null
-     * @param <T> The type of the incoming value
-     * @param <R> The type of out going value
-     * @return The result of either onT or noT
      */
     public static <T, R> R maybeNull(T maybeNull, Function<T, R> onT, Supplier<R> noT) {
         return optionally(ofNullable(maybeNull), onT, noT);
@@ -94,12 +74,6 @@ public class UnderBar {
 
     /**
      * Checks if a optional is present. If it isn't execute a function, otherwise execute a supplier
-     * @param maybe the value under test
-     * @param onT what to do if the value isn't null
-     * @param noT what to do if the value is null
-     * @param <T> The type of the incoming value
-     * @param <R> The type of out going value
-     * @return The result of either onT or noT
      */
     public static <T, R> R optionally(Optional<T> maybe, Function<T, R> onT, Supplier<R> noT) {
         Heap<R> one = heap(null);
@@ -111,15 +85,6 @@ public class UnderBar {
 
     /**
      * Provides a mechanism for getting the value from a map, or a default value
-     *
-     * @param maybe the map
-     * @param k The key
-     * @param onT The function to execute if the key is present
-     * @param noT The function to execute if the key is not present
-     * @param <K> The type of the key
-     * @param <V> The type of the value in the map
-     * @param <R> The return type of the function and supplier
-     * @return The calculated value of either onT or noT
      */
     public static <K, V, R> R maybeGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
         return maybeNull(maybe.get(k), onT, noT);
@@ -134,9 +99,6 @@ public class UnderBar {
 
     /**
      * Returns an fixed size list with ts in it
-     * @param ts the values
-     * @param <T> The type of the list
-     * @return An ArrayList containing ts.
      */
     @SafeVarargs
     public static <T> List<T> list(T... ts) {
@@ -146,9 +108,6 @@ public class UnderBar {
 
     /**
      * Returns a modifiable list from an iterable
-     * @param ts the values
-     * @param <T> The type of the list
-     * @return An ArrayList containing ts.
      */
     public static <T> List<T> list(Iterable<T> ts) {
         ArrayList<T> result = new ArrayList<>();
@@ -159,9 +118,6 @@ public class UnderBar {
     /**
      * Returns a modifiable list with ts in it
      *
-     * @param ts the values
-     * @param <T> the type of the list
-     * @return the list
      */
     @SafeVarargs
     public static <T> List<T> modifiableList(T... ts) {
@@ -173,9 +129,6 @@ public class UnderBar {
     /**
      * Creates a new HashSet of ts
      *
-     * @param ts the values
-     * @param <T> the type of the Set contents
-     * @return the set
      */
     @SafeVarargs
     public static <T> Set<T> set(T... ts) {
@@ -184,10 +137,6 @@ public class UnderBar {
 
     /**
      * Creates a new HashSet of ts from an iterable
-     *
-     * @param ts the values
-     * @param <T> the type of the Set contents
-     * @return the set
      */
     public static <T> Set<T> set(Iterable<T> ts) {
         HashSet<T> result = new HashSet<>();
@@ -197,10 +146,6 @@ public class UnderBar {
 
     /**
      * Creates a new HashSet of T from an iterable of F using a convertion function
-     *
-     * @param is the values
-     * @param <T> the type of the Set contents
-     * @return the set
      */
     public static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
         return set(map(is, toT));
@@ -209,10 +154,6 @@ public class UnderBar {
 
     /**
      * Creates a sorted list of Map.Entry from a map and a comparator
-     *
-     * @param kv the map
-     * @param comparator the sorting function
-     * @return
      */
     public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
@@ -222,10 +163,6 @@ public class UnderBar {
     /**
      * Lambda require the objects they mutate to be either effectively final or heap allocated.
      * This function heap allocates an object.
-     *
-     * @param t the object heap allocate
-     * @param <T> the type
-     * @return Returns a {@link com.tailoredshapes.underbar.data.Heap}
      */
     public static <T> Heap<T> heap(T t) {
         return new Heap<>(t);
@@ -300,10 +237,6 @@ public class UnderBar {
 
     /**
      * Joins one dimensional collections
-     *
-     * @param collections
-     * @param <T>
-     * @return
      */
     @SafeVarargs
     public static <T> List<T> concat(Collection<T>... collections) {
@@ -452,10 +385,20 @@ public class UnderBar {
     }
 
 
+    /**
+     * Takes an array, and a function that can convert members of that array to Map.Entry and builds a map
+     *
+     * @throws RuntimeException if there are duplicate keys
+     */
     public static <T, K, V> Map<K, V> mapFromEntry(T[] ts, Function<T, Map.Entry<K, V>> toEntry) {
         return mapFromEntry(list(ts), toEntry);
     }
 
+    /**
+     * Takes a list, and a function that can convert members of that array to Map.Entry and builds a map
+     *
+     * @throws RuntimeException if there are duplicate keys
+     */
     public static <T, K, V> Map<K, V> mapFromEntry(Iterable<T> ts, Function<T, Map.Entry<K, V>> toEntry) {
         Map<K, V> result = new LinkedHashMap<>();
         Map<K, List<T>> results = new HashMap<>();
@@ -469,6 +412,9 @@ public class UnderBar {
         return result;
     }
 
+    /**
+     * Creates a new map by Iterating over a map, using toU to modify the values
+     */
     public static <K, V, U> Map<K, U> modifyValues(Map<K, V> m, Function<V, U> toU) {
         return m.entrySet().stream().map(entry -> entry(
                 entry.getKey(),
@@ -485,17 +431,24 @@ public class UnderBar {
         )).collect(HashMap::new, (m1, entry) -> m1.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
+    /**
+     * Creates a new map by Iterating over a map, using toU to modify the keys
+     */
     public static <K, V, U> Map<U, V> modifyKeys(Map<K, V> m, Function<K, U> toU) {
         return m.entrySet().stream().map(entry -> entry(toU.apply(entry.getKey()), entry.getValue()))
                 .collect(HashMap::new, (m1, entry) -> m1.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
 
+    /**
+     * Create a new map with only the members of m that satisfy the predicate
+     */
     public static <K, V> Map<K, V> filterKeys(Map<K, V> m, Predicate<K> predicate) {
         // This collect implementation is safe because we don't modify nonce keys, so don't need to protect against duplicate keys
         return m.entrySet().stream()
                 .filter(entry -> predicate.test(entry.getKey()))
                 .collect(HashMap::new, (m1, entry) -> m1.put(entry.getKey(), entry.getValue()), HashMap::putAll);
     }
+
 
     public static <K, V> Map<K, List<V>> groupBy(Iterable<V> vs, Function<V, K> toK) {
         return tap(map(), result -> vs.forEach(v ->
