@@ -1,0 +1,25 @@
+-classpath
+'/Users/tmarsh/repos/jbay/stash/target/classes:/Users/tmarsh/repos/jbay/stash/target/test-classes:/Users/tmarsh/repos/jbay/dates/target/classes:/Users/tmarsh/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar:/Users/tmarsh/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/tmarsh/repos/jbay/core/target/classes:/Users/tmarsh/.m2/repository/junit/junit/4.12/junit-4.12.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/Users/tmarsh/repos/jbay/stash/src/test/java'
+-Xdoclint:none
+-author
+-bottom
+'Copyright &#169; 2016. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/Users/tmarsh/repos/jbay/stash/target/site/testapidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'stash 0.0.3-SNAPSHOT Test API'
+-linkoffline
+'http://docs.oracle.com/javase/8/docs/api' '/Users/tmarsh/repos/jbay/stash/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'stash 0.0.3-SNAPSHOT Test API'
