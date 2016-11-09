@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>stash - About</title>
+    <title>io - Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -17,7 +17,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                stash
+                io
                 </div>
                     <div class="clear">
         <hr/>
@@ -30,7 +30,7 @@
         <span id="publishDate">Last Published: 2016-11-09</span>
                   &nbsp;| <span id="projectVersion">Version: 0.0.3-SNAPSHOT</span>
                       </div>
-            <div class="xright">                    <a href="${project.url}" title="stash">stash</a>
+            <div class="xright">                    <a href="${project.url}" title="io">io</a>
               
                     
       </div>
@@ -60,14 +60,14 @@
                           <a href="dependency-convergence.html" title="Dependency Convergence">Dependency Convergence</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
-            </li>
+            <strong>Dependency Information</strong>
+          </li>
                       <li class="none">
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
             </li>
@@ -96,8 +96,43 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2>About stash<a name="About_stash"></a></h2><a name="About_stash"></a>
-<p>Java 8s missing STring HaSH.</p></div>
+<h2>Dependency Information<a name="Dependency_Information"></a></h2><a name="Dependency_Information"></a>
+<div class="section">
+<h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a>
+<div class="source">
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.tailoredshapes.underbar&lt;/groupId&gt;
+  &lt;artifactId&gt;io&lt;/artifactId&gt;
+  &lt;version&gt;0.0.3-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a>
+<div class="source">
+<pre>'com.tailoredshapes.underbar:io:jar:0.0.3-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3>Apache Ivy<a name="Apache_Ivy"></a></h3><a name="Apache_Ivy"></a>
+<div class="source">
+<pre>&lt;dependency org=&quot;com.tailoredshapes.underbar&quot; name=&quot;io&quot; rev=&quot;0.0.3-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;io&quot; type=&quot;jar&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='com.tailoredshapes.underbar', module='io', version='0.0.3-SNAPSHOT')
+)</pre></div></div>
+<div class="section">
+<h3>Gradle/Grails<a name="GradleGrails"></a></h3><a name="GradleGrails"></a>
+<div class="source">
+<pre>compile 'com.tailoredshapes.underbar:io:0.0.3-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3>Scala SBT<a name="Scala_SBT"></a></h3><a name="Scala_SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;com.tailoredshapes.underbar&quot; % &quot;io&quot; % &quot;0.0.3-SNAPSHOT&quot;</pre></div></div>
+<div class="section">
+<h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[com.tailoredshapes.underbar/io &quot;0.0.3-SNAPSHOT&quot;]</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
