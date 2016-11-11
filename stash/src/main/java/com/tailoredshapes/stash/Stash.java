@@ -170,7 +170,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     /**
-     * Returns a copy of nonce Stash with new values
+     * Returns a copy of nonce Stash apply new values
      *
      * @param k
      * @param v

@@ -6,6 +6,7 @@ import com.tailoredshapes.underbar.function.RegularFunctions;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -98,7 +99,7 @@ public class UnderBar {
     }
 
     /**
-     * Returns an fixed size list with ts in it
+     * Returns an fixed size list apply ts in it
      */
     @SafeVarargs
     public static <T> List<T> list(T... ts) {
@@ -116,7 +117,7 @@ public class UnderBar {
     }
 
     /**
-     * Returns a modifiable list with ts in it
+     * Returns a modifiable list apply ts in it
      *
      */
     @SafeVarargs
@@ -440,10 +441,9 @@ public class UnderBar {
     }
 
     /**
-     * Create a new map with only the members of m that satisfy the predicate
+     * Create a new map apply only the members of m that satisfy the predicate
      */
     public static <K, V> Map<K, V> filterKeys(Map<K, V> m, Predicate<K> predicate) {
-        // This collect implementation is safe because we don't modify nonce keys, so don't need to protect against duplicate keys
         return m.entrySet().stream()
                 .filter(entry -> predicate.test(entry.getKey()))
                 .collect(HashMap::new, (m1, entry) -> m1.put(entry.getKey(), entry.getValue()), HashMap::putAll);
@@ -455,68 +455,100 @@ public class UnderBar {
                 result.computeIfAbsent(toK.apply(v), k -> emptyList()).add(v)));
     }
 
-    public static <T> Optional<Long> indexOf(Iterable<T> ts, Function<T, Boolean> isItem) {
+    /**
+     * Find position of first element that statisfies the predicate
+     */
+    public static <T> Optional<Long> indexOf(Iterable<T> ts, Predicate<T> isItem) {
         long i = 0L;
 
         for (T t : ts) {
-            if (isItem.apply(t))
+            if (isItem.test(t))
                 return optional(i);
             i++;
         }
         return optional();
     }
 
+    /**
+     * Split a collection into a fork based on a predicate
+     *
+     * A function is used to maintain compatibility apply groupby
+     */
     public static <T> Fork<T> tee(Iterable<T> ts, Function<T, Boolean> isIn) {
         Map<Boolean, List<T>> result = groupBy(ts, isIn);
         return new Fork<>(result.getOrDefault(true, list()), result.getOrDefault(false, list()));
     }
 
+    /**
+     * Iterable to stream
+     */
     public static <T> Stream<T> stream(Iterable<T> in) {
         return StreamSupport.stream(in.spliterator(), false);
     }
 
+    /**
+     * Map a function over an iterable
+     */
     public static <T, F> List<T> map(Iterable<F> fs, Function<F, T> toT) {
         return stream(fs).map(toT).collect(toList());
     }
 
+    /**
+     * Map a function over an iterble apply an zero based index
+     */
     public static <T, F> List<T> mapWithIndex(Iterable<F> fs, BiFunction<F, Long, T> toT) {
         Heap<Long> index = heap(0L);
         return stream(fs).map(f -> toT.apply(f, index.value++)).collect(toList());
     }
 
 
+    /**
+     * Map a function over an array
+     */
     public static <T, F> List<T> map(F[] fs, Function<F, T> toT) {
         return map(Arrays.asList(fs), toT);
     }
 
+    /**
+     * Map a function over a map
+     */
     public static <T, K, V> List<T> map(Map<K, V> m, BiFunction<K, V, T> tOfKV) {
         return map(m.entrySet(), entry -> tOfKV.apply(entry.getKey(), entry.getValue()));
     }
 
+    /**
+     * Return a new list containing only the members that satisfy the predicate
+     */
     public static <T> List<T> filter(Iterable<T> ts, Predicate<T> predicate) {
         return stream(ts).filter(predicate).collect(toList());
     }
 
+    /**
+     * Loops over a map applying onKV, but returns void
+     */
     public static <K, V> void each(Map<K, V> m, BiConsumer<K, V> onKV) {
         m.entrySet().forEach(entry -> onKV.accept(entry.getKey(), entry.getValue()));
     }
 
-    public static <K, V> void each(List<Map.Entry<K, V>> items, BiConsumer<K, V> onKV) {
-        items.forEach(entry -> onKV.accept(entry.getKey(), entry.getValue()));
-    }
-
+    /**
+     * Repeats the consumer N times apply an zero based index
+     */
     public static void doTimes(int n, Consumer<Integer> onN) {
         for (int i = 0; i < n; i++) onN.accept(i);
     }
 
+
+    /**
+     * Repeats the runnable n times
+     */
     public static void doTimes(int n, Runnable r) {
         for (int i = 0; i < n; i++) r.run();
     }
 
-    public static <T> List<T> randomTimes(int n, Function<Integer, T> makeT, boolean includeZero) {
-        return makeTimes(randUnder(n) + (includeZero ? 0 : 1), makeT);
-    }
 
+    /**
+     * returns the result of applying the function apply an index
+     */
     public static <R> List<R> makeTimes(int n, Function<Integer, R> r) {
         return tap(emptyList(), result -> {
             for (int i = 0; i < n; i++) {
@@ -525,16 +557,18 @@ public class UnderBar {
         });
     }
 
+    /**
+     * Returns the result of applyin the supplier n times without an index
+     */
     public static <R> List<R> makeTimes(int n, Supplier<R> r) {
         return tap(emptyList(), result -> {
             for (int i = 0; i < n; i++) result.add(r.get());
         });
     }
 
-    public static <T, F> Optional<T> map(Optional<F> fs, Function<F, T> tOfF) {
-        return fs.map(tOfF);
-    }
-
+    /**
+     * Boilerplate methods for generating a hash map.
+     */
     public static <K, V> Map<K, V> map(K k1, V v1) {
         return mapWith(map(), k1, v1);
     }
@@ -575,32 +609,58 @@ public class UnderBar {
         return mapWith(map(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9), k10, v10);
     }
 
+    /**
+     * Returns true if any of the members of the iterable satisfy the predicate
+     */
     public static <T> boolean any(Iterable<T> ts, Predicate<T> pred) {
         return hasContent(filter(ts, pred));
     }
 
+    /**
+     *  Returns true if all of the memebers of an interable satisfy the predicate
+     */
     public static <T> boolean all(Iterable<T> ts, Predicate<T> pred) {
         return !hasContent(reject(ts, pred));
     }
 
+    /**
+     * Return a list of n t
+     */
     public static <T> List<T> repeat(T t, int n) {
         return IntStream.range(0, n).mapToObj(i -> t).collect(toList());
     }
 
+    public static <T extends Comparable> List<T> sort(Iterable<T> ts){
+        return stream(ts).sorted().collect(toList());
+    }
+
+    /**
+     * Returns a list sorted by toU
+     */
     public static <T, U extends Comparable<U>> List<T> sortBy(Iterable<T> ts, Function<T, U> toU) {
         return stream(ts).sorted((t1, t2) -> toU.apply(t1).compareTo(toU.apply(t2))).collect(toList());
     }
 
+    /**
+     * Returns a SortedMaps sorted by the natural order of keys
+     */
+    public static <K extends Comparable, V> SortedMap<K, V> sort(Map<K, V> m){
+        return new TreeMap<>(m);
+    }
+
+    /**
+     * Returns a SortedMap sored by toU
+     */
     public static <K, V, U extends Comparable<U>> SortedMap<K, V> sortBy(Map<K, V> m, Function<K, U> toU) {
         TreeMap<K, V> result = new TreeMap<>((t1, t2) -> toU.apply(t1).compareTo(toU.apply(t2)));
         result.putAll(m);
         return result;
     }
 
-    public static <T extends Comparable> List<T> sort(Iterable<T> ts) {
-        return sortBy(ts, identity());
-    }
 
+    /**
+     * Applys a T to a function apply side effects
+     */
     public static <T> void withVoid(T t, Consumer<T> onT) {
         onT.accept(t);
     }
@@ -609,52 +669,76 @@ public class UnderBar {
         onTandU.accept(t, u);
     }
 
-    public static <T, U, V> void withVoid(T t, U u, V v, RegularFunctions.TriConsumer<T, U, V> onTandUandV) {
-        onTandUandV.accept(t, u, v);
+    public static <T, U, V> void withVoid(T t, U u, V v, RegularFunctions.TriConsumer<T, U, V> f) {
+        f.accept(t, u, v);
     }
 
-    public static <T, R> R with(T t, Function<T, R> onT) {
+    public static <T, U, V, W> void withVoid(T t, U u, V v, W w, RegularFunctions.QuadConsumer<T, U, V, W> f) {
+        f.accept(t, u, v, w);
+    }
+
+    public static <T, U, V, W, X> void withVoid(T t, U u, V v, W w, X x, RegularFunctions.PentaConsumer<T, U, V, W, X> f) {
+        f.accept(t, u, v, w, x);
+    }
+
+    public static <T, U, V, W, X, Y> void withVoid(T t, U u, V v, W w, X x, Y y, RegularFunctions.HexConsumer<T, U, V, W, X, Y> f) {
+        f.accept(t, u, v, w, x, y);
+    }
+
+    public static <T, U, V, W, X, Y, Z> void withVoid(T t, U u, V v, W w, X x, Y y, Z z, RegularFunctions.SeptaConsumer<T, U, V, W, X, Y, Z> f) {
+        f.accept(t, u, v, w, x, y, z);
+    }
+
+    public static <T, U, V, W, X, Y, Z, A> void withVoid(T t, U u, V v, W w, X x, Y y, Z z, A a, RegularFunctions.OctaConsumer<T, U, V, W, X, Y, Z, A> f) {
+        f.accept(t, u, v, w, x, y, z, a);
+    }
+
+    /**
+     * Returns the value of applying a function
+     */
+    public static <T, R> R apply(T t, Function<T, R> onT) {
         return onT.apply(t);
     }
 
-    public static <T, U, R> R with(T t, U u, BiFunction<T, U, R> onT) {
+    public static <T, U, R> R apply(T t, U u, BiFunction<T, U, R> onT) {
         return onT.apply(t, u);
     }
 
-    public static <T, U, V, R> R with(T t, U u, V v, RegularFunctions.TriFunction<T, U, V, R> onT) {
+    public static <T, U, V, R> R apply(T t, U u, V v, RegularFunctions.TriFunction<T, U, V, R> onT) {
         return onT.apply(t, u, v);
     }
 
-    public static <T, U, V, W, R> R with(T t, U u, V v, W w, RegularFunctions.QuadFunction<T, U, V, W, R> onT) {
+    public static <T, U, V, W, R> R apply(T t, U u, V v, W w, RegularFunctions.QuadFunction<T, U, V, W, R> onT) {
         return onT.apply(t, u, v, w);
     }
 
-    public static <T, U, V, W, X, R> R with(T t, U u, V v, W w, X x, RegularFunctions.PentaFunction<T, U, V, W, X, R> onT) {
+    public static <T, U, V, W, X, R> R apply(T t, U u, V v, W w, X x, RegularFunctions.PentaFunction<T, U, V, W, X, R> onT) {
         return onT.apply(t, u, v, w, x);
     }
 
-    public static <T, U, V, W, X, Y, R> R with(T t, U u, V v, W w, X x, Y y, RegularFunctions.HexFunction<T, U, V, W, X, Y, R> onT) {
+    public static <T, U, V, W, X, Y, R> R apply(T t, U u, V v, W w, X x, Y y, RegularFunctions.HexFunction<T, U, V, W, X, Y, R> onT) {
         return onT.apply(t, u, v, w, x, y);
     }
 
-    public static <T, U, V, W, X, Y, Z, R> R with(T t, U u, V v, W w, X x, Y y, Z z, RegularFunctions.SeptaFunction<T, U, V, W, X, Y, Z, R> onT) {
+    public static <T, U, V, W, X, Y, Z, R> R apply(T t, U u, V v, W w, X x, Y y, Z z, RegularFunctions.SeptaFunction<T, U, V, W, X, Y, Z, R> onT) {
         return onT.apply(t, u, v, w, x, y, z);
     }
 
-    public static <T, U, V, W, X, Y, Z, A, R> R with(T t, U u, V v, W w, X x, Y y, Z z, A a, RegularFunctions.OctaFunction<T, U, V, W, X, Y, Z, A, R> onT) {
+    public static <T, U, V, W, X, Y, Z, A, R> R apply(T t, U u, V v, W w, X x, Y y, Z z, A a, RegularFunctions.OctaFunction<T, U, V, W, X, Y, Z, A, R> onT) {
         return onT.apply(t, u, v, w, x, y, z, a);
     }
 
+    /**
+     * Apply t to onT and return t
+     */
     public static <T> T tap(T t, Consumer<T> onT) {
         onT.accept(t);
         return t;
     }
 
-    public static <T> T tapVoid(T t, Runnable doSomething) {
-        doSomething.run();
-        return t;
-    }
-
+    /**
+     * Only evaluates makeT when necessary
+     */
     public static <T> Supplier<T> lazy(Supplier<T> makeT) {
         return () -> (T) lazyCache.computeIfAbsent(makeT, Supplier::get);
     }
@@ -663,32 +747,33 @@ public class UnderBar {
         lazyCache.clear();
     }
 
+    /**
+     * Create an optional with value t
+     */
     public static <T> Optional<T> optional(T t) {
         return Optional.of(t);
     }
 
+    /**
+     * Create an empty optional
+     */
     public static <T> Optional<T> optional() {
         return Optional.empty();
     }
 
-    public static <T> T randomItem(List<T> ts) {
-        return ts.get(randomIndex(ts));
-    }
 
-    public static <T> int randomIndex(List<T> ts) {
-        return randUnder(ts.size());
-    }
-
-    public static int randUnder(int max) {
-        return random.nextInt(max);
-    }
-
+    /**
+     * Creates a new list with the contents shuffled
+     */
     public static <T> List<T> shuffle(List<T> ts) {
         List<T> nl = new ArrayList<>(ts);
         Collections.shuffle(nl);
         return nl;
     }
 
+    /**
+     * Split ts into smaller lists of size
+     */
     public static <T> List<List<T>> partition(List<T> ts, int size) {
         List<List<T>> result = emptyList();
         int i = 0;
@@ -699,25 +784,34 @@ public class UnderBar {
         return result;
     }
 
-    public static String extractDomain(String email) {
-        return email.replaceFirst(".*@(.*)$", "$1");
-    }
-
+    /**
+     * Allows comparison of doubles
+     */
     public static boolean almostEqual(Double lvalue, Double rvalue) {
         return Math.abs(lvalue - rvalue) < 0.000001;
     }
 
+    /**
+     * Allows comparision of doubles against numbers
+     */
     public static boolean almostEqual(Double lvalue, Number rvalue) {
         return almostEqual(lvalue, rvalue.doubleValue());
     }
 
+    /**
+     * Creates a list of 0 -> max
+     */
     public static List<Integer> range(int max){
         return makeTimes(max, i->i);
     }
 
+    /**
+     * Creates a list of start -> end
+     */
     public static List<Integer> range(int start, int end){
         return makeTimes(end - start, i->i+start);
     }
+
 
     public static <T, R> R reduce(Collection<T> col, R identity, BiFunction<R, T, R> fn){
         Heap<R> h = heap(identity);

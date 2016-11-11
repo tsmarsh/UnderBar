@@ -302,15 +302,6 @@ public class UnderBarTest {
     }
 
     @Test
-    public void mapWorksOnOptionals() throws Exception {
-        assertEquals(
-                optional(3),
-                map(
-                        optional(2),
-                        (v) -> 1 + v));
-    }
-
-    @Test
     public void doTimesRepeatsAFunction() throws Exception {
         Heap<Integer> one = heap(0);
         doTimes(5, () -> one.value += 1);
@@ -368,28 +359,28 @@ public class UnderBarTest {
 
     @Test
     public void withAppliesAndReturns() throws Exception {
-        assertEquals(1, (int) with(1, (x) -> x));
+        assertEquals(1, (int) apply(1, (x) -> x));
         assertEquals(
                 list(1, 2),
-                with(1, 2, (x, y) -> list(x, y)));
+                apply(1, 2, (x, y) -> list(x, y)));
         assertEquals(
                 list(1, 2, 3),
-                with(1, 2, 3, (x, y, z) -> list(x, y, z)));
+                apply(1, 2, 3, (x, y, z) -> list(x, y, z)));
         assertEquals(
                 list(1, 2, 3, 4),
-                with(1, 2, 3, 4, (x, y, z, a) -> list(x, y, z, a)));
+                apply(1, 2, 3, 4, (x, y, z, a) -> list(x, y, z, a)));
         assertEquals(
                 list(1, 2, 3, 4, 5),
-                with(1, 2, 3, 4, 5, (a, b, c, d, e) -> list(a, b, c, d, e)));
+                apply(1, 2, 3, 4, 5, (a, b, c, d, e) -> list(a, b, c, d, e)));
         assertEquals(
                 list(1, 2, 3, 4, 5, 6),
-                with(1, 2, 3, 4, 5, 6, (a, b, c, d, e, f) -> list(a, b, c, d, e, f)));
+                apply(1, 2, 3, 4, 5, 6, (a, b, c, d, e, f) -> list(a, b, c, d, e, f)));
         assertEquals(
                 list(1, 2, 3, 4, 5, 6, 7),
-                with(1, 2, 3, 4, 5, 6, 7, (a, b, c, d, e, f, g) -> list(a, b, c, d, e, f, g)));
+                apply(1, 2, 3, 4, 5, 6, 7, (a, b, c, d, e, f, g) -> list(a, b, c, d, e, f, g)));
         assertEquals(
                 list(1, 2, 3, 4, 5, 6, 7, 8),
-                with(1, 2, 3, 4, 5, 6, 7, 8, (a, b, c, d, e, f, g, h) -> list(a, b, c, d, e, f, g, h)));
+                apply(1, 2, 3, 4, 5, 6, 7, 8, (a, b, c, d, e, f, g, h) -> list(a, b, c, d, e, f, g, h)));
     }
 
     @Test
@@ -398,9 +389,6 @@ public class UnderBarTest {
 
         assertEquals(1, (int) tap(1, (x) -> sideEffect.value = x));
         assertEquals(1, (int) sideEffect.value);
-
-        assertEquals(1, (int) tapVoid(1, () -> sideEffect.value = 5));
-        assertEquals(5, (int) sideEffect.value);
     }
 
     @Test
@@ -408,11 +396,6 @@ public class UnderBarTest {
         assertEquals(
                 list(list(1, 2), list(3, 4), list(5)),
                 partition(list(1, 2, 3, 4, 5), 2));
-    }
-
-    @Test
-    public void extractDomainFromEmail() throws Exception {
-        assertEquals("gmail.com", extractDomain("ts.marsh@gmail.com"));
     }
 
     @Test
@@ -503,19 +486,6 @@ public class UnderBarTest {
     public void shuffleTest() throws Exception {
         List<Integer> deck = range(52);
         assertNotEquals(deck, shuffle(deck));
-    }
-
-    @Test
-    public void randUnderTest() throws Exception {
-        assertTrue(randUnder(52) < 52);
-        assertTrue(randUnder(52) > 0);
-    }
-
-    @Test
-    public void randomItemTest() throws Exception {
-        List<Integer> deck = range(52);
-        Integer integer = randomItem(deck);
-        assertTrue(indexOf(deck, integer::equals).isPresent());
     }
 
     @Test
