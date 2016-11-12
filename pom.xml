@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
     <packaging>pom</packaging>
 
     <name>UnderBar</name>
@@ -26,7 +25,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:tsmarsh/UnderBar.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>underbar-0.0.3</tag>
         <url>https://github.com/tsmarsh/Underbar</url>
     </scm>
 
@@ -57,7 +56,7 @@
             <url>https://artifactory.boardandtiger.com/artifactory/libs-release</url>
         </repository>
         <repository>
-            <snapshots/>
+            <snapshots />
             <id>snapshots</id>
             <name>libs-snapshot</name>
             <url>https://artifactory.boardandtiger.com/artifactory/libs-snapshot</url>
@@ -73,7 +72,7 @@
             <url>https://artifactory.boardandtiger.com/artifactory/plugins-release</url>
         </pluginRepository>
         <pluginRepository>
-            <snapshots/>
+            <snapshots />
             <id>snapshots</id>
             <name>plugins-snapshot</name>
             <url>https://artifactory.boardandtiger.com/artifactory/plugins-snapshot</url>

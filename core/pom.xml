@@ -6,12 +6,12 @@
 
   <groupId>com.tailoredshapes.underbar</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
   </parent>
 
   <description>Foundational functions inspired by Clojure and underscore.js</description>
