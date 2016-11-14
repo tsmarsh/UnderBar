@@ -161,7 +161,7 @@ public class UnderBarTest {
 
     @Test
     public void zipMapCombinesCollectionsOfKeysAndValues() throws Exception {
-        assertEquals(map(), zipmap(list(), list()));
+        assertEquals(hash(), zipmap(list(), list()));
         assertEquals(map("key", "value"), zipmap(list("key"), list("value")));
         assertEquals(map("key", "value", "key2", "value2"), zipmap(list("key", "key2"), list("value", "value2")));
     }
@@ -185,7 +185,7 @@ public class UnderBarTest {
 
     @Test
     public void mergeCombinesMaps() throws Exception {
-        assertEquals(map(), merge(map()));
+        assertEquals(hash(), merge(hash()));
         assertEquals(map("a", 1), merge(map("a", 1)));
         assertEquals(map("a", 1, "b", 2), merge(map("a", 1), map("b", 2)));
         assertEquals(map("a", 1, "b", 2, "c", 3), merge(map("a", 1), map("b", 2, "c", 3)));
@@ -284,7 +284,7 @@ public class UnderBarTest {
 
     @Test
     public void mapPerformsAFunctionOverACollection() throws Exception {
-        assertEquals(list(2, 3, 4, 5), map(list(1, 2, 3, 4), (x) -> x + 1));
+        assertEquals(list(2, 3, 4, 5), hash(list(1, 2, 3, 4), (x) -> x + 1));
     }
 
     @Test

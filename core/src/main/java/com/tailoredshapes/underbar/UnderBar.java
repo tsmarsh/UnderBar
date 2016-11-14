@@ -6,19 +6,17 @@ import com.tailoredshapes.underbar.function.RegularFunctions;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.tailoredshapes.underbar.Die.*;
 import static java.util.Optional.ofNullable;
-import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 
 public class UnderBar {
     public static final Random random = new Random();
-    private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(map());
+    private static final Map<Supplier<?>, Object> lazyCache = Collections.synchronizedMap(hash());
 
     /**
      * Asserts that a collection contains exactly one value and returns it
@@ -85,7 +83,7 @@ public class UnderBar {
     }
 
     /**
-     * Provides a mechanism for getting the value from a map, or a default value
+     * Provides a mechanism for getting the value from a hash, or a default value
      */
     public static <K, V, R> R maybeGet(Map<K, V> maybe, K k, Function<V, R> onT, Supplier<R> noT) {
         return maybeNull(maybe.get(k), onT, noT);
@@ -149,12 +147,12 @@ public class UnderBar {
      * Creates a new HashSet of T from an iterable of F using a convertion function
      */
     public static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
-        return set(map(is, toT));
+        return set(hash(is, toT));
     }
 
 
     /**
-     * Creates a sorted list of Map.Entry from a map and a comparator
+     * Creates a sorted list of Map.Entry from a hash and a comparator
      */
     public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
         return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
@@ -284,7 +282,7 @@ public class UnderBar {
     }
 
     /**
-     * Join a collection of keys and a collection of values into a map
+     * Join a collection of keys and a collection of values into a hash
      */
     public static <K, V> Map<K, V> zipmap(Collection<? extends K> keys, Collection<? extends V> values) {
         dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
@@ -319,7 +317,7 @@ public class UnderBar {
     /**
      * returns an empty HashMap
      */
-    public static <K, V> Map<K, V> map() {
+    public static <K, V> Map<K, V> hash() {
         return new HashMap<>();
     }
 
@@ -368,7 +366,7 @@ public class UnderBar {
      * Removes empty optionals from a collection
      */
     public static <T> List<T> compactOptionals(Iterable<Optional<T>> ts) {
-        return compact(map(ts, t -> t.orElse(null)));
+        return compact(hash(ts, t -> t.orElse(null)));
     }
 
     /**
@@ -387,7 +385,7 @@ public class UnderBar {
 
 
     /**
-     * Takes an array, and a function that can convert members of that array to Map.Entry and builds a map
+     * Takes an array, and a function that can convert members of that array to Map.Entry and builds a hash
      *
      * @throws RuntimeException if there are duplicate keys
      */
@@ -396,7 +394,7 @@ public class UnderBar {
     }
 
     /**
-     * Takes a list, and a function that can convert members of that array to Map.Entry and builds a map
+     * Takes a list, and a function that can convert members of that array to Map.Entry and builds a hash
      *
      * @throws RuntimeException if there are duplicate keys
      */
@@ -408,13 +406,13 @@ public class UnderBar {
             results.computeIfAbsent(entry.getKey(), k -> emptyList()).add(t);
             result.put(entry.getKey(), entry.getValue());
         });
-        List<K> duplicateKeys = map(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
+        List<K> duplicateKeys = hash(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
         dieUnless(duplicateKeys.isEmpty(), () -> "Duplicates: " + filterKeys(results, duplicateKeys::contains));
         return result;
     }
 
     /**
-     * Creates a new map by Iterating over a map, using toU to modify the values
+     * Creates a new hash by Iterating over a hash, using toU to modify the values
      */
     public static <K, V, U> Map<K, U> modifyValues(Map<K, V> m, Function<V, U> toU) {
         return m.entrySet().stream().map(entry -> entry(
@@ -433,7 +431,7 @@ public class UnderBar {
     }
 
     /**
-     * Creates a new map by Iterating over a map, using toU to modify the keys
+     * Creates a new hash by Iterating over a hash, using toU to modify the keys
      */
     public static <K, V, U> Map<U, V> modifyKeys(Map<K, V> m, Function<K, U> toU) {
         return m.entrySet().stream().map(entry -> entry(toU.apply(entry.getKey()), entry.getValue()))
@@ -441,7 +439,7 @@ public class UnderBar {
     }
 
     /**
-     * Create a new map apply only the members of m that satisfy the predicate
+     * Create a new hash apply only the members of m that satisfy the predicate
      */
     public static <K, V> Map<K, V> filterKeys(Map<K, V> m, Predicate<K> predicate) {
         return m.entrySet().stream()
@@ -451,7 +449,7 @@ public class UnderBar {
 
 
     public static <K, V> Map<K, List<V>> groupBy(Iterable<V> vs, Function<V, K> toK) {
-        return tap(map(), result -> vs.forEach(v ->
+        return tap(hash(), result -> vs.forEach(v ->
                 result.computeIfAbsent(toK.apply(v), k -> emptyList()).add(v)));
     }
 
@@ -489,7 +487,7 @@ public class UnderBar {
     /**
      * Map a function over an iterable
      */
-    public static <T, F> List<T> map(Iterable<F> fs, Function<F, T> toT) {
+    public static <T, F> List<T> hash(Iterable<F> fs, Function<F, T> toT) {
         return stream(fs).map(toT).collect(toList());
     }
 
@@ -506,14 +504,14 @@ public class UnderBar {
      * Map a function over an array
      */
     public static <T, F> List<T> map(F[] fs, Function<F, T> toT) {
-        return map(Arrays.asList(fs), toT);
+        return hash(Arrays.asList(fs), toT);
     }
 
     /**
-     * Map a function over a map
+     * Map a function over a hash
      */
     public static <T, K, V> List<T> map(Map<K, V> m, BiFunction<K, V, T> tOfKV) {
-        return map(m.entrySet(), entry -> tOfKV.apply(entry.getKey(), entry.getValue()));
+        return hash(m.entrySet(), entry -> tOfKV.apply(entry.getKey(), entry.getValue()));
     }
 
     /**
@@ -524,7 +522,7 @@ public class UnderBar {
     }
 
     /**
-     * Loops over a map applying onKV, but returns void
+     * Loops over a hash applying onKV, but returns void
      */
     public static <K, V> void each(Map<K, V> m, BiConsumer<K, V> onKV) {
         m.entrySet().forEach(entry -> onKV.accept(entry.getKey(), entry.getValue()));
@@ -567,10 +565,10 @@ public class UnderBar {
     }
 
     /**
-     * Boilerplate methods for generating a hash map.
+     * Boilerplate methods for generating a hash hash.
      */
     public static <K, V> Map<K, V> map(K k1, V v1) {
-        return mapWith(map(), k1, v1);
+        return mapWith(hash(), k1, v1);
     }
 
     public static <K, V> Map<K, V> map(K k1, V v1, K k2, V v2) {
