@@ -282,7 +282,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public List<Stash> asStashes(String key) {
-        return UnderBar.map((Collection<Map<String, Object>>) getCast(key, x -> x), Stash::new);
+        return UnderBar.hash((Collection<Map<String, Object>>) getCast(key, x -> x), Stash::new);
     }
 
     public Path asPath(String key) {
@@ -443,7 +443,7 @@ public class Stash implements JSONAware, Cloneable {
                 result.put(key, ((Stash) value).toMapDeep());
             } else if (value instanceof Iterable<?>) {
                 Iterable<?> v = (Iterable<?>) value;
-                List<Object> convertedValue = UnderBar.map(v, (element) -> {
+                List<Object> convertedValue = UnderBar.hash(v, (element) -> {
                     if (element instanceof Stash) {
                         return ((Stash) element).toMapDeep();
                     }

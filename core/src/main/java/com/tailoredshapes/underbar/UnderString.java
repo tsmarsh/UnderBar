@@ -24,7 +24,7 @@ public class UnderString {
 
     public static String join(Iterable<String> coll) {
         StringBuilder sb = new StringBuilder();
-        map(coll, sb::append);
+        UnderBar.hash(coll, sb::append);
         return sb.toString();
     }
 

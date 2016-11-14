@@ -64,7 +64,7 @@ public class DieTest {
 
     @Test(expected = RuntimeException.class)
     public void dieIfMissingTest() throws Exception {
-        dieIfMissing(map(), "foo", () -> "nope");
+        dieIfMissing(UnderBar.hash(), "foo", () -> "nope");
     }
 
     @Test
