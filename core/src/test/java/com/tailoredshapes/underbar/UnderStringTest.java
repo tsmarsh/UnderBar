@@ -32,6 +32,13 @@ public class UnderStringTest {
     }
 
     @Test
+    public void joinArray() throws Exception {
+        assertEquals("123", join("1","2","3"));
+        assertEquals("123", join(1,2,3));
+    }
+
+
+    @Test
     public void toStringTest() throws Exception {
         assertEquals("1", UnderString.toString(1));
     }

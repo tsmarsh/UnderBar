@@ -1,5 +1,6 @@
 package com.tailoredshapes.underbar;
 
+import com.tailoredshapes.underbar.exceptions.UnderBarred;
 import com.tailoredshapes.underbar.function.ExceptionalFunctions;
 
 import java.util.Collection;
@@ -7,16 +8,19 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.tailoredshapes.underbar.UnderBar.list;
+import static com.tailoredshapes.underbar.UnderBar.maybeGet;
+import static com.tailoredshapes.underbar.function.ExceptionalFunctions.*;
 import static java.util.stream.Collectors.joining;
 
+;
 
 public class Die {
-    public static RuntimeException die(Throwable e, String msg, Object... args) {
-        throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args), e);
+    public static UnderBarred die(Throwable e, String msg, Object... args) {
+        throw new UnderBarred(args.length == 0 ? msg : String.format(msg, args), e);
     }
 
-    public static RuntimeException die(String msg, Object... args) {
-        throw new RuntimeException(args.length == 0 ? msg : String.format(msg, args));
+    public static UnderBarred die(String msg, Object... args) {
+        throw new UnderBarred(args.length == 0 ? msg : String.format(msg, args));
     }
 
     public static void dieIf(boolean condition, Supplier<String> message) {
@@ -51,38 +55,21 @@ public class Die {
         dieUnless(o == null, message);
     }
 
-    private static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message, boolean checkValue) {
+    public static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message) {
         V result = map.get(key);
         if (result != null)
             return result;
-        if (!checkValue && map.containsKey(key))
-            return null;
-        String errorString = key + ". " + "Example available keys: [" +
-                map.keySet().stream().limit(10).map(k -> String.format("%s = %s", k, UnderString.toString(map.get(k)))).collect(joining(", ")) + "] \n" + message.get();
         if (map.containsKey(key))
-            throw die("Key present, but value is null: " + errorString);
-        throw die("Key missing: " + errorString);
-    }
-
-
-    public static <K, V> V dieIfMissing(Map<K, V> map, K key, Supplier<String> message) {
-        return dieIfMissing(map, key, message, true);
+            throw die("Key present, but value is null. " + message.get());
+        throw die("Key missing: " + message.get());
     }
 
     public static <K, V> V dieIfMissing(Map<K, V> map, K key) {
         return dieIfMissing(map, key, () -> "");
     }
 
-    public static <K, V> V dieIfMissingKey(Map<K, V> map, K key) {
-        return dieIfMissingKey(map, key, () -> "");
-    }
 
-    public static <K, V> V dieIfMissingKey(Map<K, V> map, K key, Supplier<String> message) {
-        return dieIfMissing(map, key, message, false);
-    }
-
-
-    public static void rethrow(ExceptionalFunctions.RunnableWithOops runnable, Supplier<String> errorMessage) {
+    public static void rethrow(RunnableWithOops runnable, Supplier<String> errorMessage) {
         try {
             runnable.run();
         } catch (Throwable e) {
@@ -90,7 +77,7 @@ public class Die {
         }
     }
 
-    public static void rethrow(ExceptionalFunctions.RunnableThatMight runnable, Supplier<String> errorMessage) {
+    public static void rethrow(RunnableThatMight runnable, Supplier<String> errorMessage) {
         try {
             runnable.run();
         } catch (Throwable e) {
@@ -98,7 +85,7 @@ public class Die {
         }
     }
 
-    public static void rethrow(ExceptionalFunctions.RunnableWithOops runnable) {
+    public static void rethrow(RunnableWithOops runnable) {
         try {
             runnable.run();
         } catch (Throwable e) {
@@ -106,7 +93,7 @@ public class Die {
         }
     }
 
-    public static void rethrow(ExceptionalFunctions.RunnableThatMight runnable) {
+    public static void rethrow(RunnableThatMight runnable) {
         try {
             runnable.run();
         } catch (Throwable e) {
@@ -114,27 +101,23 @@ public class Die {
         }
     }
 
-    public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier) {
+    public static <T> T rethrow(SupplierWithOops<T> supplier) {
         try {
             return supplier.get();
-        } catch (RuntimeException re) {
-            throw re;
         } catch (Throwable e) {
             throw die(e, "exception caught");
         }
     }
 
-    public static <T, E extends Throwable> T rethrow(ExceptionalFunctions.SupplierThatMight<T, E> supplier) {
+    public static <T, E extends Throwable> T rethrow(SupplierThatMight<T, E> supplier) {
         try {
             return supplier.get();
-        } catch (RuntimeException re) {
-            throw re;
         } catch (Throwable e) {
             throw die(e, "exception caught");
         }
     }
 
-    public static <T> T rethrow(ExceptionalFunctions.SupplierWithOops<T> supplier, Supplier<String> errorMessage) {
+    public static <T> T rethrow(SupplierWithOops<T> supplier, Supplier<String> errorMessage) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -142,7 +125,7 @@ public class Die {
         }
     }
 
-    public static <T, E extends Throwable> T rethrow(ExceptionalFunctions.SupplierThatMight<T, E> supplier, Supplier<String> errorMessage) {
+    public static <T, E extends Throwable> T rethrow(SupplierThatMight<T, E> supplier, Supplier<String> errorMessage) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -154,7 +137,7 @@ public class Die {
         return die("unimplemented");
     }
 
-    public static RuntimeException unimplemented(String thing) {
-        return die("unimplemented: " + thing);
+    public static RuntimeException unimplemented(String reason) {
+        return die("unimplemented: " + reason);
     }
 }

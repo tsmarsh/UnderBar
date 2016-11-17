@@ -162,8 +162,8 @@ public class UnderBarTest {
     @Test
     public void zipMapCombinesCollectionsOfKeysAndValues() throws Exception {
         assertEquals(hash(), zipmap(list(), list()));
-        assertEquals(map("key", "value"), zipmap(list("key"), list("value")));
-        assertEquals(map("key", "value", "key2", "value2"), zipmap(list("key", "key2"), list("value", "value2")));
+        assertEquals(hash("key", "value"), zipmap(list("key"), list("value")));
+        assertEquals(hash("key", "value", "key2", "value2"), zipmap(list("key", "key2"), list("value", "value2")));
     }
 
     @Test(expected = RuntimeException.class)
@@ -186,10 +186,10 @@ public class UnderBarTest {
     @Test
     public void mergeCombinesMaps() throws Exception {
         assertEquals(hash(), merge(hash()));
-        assertEquals(map("a", 1), merge(map("a", 1)));
-        assertEquals(map("a", 1, "b", 2), merge(map("a", 1), map("b", 2)));
-        assertEquals(map("a", 1, "b", 2, "c", 3), merge(map("a", 1), map("b", 2, "c", 3)));
-        assertEquals(map("a", 2), merge(map("a", 1), map("a", 2)));
+        assertEquals(hash("a", 1), merge(hash("a", 1)));
+        assertEquals(hash("a", 1, "b", 2), merge(hash("a", 1), hash("b", 2)));
+        assertEquals(hash("a", 1, "b", 2, "c", 3), merge(hash("a", 1), hash("b", 2, "c", 3)));
+        assertEquals(hash("a", 2), merge(hash("a", 1), hash("a", 2)));
     }
 
     @Test
@@ -233,40 +233,40 @@ public class UnderBarTest {
 
     @Test
     public void mapFromPairsCreatesAMapFromPairsWithAFunction() throws Exception {
-        assertEquals(map("a", 1, "b", 2),
+        assertEquals(hash("a", 1, "b", 2),
                 mapFromEntry(list(list("a", 1), list("b", 2)), (l) -> entry(l.get(0), l.get(1))));
     }
 
     @Test
     public void modifyKeysShouldChangeTheKeysInAMap() throws Exception {
-        Map<String, Integer> in = map("wrong", 1, "foo", 1);
-        Map<String, Integer> out = map("right", 1, "foo", 1);
+        Map<String, Integer> in = hash("wrong", 1, "foo", 1);
+        Map<String, Integer> out = hash("right", 1, "foo", 1);
 
         assertEquals(out, modifyKeys(in, (k) -> k.equals("wrong") ? "right" : k));
     }
 
     @Test
     public void modifyValueShouldChangeTheValuesInAMap() throws Exception {
-        Map<String, Integer> in = map("bar", 1, "foo", 1);
-        Map<String, Integer> out = map("bar", 2, "foo", 2);
+        Map<String, Integer> in = hash("bar", 1, "foo", 1);
+        Map<String, Integer> out = hash("bar", 2, "foo", 2);
 
         assertEquals(out, modifyValues(in, (v) -> v + 1));
     }
 
     @Test
     public void filterKeysShouldReturnAMapWithKeysThatPassPredicate() throws Exception {
-        Map<String, Integer> in = map("wrong", 1, "foo", 1);
-        Map<String, Integer> out = map("foo", 1);
+        Map<String, Integer> in = hash("wrong", 1, "foo", 1);
+        Map<String, Integer> out = hash("foo", 1);
 
         assertEquals(out, filterKeys(in, (k) -> k.equals("foo")));
     }
 
     @Test
     public void groupByCollatesBasedOnAFunction() throws Exception {
-        assertEquals(map(String.class, list("a", "b"), Integer.class, list(1, 3, 2)),
+        assertEquals(hash(String.class, list("a", "b"), Integer.class, list(1, 3, 2)),
                 groupBy(list("a", 1, "b", 3, 2), Serializable::getClass));
 
-        assertEquals(map(0, list(2, 4), 1, list(1, 3, 5)),
+        assertEquals(hash(0, list(2, 4), 1, list(1, 3, 5)),
                 groupBy(list(1, 2, 3, 4, 5), ((v) -> v % 2)));
     }
 
@@ -297,7 +297,7 @@ public class UnderBarTest {
         assertEquals(
                 list(2, 3, 4, 5),
                 map(
-                        map("a", 1, "b", 2, "c", 3, "d", 4),
+                        hash("a", 1, "b", 2, "c", 3, "d", 4),
                         (k, v) -> v + 1));
     }
 
@@ -400,7 +400,7 @@ public class UnderBarTest {
 
     @Test
     public void superMapTest() throws Exception {
-        Map<String, Integer> map = map(
+        Map<String, Integer> map = hash(
                 "a", 1,
                 "b", 2,
                 "c", 3,
@@ -494,7 +494,7 @@ public class UnderBarTest {
                 array("h", "e", "l", "o"),
                 (c) -> entry(c, (int) c.charAt(0)));
 
-        assertEquals(map("h", 104, "e", 101, "l", 108, "o", 111), result);
+        assertEquals(hash("h", 104, "e", 101, "l", 108, "o", 111), result);
     }
 
     @Test(expected = RuntimeException.class)
@@ -527,7 +527,7 @@ public class UnderBarTest {
 
     @Test
     public void shouldMakeAccessingAMapSafer() throws Exception {
-        Map<String, String> map = map("foo", "bar");
+        Map<String, String> map = hash("foo", "bar");
         assertEquals("bar", maybeGet(map, "foo", x -> x, () -> "nope"));
         assertEquals("nope", maybeGet(map, "derp", x -> x, () -> "nope"));
     }
