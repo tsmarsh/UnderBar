@@ -133,14 +133,14 @@ public class StashTest {
 
     @Test
     public void makeSmapTest() throws Exception {
-        assertEquals(stash("foo", 3), stash("eggs", map("foo", 3)).asStash("eggs"));
+        assertEquals(stash("foo", 3), stash("eggs", hash("foo", 3)).asStash("eggs"));
 
     }
 
 
     @Test
     public void makeSmapsTest() throws Exception {
-        assertEquals(list(stash("eggs", "ham")), stash("foo", list(map("eggs", "ham"))).asStashes("foo"));
+        assertEquals(list(stash("eggs", "ham")), stash("foo", list(hash("eggs", "ham"))).asStashes("foo"));
     }
 
     @Test
@@ -200,7 +200,7 @@ public class StashTest {
 
     @Test
     public void toMapTest() throws Exception {
-        assertEquals(map("bar", 2), stash("bar", 2).toMap());
+        assertEquals(hash("bar", 2), stash("bar", 2).toMap());
     }
 
 

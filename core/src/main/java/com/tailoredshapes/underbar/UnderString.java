@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import static com.tailoredshapes.underbar.Die.rethrow;
+import static com.tailoredshapes.underbar.UnderBar.hash;
 import static com.tailoredshapes.underbar.UnderBar.map;
 
 
@@ -24,10 +25,13 @@ public class UnderString {
 
     public static String join(Iterable<String> coll) {
         StringBuilder sb = new StringBuilder();
-        UnderBar.hash(coll, sb::append);
+        hash(coll, sb::append);
         return sb.toString();
     }
 
+    public static String join(Object... os){
+        return join(map(os, o->o.toString()));
+    }
     public static <T> String join(String separator, Iterable<T> coll) {
         Iterator<T> iterator = coll.iterator();
 
