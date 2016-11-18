@@ -151,13 +151,6 @@ public class UnderBar {
     }
 
 
-    /**
-     * Creates a sorted list of Map.Entry from a hash and a comparator
-     */
-    public static <K, V, S extends Comparable<S>> List<Map.Entry<K, V>> sortBy(Map<K, V> kv, BiFunction<K, V, S> comparator) {
-        return sortBy(kv.entrySet(), entry -> comparator.apply(entry.getKey(), entry.getValue()));
-    }
-
 
     /**
      * Lambda require the objects they mutate to be either effectively final or heap allocated.
