@@ -2,6 +2,7 @@ package com.tailoredshapes.underbar;
 
 import com.tailoredshapes.underbar.data.Fork;
 import com.tailoredshapes.underbar.data.Heap;
+import com.tailoredshapes.underbar.exceptions.UnderBarred;
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -247,10 +248,12 @@ public class UnderBarTest {
 
     @Test
     public void modifyValueShouldChangeTheValuesInAMap() throws Exception {
-        Map<String, Integer> in = hash("bar", 1, "foo", 1);
-        Map<String, Integer> out = hash("bar", 2, "foo", 2);
+        assertEquals(hash("a", 1, "b", 2), modifyValues(hash("a", "1", "b", "2"), Integer::parseInt));
+    }
 
-        assertEquals(out, modifyValues(in, (v) -> v + 1));
+    @Test(expected = UnderBarred.class)
+    public void modifyValuesShouldDegradeGracefully() throws Exception {
+        modifyValues(hash("a", "twifty", "b", "2"), Integer::parseInt);
     }
 
     @Test
@@ -530,5 +533,13 @@ public class UnderBarTest {
         Map<String, String> map = hash("foo", "bar");
         assertEquals("bar", maybeGet(map, "foo", x -> x, () -> "nope"));
         assertEquals("nope", maybeGet(map, "derp", x -> x, () -> "nope"));
+    }
+
+    @Test
+    public void shouldReturnTheFirstMemberThatSatifiesPredicate() throws Exception {
+        assertEquals(optional(1L), indexOf(list("foo", "eggs", "spam"), (v) -> v.equals("eggs")));
+        assertEquals(optional(), indexOf(list("foo", "eggs", "spam"), (v) -> v.equals("ham")));
+        assertEquals(optional(), indexOf(list(), (v) -> v.equals("ham")));
+
     }
 }

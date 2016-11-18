@@ -421,9 +421,6 @@ public class UnderBar {
                         () -> toU.apply(entry.getValue()),
                         () -> {
                             V value = entry.getValue();
-                            if (value.getClass().isArray() && value.getClass().getComponentType().equals(String.class))
-                                return "failed to produce new value for string array key: '" + entry.getKey() + "' and value '" +
-                                        list((String[]) value) + "'";
                             return "failed to produce new value for key '" + entry.getKey() + "' and value '" + value + "'";
                         }
                 )
