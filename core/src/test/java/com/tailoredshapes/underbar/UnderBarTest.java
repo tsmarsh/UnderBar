@@ -122,7 +122,7 @@ public class UnderBarTest {
 
     @Test
     public void takeReturnsTheNthOfAList() throws Exception {
-        assertEquals(list(), take(0, list("a", "b")));
+        assertEquals(list(), take(0, list(set("a", "b"))));
         assertEquals(list("a"), take(1, list("a", "b")));
         assertEquals(list("a", "b"), take(2, list("a", "b")));
         assertEquals(list("a", "b"), take(3, list("a", "b")));
@@ -134,6 +134,12 @@ public class UnderBarTest {
         assertEquals(list("a"), concat(list(), list("a")));
         assertEquals(list("a", "b"), concat(list("a"), list("b")));
         assertEquals(list("a", "b", "c", "d"), concat(list("a", "b"), list("c"), list("d")));
+    }
+
+    @Test
+    public void canMapIntoASet() throws Exception {
+        assertEquals(set(1, 2), set(list("1", "1", "2"), Integer::parseInt));
+
     }
 
     @Test
@@ -358,6 +364,21 @@ public class UnderBarTest {
         withVoid(1, 2, 3, (x, y, z) -> sideEffect.value = x + y + z);
         assertEquals(6, (int) sideEffect.value);
 
+        withVoid(1, 2, 3, 4, (w, x, y, z) -> sideEffect.value = w + x + y + z);
+        assertEquals(10, (int) sideEffect.value);
+
+        withVoid(1, 2, 3, 4, 5, (v, w, x, y, z) -> sideEffect.value = v + w + x + y + z);
+        assertEquals(15, (int) sideEffect.value);
+
+        withVoid(1, 2, 3, 4, 5, 6, (u, v, w, x, y, z) -> sideEffect.value = u + v + w + x + y + z);
+        assertEquals(21, (int) sideEffect.value);
+
+        withVoid(1, 2, 3, 4, 5, 6, 7, (t, u, v, w, x, y, z) -> sideEffect.value = t + u + v + w + x + y + z);
+        assertEquals(28, (int) sideEffect.value);
+
+        withVoid(1, 2, 3, 4, 5, 6, 7, 8, (s, t, u, v, w, x, y, z) -> sideEffect.value = s + t + u + v + w + x + y + z);
+        assertEquals(36, (int) sideEffect.value);
+
     }
 
     @Test
@@ -422,6 +443,8 @@ public class UnderBarTest {
         Heap<Boolean> one = heap(false);
         Heap<Boolean> two = heap(false);
 
+        clearLazyCache();
+
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(lazy(() -> (Supplier<Boolean>) () -> {
                     one.value = true;
@@ -442,6 +465,8 @@ public class UnderBarTest {
         Heap<Integer> one = heap(0);
         Heap<Integer> two = heap(0);
         Heap<Integer> three = heap(0);
+
+        clearLazyCache();
 
         Optional<Supplier<Supplier<Boolean>>> supplierSupplier = takeWhile(
                 list(
@@ -480,9 +505,9 @@ public class UnderBarTest {
 
     @Test
     public void rangeTest() throws Exception {
-        assertEquals(list(0,1,2,3), range(4));
+        assertEquals(list(0, 1, 2, 3), range(4));
 
-        assertEquals(list(2,3), range(2,4));
+        assertEquals(list(2, 3), range(2, 4));
     }
 
     @Test
@@ -510,15 +535,15 @@ public class UnderBarTest {
     @Test
     public void forEachTest() throws Exception {
         Heap<Integer> s = heap(0);
-        each(zipmap(range(5), range(5,10)), (k, v) -> s.value += k+v);
+        each(zipmap(range(5), range(5, 10)), (k, v) -> s.value += k + v);
         assertEquals(45, s.value.intValue());
     }
 
 
     @Test
     public void shouldReduceACollectionWithIdentity() throws Exception {
-        assertEquals("prefix123", reduce(list(1,2,3), "prefix", (a,v) -> a+v));
-        assertEquals("prefix", reduce(new ArrayList<String>(), "prefix", (a,v) -> a+v));
+        assertEquals("prefix123", reduce(list(1, 2, 3), "prefix", (a, v) -> a + v));
+        assertEquals("prefix", reduce(new ArrayList<String>(), "prefix", (a, v) -> a + v));
     }
 
 
@@ -541,5 +566,11 @@ public class UnderBarTest {
         assertEquals(optional(), indexOf(list("foo", "eggs", "spam"), (v) -> v.equals("ham")));
         assertEquals(optional(), indexOf(list(), (v) -> v.equals("ham")));
 
+    }
+
+    @Test
+    public void shouldSortAMap() throws Exception {
+        assertEquals(list(1, 2, 3), list(sort(hash(1, "1", 3, "3", 2, "2")).keySet()));
+        assertEquals(list(1, 2, 3), list(sortBy(hash(1, "1", 3, "3", 2, "2"), x -> x).keySet()));
     }
 }
