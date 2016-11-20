@@ -2,7 +2,7 @@ package com.tailoredshapes.underbar;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Optional;
 
 import static com.tailoredshapes.underbar.UnderBar.*;
 
@@ -53,22 +53,22 @@ public class Maths {
         return result;
     }
 
-    public static Long min(Collection<Long> values) {
+    public static Optional<Long> min(Collection<Long> values) {
         if (isEmpty(values))
-            return null;
+            return optional();
         long result = first(values);
         for (long v : values)
             result = Math.min(result, v);
-        return result;
+        return optional(result);
     }
 
-    public static Long max(Collection<Long> values) {
+    public static Optional<Long> max(Collection<Long> values) {
         if (isEmpty(values))
-            return null;
+            return optional();
         long result = first(values);
         for (long v : values)
             result = Math.max(result, v);
-        return result;
+        return optional(result);
     }
 
     public static double medianInt(List<Integer> values) {

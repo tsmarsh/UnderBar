@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static com.tailoredshapes.underbar.Maths.*;
 import static com.tailoredshapes.underbar.UnderBar.list;
+import static com.tailoredshapes.underbar.UnderBar.optional;
 import static org.junit.Assert.*;
 
 /**
@@ -37,14 +38,18 @@ public class MathsTest {
 
     @Test
     public void maxMinTest() throws Exception {
-        assertEquals(3L, (long) max(list(1L, 2L, 3L)));
-        assertEquals(1L, (long) min(list(1L, 2L, 3L)));
+        assertEquals(3L, (long) max(list(1L, 2L, 3L)).get());
+        assertEquals(1L, (long) min(list(1L, 2L, 3L)).get());
+        assertEquals(optional(), max(list()));
+        assertEquals(optional(), min(list()));
     }
 
     @Test
     public void getMedianValue() throws Exception {
         assertEquals(5.0, median(list(1L, 3L, 5L, 2L, 6L)), 0);
+        assertEquals(5, medianInt(list(1, 3, 5, 2, 6)), 0);
         assertEquals(Double.NaN, median(list()), 0);
+        assertEquals(Double.NaN, medianInt(list()), 0);
     }
 
 }

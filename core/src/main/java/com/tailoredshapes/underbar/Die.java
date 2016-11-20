@@ -1,16 +1,13 @@
 package com.tailoredshapes.underbar;
 
 import com.tailoredshapes.underbar.exceptions.UnderBarred;
-import com.tailoredshapes.underbar.function.ExceptionalFunctions;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderBar.maybeGet;
 import static com.tailoredshapes.underbar.function.ExceptionalFunctions.*;
-import static java.util.stream.Collectors.joining;
 
 ;
 
@@ -24,8 +21,9 @@ public class Die {
     }
 
     public static void dieIf(boolean condition, Supplier<String> message) {
-        if (condition)
+        if (condition) {
             throw die(message.get());
+        }
     }
 
     public static void dieUnless(boolean condition, Supplier<String> message) {
@@ -133,11 +131,11 @@ public class Die {
         }
     }
 
-    public static RuntimeException unimplemented() {
-        return die("unimplemented");
+    public static UnderBarred wip() {
+        return die("wip");
     }
 
-    public static RuntimeException unimplemented(String reason) {
-        return die("unimplemented: " + reason);
+    public static UnderBarred wip(String reason) {
+        return die("wip: " + reason);
     }
 }
