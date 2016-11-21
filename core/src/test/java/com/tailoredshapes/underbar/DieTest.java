@@ -77,7 +77,7 @@ public class DieTest {
     @Test(expected = UnderBarred.class)
     public void rethrowTest() throws Exception {
         rethrow(() -> {
-            throw die("Nope");
+            die("Nope");
         });
     }
 
@@ -93,19 +93,14 @@ public class DieTest {
         rethrow(new ExceptionalFunctions.RunnableWithOops() {
             @Override
             public void run() throws Throwable {
-                throw die("derp");
+                die("derp");
             }
         });
     }
 
     @Test(expected = UnderBarred.class)
     public void rethrowWithRunnableWithMessage() throws Exception {
-        rethrow(new ExceptionalFunctions.RunnableWithOops() {
-            @Override
-            public void run() throws Throwable {
-                throw die("derp");
-            }
-        }, () -> "with message");
+        rethrow((ExceptionalFunctions.RunnableWithOops) () -> die("derp"), () -> "with message");
     }
 
     @Test(expected = UnderBarred.class)
