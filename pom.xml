@@ -4,7 +4,7 @@
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
 
     <name>UnderBar</name>
@@ -25,7 +25,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:tsmarsh/UnderBar.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>underbar-0.0.5</tag>
         <url>https://github.com/tsmarsh/Underbar</url>
     </scm>
 
