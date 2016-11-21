@@ -18,7 +18,7 @@ public interface ExceptionalFunctions {
     }
 
     @FunctionalInterface
-    interface SupplierWithOops<T> extends SupplierThatMight<T, Throwable>{
+    interface SupplierWithOops<T> extends SupplierThatMight<T, Throwable> {
         T get() throws Throwable;
     }
 }

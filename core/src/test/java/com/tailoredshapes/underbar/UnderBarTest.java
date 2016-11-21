@@ -22,12 +22,12 @@ public class UnderBarTest {
         assertEquals(5, (long) nonce(list(5)));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void nonceBombsIfListIsEmpty() throws Exception {
         nonce(list());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void nonceBombsIfListIsLargerThan1() throws Exception {
         nonce(array(1, 2));
     }
@@ -38,12 +38,12 @@ public class UnderBarTest {
         assertEquals(expected, nonce(new Integer[]{expected}));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void nonceBombsIfArrayIsEmpty() throws Exception {
         nonce(new Integer[]{});
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void nonceBombsIfArrayIsLargerThan1() throws Exception {
         nonce(new Integer[]{0, 1});
     }
@@ -59,7 +59,7 @@ public class UnderBarTest {
         assertFalse(maybe(emptyList()).isPresent());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void maybeBombsIfListIsLargerThan1() throws Exception {
         maybe(list(1, 2));
     }
@@ -173,7 +173,7 @@ public class UnderBarTest {
         assertEquals(hash("key", "value", "key2", "value2"), zipmap(list("key", "key2"), list("value", "value2")));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void zipMapRequiresAnEvenNumberOfElements() throws Exception {
         zipmap(list(), list("nooope"));
     }
@@ -185,7 +185,7 @@ public class UnderBarTest {
         assertEquals(list(entry("key", "value"), entry("key2", "value2")), zip(list("key", "key2"), list("value", "value2")));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void zipRequiresAnEvenNumberOfElements() throws Exception {
         zip(list(), list("nooope"));
     }
@@ -525,7 +525,7 @@ public class UnderBarTest {
         assertEquals(hash("h", 104, "e", 101, "l", 108, "o", 111), result);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = UnderBarred.class)
     public void mapFromEntryDuplicateTest() throws Exception {
         mapFromEntry(
                 array("h", "e", "l", "l", "o"),

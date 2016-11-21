@@ -1,31 +1,30 @@
 package com.tailoredshapes.underbar;
 
 import com.tailoredshapes.underbar.exceptions.UnderBarred;
-import com.tailoredshapes.underbar.function.ExceptionalFunctions;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.jar.Pack200;
 
 import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderBar.maybeGet;
 import static com.tailoredshapes.underbar.function.ExceptionalFunctions.*;
-import static java.util.stream.Collectors.joining;
 
 ;
 
 public class Die {
-    public static UnderBarred die(Throwable e, String msg, Object... args) {
+    public static <T> T die(Throwable e, String msg, Object... args) {
         throw new UnderBarred(args.length == 0 ? msg : String.format(msg, args), e);
     }
 
-    public static UnderBarred die(String msg, Object... args) {
+    public static <T> T die(String msg, Object... args) {
         throw new UnderBarred(args.length == 0 ? msg : String.format(msg, args));
     }
 
     public static void dieIf(boolean condition, Supplier<String> message) {
-        if (condition)
-            throw die(message.get());
+        if (condition) {
+            die(message.get());
+        }
     }
 
     public static void dieUnless(boolean condition, Supplier<String> message) {
@@ -33,8 +32,9 @@ public class Die {
     }
 
     public static <T> T dieIfNull(T t, Supplier<String> message) {
-        if (t == null)
-            throw die(message.get());
+        if (t == null) {
+            die(message.get());
+        }
         return t;
     }
 
@@ -59,9 +59,10 @@ public class Die {
         V result = map.get(key);
         if (result != null)
             return result;
-        if (map.containsKey(key))
-            throw die("Key present, but value is null. " + message.get());
-        throw die("Key missing: " + message.get());
+        if (map.containsKey(key)) {
+            die("Key present, but value is null. " + message.get());
+        }
+        return die("Key missing: " + message.get());
     }
 
     public static <K, V> V dieIfMissing(Map<K, V> map, K key) {
@@ -73,7 +74,7 @@ public class Die {
         try {
             runnable.run();
         } catch (Throwable e) {
-            throw die(e, errorMessage.get());
+            die(e, errorMessage.get());
         }
     }
 
@@ -81,7 +82,7 @@ public class Die {
         try {
             runnable.run();
         } catch (Throwable e) {
-            throw die(e, errorMessage.get());
+            die(e, errorMessage.get());
         }
     }
 
@@ -89,7 +90,7 @@ public class Die {
         try {
             runnable.run();
         } catch (Throwable e) {
-            throw die(e, "exception caught");
+            die(e, "exception caught");
         }
     }
 
@@ -97,7 +98,7 @@ public class Die {
         try {
             runnable.run();
         } catch (Throwable e) {
-            throw die(e, "exception caught");
+            die(e, "exception caught");
         }
     }
 
@@ -105,7 +106,7 @@ public class Die {
         try {
             return supplier.get();
         } catch (Throwable e) {
-            throw die(e, "exception caught");
+            return die(e, "exception caught");
         }
     }
 
@@ -113,7 +114,7 @@ public class Die {
         try {
             return supplier.get();
         } catch (Throwable e) {
-            throw die(e, "exception caught");
+            return die(e, "exception caught");
         }
     }
 
@@ -121,7 +122,7 @@ public class Die {
         try {
             return supplier.get();
         } catch (Throwable e) {
-            throw die(e, errorMessage.get());
+            return die(e, errorMessage.get());
         }
     }
 
@@ -129,15 +130,15 @@ public class Die {
         try {
             return supplier.get();
         } catch (Throwable e) {
-            throw die(e, errorMessage.get());
+            return die(e, errorMessage.get());
         }
     }
 
-    public static RuntimeException unimplemented() {
-        return die("unimplemented");
+    public static<T> T wip() {
+        return die("wip");
     }
 
-    public static RuntimeException unimplemented(String reason) {
-        return die("unimplemented: " + reason);
+    public static <T> T wip(String reason) {
+        return die("wip: " + reason);
     }
 }

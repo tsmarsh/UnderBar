@@ -2,6 +2,7 @@ package com.tailoredshapes.underbar;
 
 import com.tailoredshapes.underbar.data.Fork;
 import com.tailoredshapes.underbar.data.Heap;
+import com.tailoredshapes.underbar.exceptions.UnderBarred;
 import com.tailoredshapes.underbar.function.RegularFunctions;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static com.tailoredshapes.underbar.Die.*;
+import static com.tailoredshapes.underbar.UnderString.commaSep;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
@@ -34,13 +36,12 @@ public class UnderBar {
      */
     public static <T> T nonce(T[] ts) {
         dieIfNull(ts, () -> "input to 'nonce' cannot be null");
-        dieUnless(ts.length == 1, () -> "length of input to 'nonce' must be 1. " + UnderString.commaSep(list(ts)));
+        dieUnless(ts.length == 1, () -> "length of input to 'nonce' must be 1. " + commaSep(list(ts)));
         return ts[0];
     }
 
     /**
      * Returns true if the collection isEmpty
-     *
      */
     public static boolean isEmpty(Collection<?> coll) {
         return coll.isEmpty();
@@ -116,7 +117,6 @@ public class UnderBar {
 
     /**
      * Returns a modifiable list apply ts in it
-     *
      */
     @SafeVarargs
     public static <T> List<T> modifiableList(T... ts) {
@@ -127,7 +127,6 @@ public class UnderBar {
 
     /**
      * Creates a new HashSet of ts
-     *
      */
     @SafeVarargs
     public static <T> Set<T> set(T... ts) {
@@ -149,7 +148,6 @@ public class UnderBar {
     public static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
         return set(hash(is, toT));
     }
-
 
 
     /**
@@ -187,7 +185,6 @@ public class UnderBar {
 
     /**
      * Returns the second member of an iterable.
-     *
      */
     public static <T> T second(Iterable<T> ts) {
         Iterator<T> iterator = ts.iterator();
@@ -257,20 +254,25 @@ public class UnderBar {
     @SafeVarargs
     public static <T> Set<T> intersection(Set<T>... sets) {
         Set<T> result = new HashSet<>(sets[0]);
-        for (int i = 1; i < sets.length; i++)
+
+        for (int i = 1; i < sets.length; i++) {
             result.retainAll(sets[i]);
+        }
+
         return result;
     }
 
     /**
      * The difference of N sets
-     *
      */
     @SafeVarargs
     public static <T> Set<T> difference(Set<T>... sets) {
         Set<T> result = new HashSet<>(sets[0]);
-        for (int i = 1; i < sets.length; i++)
+
+        for (int i = 1; i < sets.length; i++) {
             result.removeAll(sets[i]);
+        }
+
         return result;
     }
 
@@ -380,7 +382,7 @@ public class UnderBar {
     /**
      * Takes an array, and a function that can convert members of that array to Map.Entry and builds a hash
      *
-     * @throws RuntimeException if there are duplicate keys
+     * @throws UnderBarred if there are duplicate keys
      */
     public static <T, K, V> Map<K, V> mapFromEntry(T[] ts, Function<T, Map.Entry<K, V>> toEntry) {
         return mapFromEntry(list(ts), toEntry);
@@ -389,7 +391,7 @@ public class UnderBar {
     /**
      * Takes a list, and a function that can convert members of that array to Map.Entry and builds a hash
      *
-     * @throws RuntimeException if there are duplicate keys
+     * @throws UnderBarred if there are duplicate keys
      */
     public static <T, K, V> Map<K, V> mapFromEntry(Iterable<T> ts, Function<T, Map.Entry<K, V>> toEntry) {
         Map<K, V> result = new LinkedHashMap<>();
@@ -459,7 +461,7 @@ public class UnderBar {
 
     /**
      * Split a collection into a fork based on a predicate
-     *
+     * <p>
      * A function is used to maintain compatibility apply groupby
      */
     public static <T> Fork<T> tee(Iterable<T> ts, Function<T, Boolean> isIn) {
@@ -605,7 +607,7 @@ public class UnderBar {
     }
 
     /**
-     *  Returns true if all of the memebers of an interable satisfy the predicate
+     * Returns true if all of the memebers of an interable satisfy the predicate
      */
     public static <T> boolean all(Iterable<T> ts, Predicate<T> pred) {
         return !hasContent(reject(ts, pred));
@@ -618,7 +620,7 @@ public class UnderBar {
         return IntStream.range(0, n).mapToObj(i -> t).collect(toList());
     }
 
-    public static <T extends Comparable> List<T> sort(Iterable<T> ts){
+    public static <T extends Comparable> List<T> sort(Iterable<T> ts) {
         return stream(ts).sorted().collect(toList());
     }
 
@@ -632,7 +634,7 @@ public class UnderBar {
     /**
      * Returns a SortedMaps sorted by the natural order of keys
      */
-    public static <K extends Comparable, V> SortedMap<K, V> sort(Map<K, V> m){
+    public static <K extends Comparable, V> SortedMap<K, V> sort(Map<K, V> m) {
         return new TreeMap<>(m);
     }
 
@@ -789,21 +791,21 @@ public class UnderBar {
     /**
      * Creates a list of 0 -> max
      */
-    public static List<Integer> range(int max){
-        return makeTimes(max, i->i);
+    public static List<Integer> range(int max) {
+        return makeTimes(max, i -> i);
     }
 
     /**
      * Creates a list of start -> end
      */
-    public static List<Integer> range(int start, int end){
-        return makeTimes(end - start, i->i+start);
+    public static List<Integer> range(int start, int end) {
+        return makeTimes(end - start, i -> i + start);
     }
 
 
-    public static <T, R> R reduce(Collection<T> col, R identity, BiFunction<R, T, R> fn){
+    public static <T, R> R reduce(Collection<T> col, R identity, BiFunction<R, T, R> fn) {
         Heap<R> h = heap(identity);
-        for(T t: col){
+        for (T t : col) {
             h.value = fn.apply(h.value, t);
         }
         return h.value;

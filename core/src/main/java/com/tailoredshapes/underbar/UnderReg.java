@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.tailoredshapes.underbar.UnderBar.list;
-
 /**
  * Created by tmarsh on 11/2/16.
  */
@@ -21,7 +19,9 @@ public class UnderReg {
 
     public static List<String> groups(Matcher m) {
         List<String> l = new ArrayList<>();
-        if(!m.matches()){ return l; }
+        if (!m.matches()) {
+            return l;
+        }
 
         int groupCount = m.groupCount();
 
