@@ -76,7 +76,7 @@ stream(set(1,1,3).forEach...;
 of course, thats still a fair amount of boiler plate for a ```map()```, so we're created most of your favourites
 
 ```
-List<String> ss = map(list(1,2,3), (Integer x) -> x.toString());
+List<String> ss = map(list(1,2,3), Object::toString);
 ```
 
 Yup, that's still Java.
