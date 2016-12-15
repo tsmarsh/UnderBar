@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tailoredshapes</groupId>
@@ -13,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.global.server>github</github.global.server>
     </properties>
-    
+
     <modules>
         <module>ocho</module>
         <module>dates</module>
@@ -21,7 +22,9 @@
         <module>io</module>
     </modules>
 
-    <description>Java 8s missing functional library. Inspired by conversations with Jeff Bay, underscore.js and clojure</description>
+    <description>Java 8s missing functional library. Inspired by conversations with Jeff Bay, underscore.js and
+        clojure
+    </description>
 
     <scm>
         <developerConnection>scm:git:git@github.com:tsmarsh/UnderBar.git</developerConnection>
@@ -56,7 +59,7 @@
             <url>https://artifactory.boardandtiger.com/artifactory/libs-release</url>
         </repository>
         <repository>
-            <snapshots />
+            <snapshots/>
             <id>snapshots</id>
             <name>libs-snapshot</name>
             <url>https://artifactory.boardandtiger.com/artifactory/libs-snapshot</url>
@@ -72,7 +75,7 @@
             <url>https://artifactory.boardandtiger.com/artifactory/plugins-release</url>
         </pluginRepository>
         <pluginRepository>
-            <snapshots />
+            <snapshots/>
             <id>snapshots</id>
             <name>plugins-snapshot</name>
             <url>https://artifactory.boardandtiger.com/artifactory/plugins-snapshot</url>
@@ -143,22 +146,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>2.9</version>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Creating site for ${project.version}</message>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>site</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
