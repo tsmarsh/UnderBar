@@ -20,12 +20,12 @@ public class UnderString {
 
     public static String join(Iterable<String> coll) {
         StringBuilder sb = new StringBuilder();
-        hash(coll, sb::append);
+        map(coll, sb::append);
         return sb.toString();
     }
 
     public static String join(Object... os) {
-        return join(map(os, o -> o.toString()));
+        return join(map(os, Object::toString));
     }
 
     public static <T> String join(String separator, Iterable<T> coll) {

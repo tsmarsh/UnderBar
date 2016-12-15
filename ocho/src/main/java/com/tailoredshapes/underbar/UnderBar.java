@@ -146,7 +146,7 @@ public class UnderBar {
      * Creates a new HashSet of T from an iterable of F using a convertion function
      */
     public static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
-        return set(hash(is, toT));
+        return set(map(is, toT));
     }
 
 
@@ -361,7 +361,7 @@ public class UnderBar {
      * Removes empty optionals from a collection
      */
     public static <T> List<T> compactOptionals(Iterable<Optional<T>> ts) {
-        return compact(hash(ts, t -> t.orElse(null)));
+        return compact(map(ts, t -> t.orElse(null)));
     }
 
     /**
@@ -401,7 +401,7 @@ public class UnderBar {
             results.computeIfAbsent(entry.getKey(), k -> emptyList()).add(t);
             result.put(entry.getKey(), entry.getValue());
         });
-        List<K> duplicateKeys = hash(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
+        List<K> duplicateKeys = map(filter(results.entrySet(), entry -> entry.getValue().size() > 1), Map.Entry::getKey);
         dieUnless(duplicateKeys.isEmpty(), () -> "Duplicates: " + filterKeys(results, duplicateKeys::contains));
         return result;
     }
@@ -479,7 +479,7 @@ public class UnderBar {
     /**
      * Map a function over an iterable
      */
-    public static <T, F> List<T> hash(Iterable<F> fs, Function<F, T> toT) {
+    public static <T, F> List<T> map(Iterable<F> fs, Function<F, T> toT) {
         return stream(fs).map(toT).collect(toList());
     }
 
@@ -496,14 +496,14 @@ public class UnderBar {
      * Map a function over an array
      */
     public static <T, F> List<T> map(F[] fs, Function<F, T> toT) {
-        return hash(Arrays.asList(fs), toT);
+        return map(Arrays.asList(fs), toT);
     }
 
     /**
      * Map a function over a hash
      */
     public static <T, K, V> List<T> map(Map<K, V> m, BiFunction<K, V, T> tOfKV) {
-        return hash(m.entrySet(), entry -> tOfKV.apply(entry.getKey(), entry.getValue()));
+        return map(m.entrySet(), entry -> tOfKV.apply(entry.getKey(), entry.getValue()));
     }
 
     /**

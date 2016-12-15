@@ -300,7 +300,7 @@ public class UnderBarTest {
 
     @Test
     public void mapPerformsAFunctionOverACollection() throws Exception {
-        assertEquals(list(2, 3, 4, 5), hash(list(1, 2, 3, 4), (x) -> x + 1));
+        assertEquals(list(2, 3, 4, 5), map(list(1, 2, 3, 4), (x) -> x + 1));
     }
 
     @Test
