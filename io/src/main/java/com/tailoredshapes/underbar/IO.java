@@ -3,6 +3,7 @@ package com.tailoredshapes.underbar;
 import com.tailoredshapes.stash.Stash;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Date;
 
@@ -43,5 +44,40 @@ public class IO {
                 opts.maybe("encoding"),
                 (charset) -> writer(outputStream, opts),
                 () -> writer(outputStream));
+    }
+
+    public static URL resource(String path) {
+        return Object.class.getResource(path);
+    }
+
+    public static File file(URL url) {
+        return new File(rethrow(url::toURI));
+    }
+
+    public static BufferedReader reader(InputStream is) {
+        return new BufferedReader(new InputStreamReader(is));
+    }
+
+    public static BufferedReader reader(File f) {
+        return new BufferedReader(rethrow(() -> new FileReader(f)));
+    }
+
+    public static String slurp(BufferedReader buffy) {
+        StringBuilder bob = new StringBuilder();
+        String line;
+        do {
+            line = rethrow(buffy::readLine);
+            if (line != null) bob.append(line);
+        } while (line != null);
+
+        return bob.toString();
+    }
+
+    public static String slurp(File file) {
+        return slurp(reader(file));
+    }
+
+    public static String slurp(InputStream is) {
+        return slurp(reader(is));
     }
 }
