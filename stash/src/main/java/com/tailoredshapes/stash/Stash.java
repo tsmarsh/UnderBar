@@ -178,6 +178,12 @@ public class Stash implements JSONAware, Cloneable {
         return new Stash(this).update(k, v);
     }
 
+    public Stash dissoc(String k) {
+        Stash newStash = new Stash(this);
+        newStash.remove(k);
+        return newStash;
+    }
+
     public Number number(String key) {
         return getCast(key, x -> (Number) x);
     }

@@ -36,8 +36,13 @@ public class StashTest {
     }
 
     @Test
-    public void withTest() throws Exception {
+    public void assocTest() throws Exception {
         assertEquals("bar", stash().assoc("foo", "bar").get("foo"));
+    }
+
+    @Test
+    public void dissocTest() throws Exception {
+        assertEquals(stash("foo", 1), stash("foo", 1, "bar", 2).dissoc("bar"));
     }
 
     @Test
