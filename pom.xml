@@ -27,7 +27,7 @@
 
     <scm>
         <developerConnection>scm:git:git@github.com:tsmarsh/UnderBar.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>underbar-0.1.0</tag>
         <url>https://github.com/tsmarsh/Underbar</url>
     </scm>
 
