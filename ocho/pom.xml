@@ -5,7 +5,7 @@
   <name>The Ocho</name>
 
   <groupId>com.tailoredshapes.underbar</groupId>
-  <artifactId>core</artifactId>
+  <artifactId>ocho</artifactId>
   <version>0.1.1-SNAPSHOT</version>
 
   <parent>
