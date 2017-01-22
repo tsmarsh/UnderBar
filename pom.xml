@@ -4,7 +4,7 @@
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>UnderBar</name>
@@ -37,14 +37,12 @@
             <url>https://github.com/tsmarsh/UnderBar</url>
         </site>
         <repository>
-            <id>boardandtiger</id>
-            <name>Board &amp; Tiger Releases</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/libs-release-local</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>boardandtiger</id>
-            <name>Board &amp; Tiger Snapshots</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/libs-snapshot-local</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
