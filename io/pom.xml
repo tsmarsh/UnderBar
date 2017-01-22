@@ -11,7 +11,7 @@
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
 
   <description>Functional wrappers for Java 8 IO</description>
