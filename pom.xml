@@ -4,7 +4,7 @@
 
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <prerequisites>
@@ -36,52 +36,15 @@
     </scm>
 
     <distributionManagement>
-        <site>
-            <id>boardandtiger</id>
-            <url>https://github.com/tsmarsh/UnderBar</url>
-        </site>
         <repository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>dav:https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>central</id>
-            <name>libs-release</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/libs-release</url>
-        </repository>
-        <repository>
-            <snapshots />
-            <id>snapshots</id>
-            <name>libs-snapshot</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/libs-snapshot</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>central</id>
-            <name>plugins-release</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/plugins-release</url>
-        </pluginRepository>
-        <pluginRepository>
-            <snapshots />
-            <id>snapshots</id>
-            <name>plugins-snapshot</name>
-            <url>https://artifactory.boardandtiger.com/artifactory/plugins-snapshot</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <reporting>
         <plugins>
@@ -94,27 +57,14 @@
     </reporting>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>2.10</version>
+            </extension>
+        </extensions>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
-                <configuration>
-                    <failOnError>false</failOnError>
-
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>aggregate</id>
-                        <goals>
-                            <goal>aggregate</goal>
-                            <goal>test-javadoc</goal>
-                        </goals>
-                        <phase>site</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
