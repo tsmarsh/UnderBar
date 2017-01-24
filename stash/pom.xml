@@ -6,12 +6,12 @@
 
   <groupId>com.tailoredshapes.underbar</groupId>
   <artifactId>stash</artifactId>
-  <version>0.1.11-SNAPSHOT</version>
+  <version>0.1.11</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.1.11-SNAPSHOT</version>
+    <version>0.1.11</version>
   </parent>
 
   <description>Java 8s missing STring HaSH.</description>
@@ -25,12 +25,12 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>ocho</artifactId>
-      <version>0.1.11-SNAPSHOT</version>
+      <version>0.1.11</version>
     </dependency>
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>dates</artifactId>
-      <version>0.1.11-SNAPSHOT</version>
+      <version>0.1.11</version>
     </dependency>
   </dependencies>
 </project>
