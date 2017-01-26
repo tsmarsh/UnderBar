@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/tsmarsh/UnderBar.svg?branch=master)](https://travis-ci.org/tsmarsh/UnderBar)
+[![codecov](https://codecov.io/gh/tsmarsh/UnderBar/branch/master/graph/badge.svg)](https://codecov.io/gh/tsmarsh/UnderBar)
+[![MavenCentral](https://maven-badges.herokuapp.com/maven-central/com.tailoredshapes/{artifact_id}/badge.svg)](https://mvnrepository.com/artifact/com.tailoredshapes/underbar)
+
 #Underbar
 
 ## Summary
