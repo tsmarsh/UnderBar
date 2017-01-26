@@ -1,4 +1,5 @@
 language: java
+sudo: false
 script: mvn install -Dmaven.javadoc.skip=true -Dgpg.skip=true -B -V
 jdk:
   - oraclejdk8
