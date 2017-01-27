@@ -271,7 +271,7 @@ public class Stash implements JSONAware, Cloneable {
                 dieUnless(result == value.shortValue(), () -> value + " to large for short"));
     }
 
-    public float asByte(String k) {
+    public byte asByte(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.byteValue(), result ->
                 dieUnless(result == value.byteValue(), () -> value + " to large for byte"));

@@ -4,20 +4,19 @@ import org.junit.Test;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.tailoredshapes.stash.Stash.*;
 import static com.tailoredshapes.underbar.Dates.date;
+import static com.tailoredshapes.underbar.Dates.instant;
+import static com.tailoredshapes.underbar.Dates.isoString;
 import static com.tailoredshapes.underbar.UnderBar.*;
 import static java.util.UUID.randomUUID;
 import static org.junit.Assert.*;
 
 public class StashTest {
-
-    @Test
-    public void parseJsonMapsTest() throws Exception {
-
-    }
 
     @Test
     public void putTest() throws Exception {
@@ -46,17 +45,24 @@ public class StashTest {
     }
 
     @Test
-    public void long_Test() throws Exception {
+    public void longTest() throws Exception {
         Stash smap = stash("foo", 1l);
 
         assertEquals(1l, smap.l("foo"));
     }
 
     @Test
-    public void double_Test() throws Exception {
+    public void doubleTest() throws Exception {
         Stash smap = stash("foo", 1.1);
 
         assertEquals(1.1, smap.d("foo"), 0);
+    }
+
+    @Test
+    public void floatTest() throws Exception {
+        Stash smap = stash("foo", 1.1f);
+
+        assertEquals(1.1f, smap.f("foo"), 0);
     }
 
     @Test
@@ -67,24 +73,84 @@ public class StashTest {
     }
 
     @Test
+    public void shortTest() throws Exception {
+        Stash smap = stash("foo", 1);
+
+        assertEquals(1, smap.s("foo"));
+    }
+
+    @Test
+    public void byteTest() throws Exception {
+        Stash smap = stash("foo", 1);
+
+        assertEquals(1, smap.b("foo"));
+    }
+
+    @Test
+    public void boolTest() throws Exception {
+        Stash smap = stash("foo", false);
+
+        assertFalse( smap.bool("foo"));
+    }
+
+    @Test
+    public void makesNumbersLongs() throws Exception {
+        assertEquals(5l, stash("foo", 5.5).asLong("foo"));
+    }
+
+    @Test
+    public void makesNumbersIntegers() throws Exception {
+        assertEquals(5, stash("foo", 5.5).asInteger("foo"));
+    }
+
+    @Test
+    public void makesNumbersDoubles() throws Exception {
+        assertEquals(5.5, stash("foo", 5.5f).asDouble("foo"), 0.0);
+    }
+
+    @Test
+    public void makesNumbersFloat() throws Exception {
+        assertEquals(5.0f, stash("foo", 5).asFloat("foo"), 0.0);
+    }
+
+    @Test
+    public void makesNumbersShort() throws Exception {
+        assertEquals(5, stash("foo", 5.5).asShort("foo"));
+    }
+
+    @Test
+    public void makesNumbersByte() throws Exception {
+        assertEquals(5, stash("foo", 5.5).asByte("foo"));
+    }
+
+    @Test
     public void integerValueTest() throws Exception {
         Stash smap = stash("foo", 1.1);
 
         assertEquals(1, smap.asInteger("foo"), 0);
     }
 
+
     @Test
-    public void parseIntegerTest() throws Exception {
+    public void parseIntegerMissingTest() throws Exception {
         Stash smap = stash("foo", "5", "bar", null);
 
+        assertEquals(5, smap.parseInteger("foo"));
         assertEquals(5, smap.parseInteger("foo", 3));
         assertEquals(3, smap.parseInteger("bar", 3));
+    }
+
+    @Test
+    public void parseInstantTest() throws Exception {
+        String s = isoString(new Date());
+        assertEquals(instant(s), stash("foo", s).parseInstant("foo"));
     }
 
     @Test
     public void parseLongTest() throws Exception {
         Stash smap = stash("foo", "5", "bar", null);
 
+        assertEquals(5, smap.parseLong("foo"));
         assertEquals(5, smap.parseLong("foo", 3));
         assertEquals(3, smap.parseLong("bar", 3));
     }
@@ -114,10 +180,23 @@ public class StashTest {
 
     @Test
     public void putIntoTest() throws Exception {
+        Map<String, Object> hash = hash("eggs", "other");
         Stash other = stash("eggs", "spam");
-        assertEquals(stash("foo", "bar", "eggs", "spam"), stash("foo", "bar").putInto(other));
+        assertEquals(
+                stash("foo", "bar", "eggs", "spam"),
+                stash("foo", "bar").putInto(other));
+        assertEquals(
+                hash("foo", "bar", "eggs", "other"),
+                stash("foo", "bar").putInto(hash));
     }
 
+    @Test
+    public void getTest() throws Exception {
+        Stash stash = stash("foo", "bar");
+        assertEquals("bar",stash.get("foo"));
+        assertEquals("bar", stash.get("foo", String.class));
+        assertEquals("bar", stash.get("fred", "bar"));
+    }
 
     @Test
     public void hasTest() throws Exception {
@@ -150,7 +229,7 @@ public class StashTest {
 
     @Test
     public void parseJsonTest() throws Exception {
-        assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs"));
+        assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs", stash()));
     }
 
     @Test
@@ -292,12 +371,28 @@ public class StashTest {
 
     @Test
     public void parseDoubleTest() throws Exception {
+        assertEquals(2.2, stash("foo", "2.2").parseDouble("foo"), 0);
         assertEquals(2.2, stash("foo", "2.2").parseDouble("foo", 0), 0);
         assertEquals(0, stash("foo", null).parseDouble("foo", 0), 0);
     }
 
     @Test
+    public void parseFloatTest() throws Exception {
+        assertEquals(2.2f, stash("foo", "2.2").parseFloat("foo"), 0);
+        assertEquals(2.2f, stash("foo", "2.2").parseFloat("foo", 0.0f), 0);
+        assertEquals(0.0f, stash("foo", null).parseFloat("foo", 0.0f), 0);
+    }
+
+    @Test
+    public void parseShortTest() throws Exception {
+        assertEquals(2, stash("foo", "2").parseShort("foo"));
+        assertEquals(2, stash("foo", "2").parseShort("foo", (short)1));
+        assertEquals(0, stash("foo", null).parseShort("foo", (short)0));
+    }
+
+    @Test
     public void parseBooleanTest() throws Exception {
+        assertTrue(stash("foo", "True").parseBoolean("foo"));
         assertTrue(stash("foo", "True").parseBoolean("foo", false));
         assertFalse(stash("foo", "f").parseBoolean("foo", true));
         assertTrue(stash("foo", null).parseBoolean("foo", true));
