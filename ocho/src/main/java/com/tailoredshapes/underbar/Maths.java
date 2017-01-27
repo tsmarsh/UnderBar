@@ -9,51 +9,51 @@ import static com.tailoredshapes.underbar.UnderBar.*;
 /**
  * Created by tmarsh on 11/3/16.
  */
-public class Maths {
-    public static boolean xor(boolean a, boolean b) {
+public interface Maths {
+    static boolean xor(boolean a, boolean b) {
         return (a || b) && !(a && b);
     }
 
-    public static double average(Collection<Long> values) {
+    static double average(Collection<Long> values) {
         if (isEmpty(values))
             return Double.NaN;
         return ((double) sum(values)) / values.size();
     }
 
-    public static double averageInt(Collection<Integer> values) {
+    static double averageInt(Collection<Integer> values) {
         if (isEmpty(values))
             return Double.NaN;
         return ((double) sumInt(values)) / values.size();
     }
 
-    public static double averageDouble(Collection<Double> values) {
+    static double averageDouble(Collection<Double> values) {
         if (isEmpty(values))
             return Double.NaN;
         return sumDouble(values) / values.size();
     }
 
-    public static long sum(Collection<Long> values) {
+    static long sum(Collection<Long> values) {
         long result = 0;
         for (long v : values)
             result += v;
         return result;
     }
 
-    public static long sumInt(Collection<Integer> values) {
+    static long sumInt(Collection<Integer> values) {
         long result = 0;
         for (long v : values)
             result += v;
         return result;
     }
 
-    public static double sumDouble(Collection<Double> values) {
+    static double sumDouble(Collection<Double> values) {
         double result = 0;
         for (double v : values)
             result += v;
         return result;
     }
 
-    public static Optional<Long> min(Collection<Long> values) {
+    static Optional<Long> min(Collection<Long> values) {
         if (isEmpty(values))
             return optional();
         long result = first(values);
@@ -62,7 +62,7 @@ public class Maths {
         return optional(result);
     }
 
-    public static Optional<Long> max(Collection<Long> values) {
+    static Optional<Long> max(Collection<Long> values) {
         if (isEmpty(values))
             return optional();
         long result = first(values);
@@ -71,7 +71,7 @@ public class Maths {
         return optional(result);
     }
 
-    public static double medianInt(List<Integer> values) {
+    static double medianInt(List<Integer> values) {
         if (isEmpty(values))
             return Double.NaN;
         int count = values.size();
@@ -81,7 +81,7 @@ public class Maths {
                 : (values.get(half - 1) + values.get(half)) / 2.0;
     }
 
-    public static double median(List<Long> values) {
+    static double median(List<Long> values) {
         if (isEmpty(values))
             return Double.NaN;
         int count = values.size();

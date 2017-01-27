@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 /**
  * Created by tmarsh on 11/2/16.
  */
-public class UnderReg {
-    public static Pattern pattern(String s) {
+public interface UnderReg {
+    static Pattern pattern(String s) {
         return Pattern.compile(s);
     }
 
-    public static Matcher matcher(Pattern re, CharSequence s) {
+    static Matcher matcher(Pattern re, CharSequence s) {
         return re.matcher(s);
     }
 
-    public static List<String> groups(Matcher m) {
+    static List<String> groups(Matcher m) {
         List<String> l = new ArrayList<>();
         if (!m.matches()) {
             return l;

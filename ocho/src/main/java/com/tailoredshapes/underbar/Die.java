@@ -10,8 +10,6 @@ import java.util.jar.Pack200;
 import static com.tailoredshapes.underbar.UnderBar.list;
 import static com.tailoredshapes.underbar.function.ExceptionalFunctions.*;
 
-;
-
 public class Die {
     public static <T> T die(Throwable e, String msg, Object... args) {
         throw new UnderBarred(args.length == 0 ? msg : String.format(msg, args), e);
