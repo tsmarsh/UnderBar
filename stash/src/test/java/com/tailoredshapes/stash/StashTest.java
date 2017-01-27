@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -229,7 +230,9 @@ public class StashTest {
 
     @Test
     public void parseJsonTest() throws Exception {
+        assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs"));
         assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs", stash()));
+        assertEquals(stash(), stash("eggs", "{\"foo\": 5}").parseJson("farp", stash()));
     }
 
     @Test
@@ -489,5 +492,24 @@ public class StashTest {
 
         assertEquals(optional(5), stash("a", 3).ifLet("a", k->5));
         assertEquals(optional(), stash("b", 3).ifLet("a", k->5));
+    }
+
+    @Test
+    public void canBeUsedAsAHashKey() throws Exception {
+        Map<Stash, Integer> hash = hash(stash("foo", "bar"), 5);
+        assertEquals(5, (int)hash.get(stash("foo", "bar")));
+    }
+
+    @Test
+    public void canBeCopiedToAMap() throws Exception {
+        Stash stash = stash("foo", stash("bar", list(stash("a", 1, "b", 2))));
+        Map<String, Map<String, List<Map<String, Integer>>>> expected = hash("foo", hash("bar", list(hash("a", 1, "b", 2))));
+        assertEquals(expected, stash.toMapDeep());
+    }
+
+    @Test
+    public void name() throws Exception {
+        Stash stash = stash("foo", stash("bar", list(stash("a", 1, "b", 2))));
+        assertEquals("{foo={bar=[{a=1, b=2}]}}", stash.toString());
     }
 }
