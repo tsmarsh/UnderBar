@@ -76,11 +76,7 @@ public class UnderBar {
      * Checks if a optional is present. If it isn't execute a function, otherwise execute a supplier
      */
     public static <T, R> R optionally(Optional<T> maybe, Function<T, R> onT, Supplier<R> noT) {
-        Heap<R> one = heap(null);
-        maybe.ifPresent(t -> one.value = onT.apply(t));
-        if (!maybe.isPresent())
-            one.value = noT.get();
-        return one.value;
+        return maybe.isPresent() ? onT.apply(maybe.get()) : noT.get();
     }
 
     /**

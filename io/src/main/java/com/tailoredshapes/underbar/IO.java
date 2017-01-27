@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Optional;
 
 import static com.tailoredshapes.underbar.Die.rethrow;
 import static com.tailoredshapes.underbar.UnderBar.optionally;
@@ -30,7 +31,8 @@ public class IO {
     }
 
     public static BufferedWriter writer(OutputStream outputStream, Stash opts) {
-        Charset encoding = optionally(opts.optional("encoding"), Charset::forName, () -> Charset.forName("UTF-8"));
+        Optional<String> enc = opts.maybe("encoding");
+        Charset encoding = optionally(enc, (String s) -> Charset.forName(s), () -> Charset.forName("UTF-8"));
 
         return new BufferedWriter(rethrow(() -> new OutputStreamWriter(outputStream, encoding)));
     }
