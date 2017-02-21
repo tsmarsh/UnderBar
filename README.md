@@ -67,6 +67,10 @@ Set<Integer> s = set(1,1,2);
 Int[] a = array(1,2,3,4);
 ```
 
+The other major change with Java 8 is the introduction of static
+implementations in interfaces, providing an equivalent of Scalas
+'object's 
+
 Another issue with Java is boilerplate. Traditionally you'd fix it with very specific classes. UnderBar hopes to demonstrate a better way.
 
 Take the StreamAPI, which is fine, but accessing it is different depending on the data type. UnderBar provides a consistent ```stream(T t)``` so that you can call
