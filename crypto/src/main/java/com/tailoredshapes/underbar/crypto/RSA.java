@@ -62,7 +62,7 @@ public interface RSA {
                     bob.append("\n");
         });
 
-        byte[] bytes = Base64.getDecoder().decode(bob.toString());
+        byte[] bytes = Base64.getDecoder().decode(bob.toString().replace("\n", ""));
 
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
