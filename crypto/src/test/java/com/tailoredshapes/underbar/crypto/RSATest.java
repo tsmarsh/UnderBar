@@ -28,6 +28,8 @@ public class RSATest {
         PublicKey publicKey = sshPublicKey(pubkey);
         PrivateKey privateKey = sshPrivateKey(privKey);
 
+
+
         assertEquals( "Hi Bob!", decrypt(privateKey, encrypt(publicKey, "Hi Bob!")));
     }
 }
