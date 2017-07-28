@@ -46,6 +46,7 @@
         <module>dates</module>
         <module>stash</module>
         <module>io</module>
+        <module>crypto</module>
     </modules>
 
     <description>Java 8s missing functional library. Inspired by conversations with Jeff Bay, underscore.js and
