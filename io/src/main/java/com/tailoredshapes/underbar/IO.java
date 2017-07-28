@@ -7,6 +7,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.tailoredshapes.underbar.Die.rethrow;
 import static com.tailoredshapes.underbar.UnderBar.optionally;
@@ -65,14 +66,7 @@ public class IO {
     }
 
     public static String slurp(BufferedReader buffy) {
-        StringBuilder bob = new StringBuilder();
-        String line;
-        do {
-            line = rethrow(buffy::readLine);
-            if (line != null) bob.append(line);
-        } while (line != null);
-
-        return bob.toString();
+        return buffy.lines().collect(Collectors.joining("\n"));
     }
 
     public static String slurp(File file) {
