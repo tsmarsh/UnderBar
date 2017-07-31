@@ -6,12 +6,12 @@
 
   <groupId>com.tailoredshapes.underbar</groupId>
   <artifactId>crypto</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.1-SNAPSHOT</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.1-SNAPSHOT</version>
   </parent>
 
   <description>Convenience Methods for javax.security</description>
@@ -20,12 +20,12 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>ocho</artifactId>
-      <version>0.1.1</version>
+      <version>0.1.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>io</artifactId>
-      <version>0.1.1</version>
+      <version>0.1.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
