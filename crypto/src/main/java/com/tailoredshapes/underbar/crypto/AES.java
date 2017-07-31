@@ -68,7 +68,7 @@ public interface AES {
     }
 
     static byte[] pad(byte[] cipher){
-        int paddingRequired = cipher.length % 16;
+        int paddingRequired = 16 - cipher.length % 16;
 
         if(0 != paddingRequired){
             byte[] dest = new byte[cipher.length + paddingRequired];

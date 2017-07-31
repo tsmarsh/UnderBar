@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import javax.crypto.SecretKey;
 
+import java.security.SecureRandom;
+
 import static com.tailoredshapes.underbar.crypto.AES.*;
 import static org.junit.Assert.*;
 
@@ -40,5 +42,15 @@ public class AESTest {
         String urlSafeCipher = encrypted.asString(true);
 
         assertEquals("My message", decrypt(key, new Payload(urlSafeCipher, encrypted.iv, true)).toString());
+    }
+
+    @Test
+    public void shouldPadAByteArrayToTheCorrectLength() throws Exception {
+        SecureRandom random = new SecureRandom();
+
+        byte[] ary = new byte[30];
+        random.nextBytes(ary);
+        
+        assertEquals(0, pad(ary).length % 16);
     }
 }
