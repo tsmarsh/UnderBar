@@ -1,14 +1,19 @@
 package com.tailoredshapes.underbar.crypto;
 
+import sun.swing.SwingUtilities2;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import java.security.SecureRandom;
 import java.util.Base64;
 
+import static com.tailoredshapes.underbar.Die.dieIf;
 import static com.tailoredshapes.underbar.Die.rethrow;
+import static com.tailoredshapes.underbar.crypto.BCrypt.hashPassword;
 import static javax.crypto.KeyGenerator.getInstance;
 
 import static javax.crypto.Cipher.DECRYPT_MODE;
@@ -58,6 +63,16 @@ public interface AES {
         SecureRandom random = new SecureRandom();
         keyGenerator.init(random);
         return keyGenerator.generateKey();
+    }
+
+    static SecretKey aesKey(byte[] key){
+        dieIf(key.length < 16, () -> "Key too short");
+
+        return new SecretKeySpec(key, 0, 16, "AES");
+    }
+
+    static SecretKey aesKey(String password, String salt){
+        return aesKey(hashPassword(password, salt).getBytes());
     }
 
     static IvParameterSpec iv(){
