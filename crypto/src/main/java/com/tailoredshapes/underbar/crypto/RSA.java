@@ -26,18 +26,6 @@ public interface RSA {
         return generator.generateKeyPair();
     }
 
-    static PrivateKey privateKey(String key){
-        KeyFactory rsa = rethrow(() -> KeyFactory.getInstance("RSA"));
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
-        return rethrow(() -> rsa.generatePrivate(spec));
-    }
-
-    static PublicKey publicKey(String key){
-        KeyFactory rsa = rethrow(() -> KeyFactory.getInstance("RSA"));
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(key.getBytes());
-        return rethrow(() -> rsa.generatePublic(spec));
-    }
-
     static BigInteger readBigInteger(DataInputStream in) {
         assert rethrow(() -> in.read() == 2);
 
