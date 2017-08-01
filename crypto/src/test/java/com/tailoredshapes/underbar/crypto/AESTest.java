@@ -7,6 +7,7 @@ import javax.crypto.SecretKey;
 import java.security.SecureRandom;
 
 import static com.tailoredshapes.underbar.crypto.AES.*;
+import static com.tailoredshapes.underbar.crypto.BCrypt.genSalt;
 import static org.junit.Assert.*;
 
 public class AESTest {
@@ -50,7 +51,19 @@ public class AESTest {
 
         byte[] ary = new byte[30];
         random.nextBytes(ary);
-        
+
         assertEquals(0, pad(ary).length % 16);
+    }
+
+    @Test
+    public void shouldCreateAnAESKeyFromAPassword() throws Exception {
+        String salt = genSalt();
+
+        SecretKey key = aesKey("password", salt);
+        Payload butt = encrypt(key, "Boo Boo Butt");
+
+        SecretKey secondKey = aesKey("password", salt);
+
+        assertEquals("Boo Boo Butt", decrypt(secondKey, butt).toString());
     }
 }
