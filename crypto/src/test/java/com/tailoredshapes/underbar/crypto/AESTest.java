@@ -6,6 +6,9 @@ import javax.crypto.SecretKey;
 
 import java.security.SecureRandom;
 
+import static com.tailoredshapes.underbar.IO.file;
+import static com.tailoredshapes.underbar.IO.resource;
+import static com.tailoredshapes.underbar.IO.slurp;
 import static com.tailoredshapes.underbar.crypto.AES.*;
 import static com.tailoredshapes.underbar.crypto.BCrypt.genSalt;
 import static org.junit.Assert.*;
@@ -53,6 +56,17 @@ public class AESTest {
         random.nextBytes(ary);
 
         assertEquals(0, pad(ary).length % 16);
+    }
+
+    @Test
+    public void shouldEncryptAndDecryptALargePieceOfText() throws Exception {
+        String lorem = slurp(file(resource("/lorem.txt")));
+
+        SecretKey secretKey = aesKey();
+
+        Payload encrypted = encrypt(secretKey, lorem);
+
+        assertEquals(lorem, decrypt(secretKey, encrypted).toString());
     }
 
     @Test

@@ -430,6 +430,16 @@ public class UnderBarTest {
     }
 
     @Test
+    public void partitionArrayTest() throws Exception {
+        assertArrayEquals(
+                array(array(1, 2), array(3, 4), array(5, null)),
+                partition(array(1, 2, 3, 4, 5), Integer.class,2));
+        assertArrayEquals(
+                array(array(1, 2), array(3, 4)),
+                partition(array(1, 2, 3, 4), Integer.class,2));
+    }
+
+    @Test
     public void superMapTest() throws Exception {
         Map<String, Integer> map = hash(
                 "a", 1,

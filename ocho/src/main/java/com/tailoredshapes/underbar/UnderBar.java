@@ -5,6 +5,7 @@ import com.tailoredshapes.underbar.data.Heap;
 import com.tailoredshapes.underbar.exceptions.UnderBarred;
 import com.tailoredshapes.underbar.function.RegularFunctions;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.IntStream;
@@ -770,6 +771,21 @@ public interface UnderBar {
             i++;
         }
         return result;
+    }
+
+    static <T> T[][] partition(T[] ts, Class<T> c, int size) {
+
+        int i = 0;
+
+        int girth = ts.length / size;
+        T[][] destination = (T[][]) Array.newInstance(c, ts.length % size == 0 ? girth : girth + 1, size);
+
+        while(i * size < ts.length){
+            System.arraycopy(ts, i*size, destination[i], 0, Math.min(ts.length - (i * size), size));
+            i++;
+        }
+
+        return destination;
     }
 
     /**

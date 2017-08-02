@@ -630,9 +630,7 @@ public interface BCrypt {
             off = 4;
         }
 
-        // Extract number of rounds
-        if (salt.charAt(off + 2) > '$')
-            throw new IllegalArgumentException ("Missing salt rounds");
+        dieIf(salt.charAt(off + 2) > '$', () -> "Missing salt rounds");
         rounds = Integer.parseInt(salt.substring(off, off + 2));
 
         real_salt = salt.substring(off + 3, off + 25);
@@ -671,26 +669,26 @@ public interface BCrypt {
 
     /**
      * Generate a salt for use with the BCrypt.hashPassword() method
-     * @param log_rounds	the log2 of the number of rounds of
+     * @param logRounds	the log2 of the number of rounds of
      * hashing to apply - the work factor therefore increases as
-     * 2**log_rounds.
+     * 2**logRounds.
      * @param random		an instance of SecureRandom to use
      * @return	an encoded salt value
      */
-    static String genSalt(int log_rounds, SecureRandom random) {
+    static String genSalt(int logRounds, SecureRandom random) {
         StringBuffer rs = new StringBuffer();
         byte rnd[] = new byte[BCRYPT_SALT_LEN];
 
         random.nextBytes(rnd);
 
         rs.append("$2a$");
-        if (log_rounds < 10)
+        if (logRounds < 10) {
             rs.append("0");
-        if (log_rounds > 30) {
-            throw new IllegalArgumentException(
-                    "log_rounds exceeds maximum (30)");
         }
-        rs.append(Integer.toString(log_rounds));
+
+        dieIf(logRounds > 30, () -> "logRounds exceeds maximum (30)");
+
+        rs.append(Integer.toString(logRounds));
         rs.append("$");
         rs.append(encodeBase64(rnd, rnd.length));
         return rs.toString();

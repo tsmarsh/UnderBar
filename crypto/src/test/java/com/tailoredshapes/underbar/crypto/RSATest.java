@@ -2,6 +2,7 @@ package com.tailoredshapes.underbar.crypto;
 
 import org.junit.Test;
 
+import javax.crypto.SecretKey;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -13,11 +14,26 @@ import static com.tailoredshapes.underbar.crypto.RSA.*;
 import static org.junit.Assert.*;
 
 public class RSATest {
+    KeyPair bobPair = keypair();
+
     @Test
     public void endToEnd() throws Exception {
-        KeyPair bobPair = keypair();
-
         assertEquals( "Hi Bob!", decrypt(bobPair.getPrivate(), encrypt(bobPair.getPublic(), "Hi Bob!")));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void endToEndLargeTextFails() throws Exception {
+        String lorem = slurp(file(resource("/lorem.txt")));
+
+        encrypt(bobPair.getPublic(), lorem);
+    }
+
+    @Test
+    public void isVeryGoodAtEncryptingAESKeys() throws Exception {
+        SecretKey secretKey = AES.aesKey();
+
+        assertArrayEquals(secretKey.getEncoded(),
+                decrypt(bobPair.getPrivate(), encrypt(bobPair.getPublic(), secretKey.getEncoded())));
     }
 
     @Test

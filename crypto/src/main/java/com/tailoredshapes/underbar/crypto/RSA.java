@@ -10,6 +10,7 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 
+import static com.tailoredshapes.underbar.Die.dieIf;
 import static com.tailoredshapes.underbar.Die.rethrow;
 import static com.tailoredshapes.underbar.UnderBar.filter;
 import static com.tailoredshapes.underbar.UnderBar.list;
@@ -27,7 +28,7 @@ public interface RSA {
     }
 
     static BigInteger readBigInteger(DataInputStream in) {
-        assert rethrow(() -> in.read() == 2);
+        rethrow(() -> in.read() == 2);
 
         int length = rethrow(() -> in.read());
 
@@ -54,8 +55,8 @@ public interface RSA {
 
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
-        assert rethrow(() -> in.read()) == 48;
-        assert rethrow(() -> in.read()) == 130;
+        dieIf(rethrow(() -> in.read()) != 48, () -> "Unexpected Block Size in part 1");
+        dieIf(rethrow(() -> in.read()) != 130, () -> "Unexpected Block Size in part 2");
         rethrow(() -> in.skipBytes(5));
 
         BigInteger modulo = readBigInteger(in);
@@ -68,8 +69,8 @@ public interface RSA {
 
     static PublicKey sshPublicKey(String key){
         String[] split = key.split(" ");
-        assert split.length == 3;
-        assert split[0].equals("ssh-rsa");
+        dieIf(split.length != 3, () -> "Unexpected file format");
+        dieIf(!split[0].equals("ssh-rsa"), () -> "Unrecognised file header");
 
         byte[] keyBytes = Base64.getDecoder().decode(split[1]);
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(keyBytes));
@@ -77,7 +78,7 @@ public interface RSA {
         byte[] header = new byte[rethrow(in::readInt)];
         rethrow(() -> in.readFully(header));
 
-        assert new String(header).equals("ssh-rsa");
+        dieIf(! new String(header).equals("ssh-rsa"), () -> "Unrecognised header");
 
         byte[] exponent = new byte[rethrow(in::readInt)];
         rethrow(() -> in.readFully(exponent));
