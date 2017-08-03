@@ -14,7 +14,7 @@ import static com.tailoredshapes.underbar.crypto.RSA.*;
 import static org.junit.Assert.*;
 
 public class RSATest {
-    KeyPair bobPair = keypair();
+    KeyPair bobPair = keypair(512); //for speed
 
     @Test
     public void endToEnd() throws Exception {
