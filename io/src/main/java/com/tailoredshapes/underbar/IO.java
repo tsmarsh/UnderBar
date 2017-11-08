@@ -48,13 +48,14 @@ public class IO {
                 () -> writer(outputStream));
     }
 
-    public static URL resource(String path) {
-        return Object.class.getResource(path);
+    public static InputStream resource(String path) {
+        return rethrow(() -> Object.class.getModule().getResourceAsStream(path));
     }
 
     public static File file(URL url) {
         return new File(rethrow(url::toURI));
     }
+
 
     public static BufferedReader reader(InputStream is) {
         return new BufferedReader(new InputStreamReader(is));
