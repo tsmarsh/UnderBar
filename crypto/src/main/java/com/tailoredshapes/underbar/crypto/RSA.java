@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.math.BigInteger;
 import java.security.*;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
@@ -14,7 +13,6 @@ import static com.tailoredshapes.underbar.Die.dieIf;
 import static com.tailoredshapes.underbar.Die.rethrow;
 import static com.tailoredshapes.underbar.UnderBar.filter;
 import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderBar.map;
 
 public interface RSA {
     static KeyPair keypair(){

@@ -3,6 +3,7 @@ package com.tailoredshapes.underbar.crypto;
 import org.junit.Test;
 
 import javax.crypto.SecretKey;
+import java.io.File;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -23,7 +24,8 @@ public class RSATest {
 
     @Test(expected = RuntimeException.class)
     public void endToEndLargeTextFails() throws Exception {
-        String lorem = slurp(file(resource("/lorem.txt")));
+
+        String lorem = slurp(new File(String.join(File.separator, "src", "test", "resources", "/lorem.txt")));
 
         encrypt(bobPair.getPublic(), lorem);
     }
@@ -38,8 +40,9 @@ public class RSATest {
 
     @Test
     public void endToEndWithKeysFromFiles() throws Exception {
-        String pubkey = slurp(file(resource("/id_rsa.pub")));
-        String privKey = slurp(file(resource("/id_rsa")));
+
+        String pubkey = slurp(new File(String.join(File.separator, "src", "test", "resources", "id_rsa.pub")));
+        String privKey = slurp(new File(String.join(File.separator, "src", "test", "resources", "id_rsa")));
 
         PublicKey publicKey = sshPublicKey(pubkey);
         PrivateKey privateKey = sshPrivateKey(privKey);

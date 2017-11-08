@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import javax.crypto.SecretKey;
 
+import java.io.File;
 import java.security.SecureRandom;
 
 import static com.tailoredshapes.underbar.IO.file;
@@ -60,7 +61,7 @@ public class AESTest {
 
     @Test
     public void shouldEncryptAndDecryptALargePieceOfText() throws Exception {
-        String lorem = slurp(file(resource("/lorem.txt")));
+        String lorem = slurp(new File(String.join(File.separator, "src", "test", "resources", "lorem.txt")));
 
         SecretKey secretKey = aesKey();
 

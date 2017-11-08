@@ -1,23 +1,19 @@
 package com.tailoredshapes.underbar.crypto;
 
-import sun.swing.SwingUtilities2;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
 import java.security.SecureRandom;
 import java.util.Base64;
 
 import static com.tailoredshapes.underbar.Die.dieIf;
 import static com.tailoredshapes.underbar.Die.rethrow;
 import static com.tailoredshapes.underbar.crypto.BCrypt.hashPassword;
-import static javax.crypto.KeyGenerator.getInstance;
-
 import static javax.crypto.Cipher.DECRYPT_MODE;
 import static javax.crypto.Cipher.ENCRYPT_MODE;
+import static javax.crypto.KeyGenerator.getInstance;
 
 public interface AES {
 

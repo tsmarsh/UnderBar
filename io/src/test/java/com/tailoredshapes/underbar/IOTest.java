@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.Writer;
 import java.util.Date;
 
 import static com.tailoredshapes.stash.Stash.stash;
@@ -18,9 +19,10 @@ public class IOTest {
     public void easesBuildingAWriter() throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        BufferedWriter writer = responseWriter(outputStream, stash());
-        writer.write("Hello, World!");
-        writer.flush();
+        try(Writer writer = responseWriter(outputStream, stash())){
+            writer.write("Hello, World!");
+        }
+
         close(outputStream);
         assertEquals("Hello, World!", outputStream.toString("UTF-8"));
     }
@@ -29,26 +31,23 @@ public class IOTest {
     public void canTakeACharSetFromAStash() throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        BufferedWriter writer = responseWriter(outputStream, stash("encoding", "UTF-8"));
-        writer.write("Hello, World!");
-        writer.flush();
+        try(BufferedWriter writer = responseWriter(outputStream, stash("encoding", "UTF-8"))){
+            writer.write("Hello, World!");
+        }
+
         close(outputStream);
         assertEquals("Hello, World!", outputStream.toString("UTF-8"));
     }
 
     @Test
     public void canGetLastModified() throws Exception {
-        File file = file(resource("/test.txt"));
-        assertEquals(new Date(file.lastModified()).toString(), lastModifiedDate(file).toString());
+        File file = new File(String.join(File.separator, "src", "test", "resources", "test.txt"));
+        assertEquals(new Date(file.lastModified()), lastModifiedDate(file));
     }
 
     @Test
     public void slurpCanReadAFile() throws Exception {
-        assertEquals("Hello, World!", slurp(file(resource("/test.txt"))));
-        assertEquals(
-                "Hello, World!\n" +
-                "¡Hola Mundo!\n" +
-                "こんにちは世界！", slurp(file(resource("/multiline.txt"))));
+        assertEquals("Hello, World!", slurp(new File(String.join(File.separator, ".", "src", "test", "resources", "test.txt"))));
     }
 
 
