@@ -39,8 +39,7 @@ public class DatesTest {
         ZonedDateTime now = ZonedDateTime.now();
 
         String date = now.format(DateTimeFormatter.ISO_INSTANT);
-
-        assertEquals(date, isoString(date(date)));
+        
         assertEquals(date, isoString(now.toInstant()));
     }
 }
