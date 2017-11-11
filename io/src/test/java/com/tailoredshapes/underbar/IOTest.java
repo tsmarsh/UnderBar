@@ -38,17 +38,17 @@ public class IOTest {
 
     @Test
     public void canGetLastModified() throws Exception {
-        File file = file(resource("/test.txt"));
+        File file = new File("src/test/resources/test.txt");
         assertEquals(new Date(file.lastModified()).toString(), lastModifiedDate(file).toString());
     }
 
     @Test
     public void slurpCanReadAFile() throws Exception {
-        assertEquals("Hello, World!", slurp(file(resource("/test.txt"))));
+        assertEquals("Hello, World!", slurp(new File("src/test/resources/test.txt")));
         assertEquals(
                 "Hello, World!\n" +
                 "¡Hola Mundo!\n" +
-                "こんにちは世界！", slurp(file(resource("/multiline.txt"))));
+                "こんにちは世界！", slurp(new File("src/test/resources/multiline.txt")));
     }
 
 
