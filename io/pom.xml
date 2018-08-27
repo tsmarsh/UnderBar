@@ -6,12 +6,12 @@
 
   <groupId>com.tailoredshapes.underbar</groupId>
   <artifactId>io</artifactId>
-  <version>0.1.3-SNAPSHOT</version>
+  <version>0.1.3</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.3</version>
   </parent>
 
   <description>Functional wrappers for Java 8 IO</description>
@@ -20,12 +20,12 @@
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>stash</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
+      <version>0.1.3</version>
     </dependency>
     <dependency>
       <groupId>com.tailoredshapes.underbar</groupId>
       <artifactId>ocho</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
+      <version>0.1.3</version>
     </dependency>
   </dependencies>
 </project>
