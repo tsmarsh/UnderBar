@@ -78,11 +78,9 @@ public interface Requests {
 
     OutputStream outputStream = rethrow(http_conn::getOutputStream);
 
-    try(outputStream){
-      rethrow(() -> outputStream.write(body.getBytes()));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    rethrow(() -> outputStream.write(body.getBytes()));
+
+    rethrow(outputStream::close);
 
     http_conn.setConnectTimeout(options.get("connectionTimeout"));
     http_conn.setReadTimeout(options.get("readTimeout"));

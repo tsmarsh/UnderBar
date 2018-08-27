@@ -50,7 +50,7 @@ public class IO {
     }
 
     public static InputStream resource(String path) {
-        return rethrow(() -> Object.class.getModule().getResourceAsStream(path));
+        return rethrow(() -> Object.class.getResourceAsStream(path));
     }
 
     public static File file(URL url) {
