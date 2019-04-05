@@ -38,7 +38,7 @@ public class IOTest {
         close(outputStream);
         assertEquals("Hello, World!", outputStream.toString("UTF-8"));
     }
-    
+
 
     @Test
     public void slurpCanReadAFile() {
