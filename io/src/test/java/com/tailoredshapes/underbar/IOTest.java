@@ -38,21 +38,16 @@ public class IOTest {
         close(outputStream);
         assertEquals("Hello, World!", outputStream.toString("UTF-8"));
     }
+    
 
     @Test
-    public void canGetLastModified() throws Exception {
-        File file = new File(String.join(File.separator, "src", "test", "resources", "test.txt"));
-        assertEquals(new Date(file.lastModified()), lastModifiedDate(file));
-    }
-
-    @Test
-    public void slurpCanReadAFile() throws Exception {
+    public void slurpCanReadAFile() {
         assertEquals("Hello, World!", slurp(new File(String.join(File.separator, ".", "src", "test", "resources", "test.txt"))));
     }
 
 
     @Test
-    public void slurpCanReadAnInputStream() throws Exception {
+    public void slurpCanReadAnInputStream() {
         assertEquals("Hello, World!", slurp(stringInputStream("Hello, World!")));
         assertEquals("Hello, World!", slurp(stringInputStream("Hello, World!", "UTF-8")));
     }
