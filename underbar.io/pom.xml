@@ -4,8 +4,7 @@
 
   <name>IO</name>
 
-  <groupId>com.tailoredshapes.underbar</groupId>
-  <artifactId>io</artifactId>
+  <artifactId>underbar.io</artifactId>
   <version>0.1.3-SNAPSHOT</version>
 
   <parent>
@@ -20,12 +19,10 @@
     <dependency>
       <groupId>com.tailoredshapes</groupId>
       <artifactId>stash</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>com.tailoredshapes.underbar</groupId>
-      <artifactId>ocho</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
+      <groupId>com.tailoredshapes</groupId>
+      <artifactId>underbar.ocho</artifactId>
     </dependency>
   </dependencies>
 </project>

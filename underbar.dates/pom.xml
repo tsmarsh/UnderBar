@@ -4,8 +4,7 @@
 
   <name>Dates</name>
 
-  <groupId>com.tailoredshapes.underbar</groupId>
-  <artifactId>dates</artifactId>
+  <artifactId>underbar.dates</artifactId>
   <version>0.1.3-SNAPSHOT</version>
 
   <parent>
