@@ -42,11 +42,11 @@
     </properties>
 
     <modules>
-        <module>ocho</module>
-        <module>dates</module>
+        <module>underbar.ocho</module>
+        <module>underbar.dates</module>
         <module>stash</module>
-        <module>io</module>
-        <module>crypto</module>
+        <module>underbar.io</module>
+        <module>underbar.crypto</module>
     </modules>
 
     <description>Java 8s missing functional library. Inspired by conversations with Jeff Bay, underscore.js and
