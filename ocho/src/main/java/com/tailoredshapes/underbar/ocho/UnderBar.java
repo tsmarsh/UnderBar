@@ -1,9 +1,9 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
-import com.tailoredshapes.underbar.data.Fork;
-import com.tailoredshapes.underbar.data.Heap;
-import com.tailoredshapes.underbar.exceptions.UnderBarred;
-import com.tailoredshapes.underbar.function.RegularFunctions;
+import com.tailoredshapes.underbar.ocho.data.Fork;
+import com.tailoredshapes.underbar.ocho.data.Heap;
+import com.tailoredshapes.underbar.ocho.exceptions.UnderBarred;
+import com.tailoredshapes.underbar.ocho.function.RegularFunctions;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -12,8 +12,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static com.tailoredshapes.underbar.Die.*;
-import static com.tailoredshapes.underbar.UnderString.commaSep;
+import static com.tailoredshapes.underbar.ocho.Die.*;
+import static com.tailoredshapes.underbar.ocho.UnderString.commaSep;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 

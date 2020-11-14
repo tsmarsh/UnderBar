@@ -1,13 +1,13 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
-import com.tailoredshapes.underbar.exceptions.UnderBarred;
+import com.tailoredshapes.underbar.ocho.exceptions.UnderBarred;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.function.ExceptionalFunctions.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.list;
+import static com.tailoredshapes.underbar.ocho.function.ExceptionalFunctions.*;
 
 public class Die {
     public static <T> T die(Throwable e, String msg, Object... args) {

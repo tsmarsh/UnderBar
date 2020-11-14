@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.io;
 
 import org.junit.Test;
 
@@ -6,10 +6,9 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Writer;
-import java.util.Date;
 
 import static com.tailoredshapes.stash.Stash.stash;
-import static com.tailoredshapes.underbar.IO.*;
+import static com.tailoredshapes.underbar.io.IO.*;
 import static org.junit.Assert.assertEquals;
 
 public class IOTest {

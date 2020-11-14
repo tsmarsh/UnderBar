@@ -1,6 +1,5 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.io;
 
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 
@@ -11,7 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import static com.tailoredshapes.underbar.Die.die;
+import static com.tailoredshapes.underbar.ocho.Die.die;
+import static com.tailoredshapes.underbar.io.IO.slurp;
 import static org.junit.Assert.*;
 
 public class RequestsTest {
@@ -32,7 +32,7 @@ public class RequestsTest {
           break;
         case "POST":
         case "PUT":
-          response = exchange.getRequestBody().readAllBytes();
+          response = slurp(exchange.getRequestBody()).getBytes();
           break;
         default:
           die("Unsupported HTTP Method");

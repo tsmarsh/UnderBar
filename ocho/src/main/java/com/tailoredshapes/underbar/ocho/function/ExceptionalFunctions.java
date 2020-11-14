@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar.function;
+package com.tailoredshapes.underbar.ocho.function;
 
 public interface ExceptionalFunctions {
 

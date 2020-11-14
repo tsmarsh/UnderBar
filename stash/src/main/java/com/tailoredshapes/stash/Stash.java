@@ -1,8 +1,8 @@
 package com.tailoredshapes.stash;
 
-import com.tailoredshapes.underbar.Dates;
-import com.tailoredshapes.underbar.UnderBar;
-import com.tailoredshapes.underbar.UnderString;
+import com.tailoredshapes.underbar.dates.Dates;
+import com.tailoredshapes.underbar.ocho.UnderBar;
+import com.tailoredshapes.underbar.ocho.UnderString;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONValue;
 
@@ -13,10 +13,10 @@ import java.time.Instant;
 import java.util.*;
 import java.util.function.*;
 
-import static com.tailoredshapes.underbar.Dates.isoString;
-import static com.tailoredshapes.underbar.Die.*;
-import static com.tailoredshapes.underbar.UnderBar.*;
-import static com.tailoredshapes.underbar.UnderString.urlEncode;
+import static com.tailoredshapes.underbar.dates.Dates.isoString;
+import static com.tailoredshapes.underbar.ocho.Die.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.*;
+import static com.tailoredshapes.underbar.ocho.UnderString.urlEncode;
 
 import static java.util.Optional.ofNullable;
 

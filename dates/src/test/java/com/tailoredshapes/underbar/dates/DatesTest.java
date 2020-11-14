@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.dates;
 
 import org.junit.Test;
 
@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import static com.tailoredshapes.underbar.Dates.*;
+import static com.tailoredshapes.underbar.dates.Dates.*;
 import static org.junit.Assert.assertEquals;
 
 

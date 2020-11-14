@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar.exceptions;
+package com.tailoredshapes.underbar.ocho.exceptions;
 
 public class UnderBarred extends RuntimeException {
 

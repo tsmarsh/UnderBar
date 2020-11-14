@@ -10,10 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.tailoredshapes.stash.Stash.*;
-import static com.tailoredshapes.underbar.Dates.date;
-import static com.tailoredshapes.underbar.Dates.instant;
-import static com.tailoredshapes.underbar.Dates.isoString;
-import static com.tailoredshapes.underbar.UnderBar.*;
+import static com.tailoredshapes.underbar.dates.Dates.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.*;
 import static java.util.UUID.randomUUID;
 import static org.junit.Assert.*;
 

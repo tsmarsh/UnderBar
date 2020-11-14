@@ -1,12 +1,11 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.tailoredshapes.underbar.Die.rethrow;
-import static com.tailoredshapes.underbar.UnderBar.hash;
-import static com.tailoredshapes.underbar.UnderBar.map;
+import static com.tailoredshapes.underbar.ocho.Die.rethrow;
+import static com.tailoredshapes.underbar.ocho.UnderBar.map;
 
 
 public interface UnderString {

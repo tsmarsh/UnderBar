@@ -18,7 +18,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.security.SecureRandom;
 
-import static com.tailoredshapes.underbar.Die.dieIf;
+import static com.tailoredshapes.underbar.ocho.Die.dieIf;
 
 public interface BCrypt {
     class BlowFishKey {

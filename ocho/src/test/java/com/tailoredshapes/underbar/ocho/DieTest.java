@@ -1,11 +1,12 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
-import com.tailoredshapes.underbar.exceptions.UnderBarred;
-import com.tailoredshapes.underbar.function.ExceptionalFunctions;
+import com.tailoredshapes.underbar.ocho.UnderBar;
+import com.tailoredshapes.underbar.ocho.exceptions.UnderBarred;
+import com.tailoredshapes.underbar.ocho.function.ExceptionalFunctions;
 import org.junit.Test;
 
-import static com.tailoredshapes.underbar.Die.*;
-import static com.tailoredshapes.underbar.UnderBar.*;
+import static com.tailoredshapes.underbar.ocho.Die.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.*;
 import static org.junit.Assert.assertEquals;
 
 

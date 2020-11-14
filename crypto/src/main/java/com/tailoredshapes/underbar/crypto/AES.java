@@ -8,8 +8,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-import static com.tailoredshapes.underbar.Die.dieIf;
-import static com.tailoredshapes.underbar.Die.rethrow;
+import static com.tailoredshapes.underbar.ocho.Die.dieIf;
+import static com.tailoredshapes.underbar.ocho.Die.rethrow;
 import static com.tailoredshapes.underbar.crypto.BCrypt.hashPassword;
 import static javax.crypto.Cipher.DECRYPT_MODE;
 import static javax.crypto.Cipher.ENCRYPT_MODE;

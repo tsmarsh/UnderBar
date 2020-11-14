@@ -1,10 +1,11 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
+import com.tailoredshapes.underbar.ocho.UnderString;
 import org.junit.Test;
 
-import static com.tailoredshapes.underbar.UnderString.*;
-import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderBar.map;
+import static com.tailoredshapes.underbar.ocho.UnderString.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.list;
+import static com.tailoredshapes.underbar.ocho.UnderBar.map;
 import static org.junit.Assert.*;
 
 

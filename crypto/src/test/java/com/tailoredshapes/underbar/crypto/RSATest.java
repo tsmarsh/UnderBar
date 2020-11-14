@@ -8,9 +8,7 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-import static com.tailoredshapes.underbar.IO.file;
-import static com.tailoredshapes.underbar.IO.resource;
-import static com.tailoredshapes.underbar.IO.slurp;
+import static com.tailoredshapes.underbar.io.IO.*;
 import static com.tailoredshapes.underbar.crypto.RSA.*;
 import static org.junit.Assert.*;
 

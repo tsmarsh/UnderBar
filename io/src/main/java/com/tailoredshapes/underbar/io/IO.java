@@ -1,4 +1,4 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.io;
 
 import com.tailoredshapes.stash.Stash;
 
@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.tailoredshapes.underbar.Die.rethrow;
-import static com.tailoredshapes.underbar.UnderBar.optionally;
+import static com.tailoredshapes.underbar.ocho.Die.rethrow;
+import static com.tailoredshapes.underbar.ocho.UnderBar.optionally;
 
 public class IO {
 
@@ -50,7 +50,7 @@ public class IO {
     }
 
     public static InputStream resource(String path) {
-        return rethrow(() -> Object.class.getModule().getResourceAsStream(path));
+        return rethrow(() -> Object.class.getResourceAsStream(path));
     }
 
     public static File file(URL url) {

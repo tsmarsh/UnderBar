@@ -7,11 +7,9 @@ import javax.crypto.SecretKey;
 import java.io.File;
 import java.security.SecureRandom;
 
-import static com.tailoredshapes.underbar.IO.file;
-import static com.tailoredshapes.underbar.IO.resource;
-import static com.tailoredshapes.underbar.IO.slurp;
 import static com.tailoredshapes.underbar.crypto.AES.*;
 import static com.tailoredshapes.underbar.crypto.BCrypt.genSalt;
+import static com.tailoredshapes.underbar.io.IO.*;
 import static org.junit.Assert.*;
 
 public class AESTest {

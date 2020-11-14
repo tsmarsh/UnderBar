@@ -1,11 +1,11 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.ocho;
 
 import org.junit.Test;
 
 import java.util.regex.*;
 
-import static com.tailoredshapes.underbar.UnderBar.list;
-import static com.tailoredshapes.underbar.UnderReg.*;
+import static com.tailoredshapes.underbar.ocho.UnderBar.list;
+import static com.tailoredshapes.underbar.ocho.UnderReg.*;
 import static org.junit.Assert.*;
 
 /**

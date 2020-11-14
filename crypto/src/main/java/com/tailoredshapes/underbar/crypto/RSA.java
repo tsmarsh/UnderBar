@@ -9,10 +9,10 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 
-import static com.tailoredshapes.underbar.Die.dieIf;
-import static com.tailoredshapes.underbar.Die.rethrow;
-import static com.tailoredshapes.underbar.UnderBar.filter;
-import static com.tailoredshapes.underbar.UnderBar.list;
+import static com.tailoredshapes.underbar.ocho.Die.dieIf;
+import static com.tailoredshapes.underbar.ocho.Die.rethrow;
+import static com.tailoredshapes.underbar.ocho.UnderBar.filter;
+import static com.tailoredshapes.underbar.ocho.UnderBar.list;
 
 public interface RSA {
     static KeyPair keypair(){

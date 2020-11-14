@@ -1,6 +1,5 @@
-package com.tailoredshapes.underbar;
+package com.tailoredshapes.underbar.io;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -8,12 +7,12 @@ import java.net.URLConnection;
 import java.util.function.Function;
 
 import com.tailoredshapes.stash.Stash;
-import com.tailoredshapes.underbar.function.ExceptionalFunctions;
+import com.tailoredshapes.underbar.ocho.function.ExceptionalFunctions;
 
 import static com.tailoredshapes.stash.Stash.stash;
-import static com.tailoredshapes.underbar.Die.die;
-import static com.tailoredshapes.underbar.Die.rethrow;
-import static com.tailoredshapes.underbar.IO.slurp;
+import static com.tailoredshapes.underbar.ocho.Die.die;
+import static com.tailoredshapes.underbar.ocho.Die.rethrow;
+import static com.tailoredshapes.underbar.io.IO.slurp;
 
 public interface Requests {
 

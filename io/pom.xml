@@ -18,7 +18,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.tailoredshapes.underbar</groupId>
+      <groupId>com.tailoredshapes</groupId>
       <artifactId>stash</artifactId>
       <version>0.1.3-SNAPSHOT</version>
     </dependency>
