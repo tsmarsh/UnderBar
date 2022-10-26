@@ -6,6 +6,7 @@
 
   <groupId>com.tailoredshapes</groupId>
   <artifactId>underbar.ocho</artifactId>
+  <version>${parent.version}</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
