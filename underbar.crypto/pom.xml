@@ -5,12 +5,12 @@
   <name>Crypto</name>
 
   <artifactId>underbar.crypto</artifactId>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.3.2</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.2</version>
   </parent>
 
   <description>Convenience Methods for javax.security</description>
