@@ -5,12 +5,12 @@
   <name>Dates</name>
 
   <artifactId>underbar.dates</artifactId>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.3.1-SNAPSHOT</version>
+    <version>0.3.2-SNAPSHOT</version>
   </parent>
 
   <description>Convenience functions to make Java 8s data classes more accessible</description>
