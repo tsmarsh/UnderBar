@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/tsmarsh/UnderBar.svg?branch=master)](https://travis-ci.org/tsmarsh/UnderBar)
-[![codecov](https://codecov.io/gh/tsmarsh/UnderBar/branch/master/graph/badge.svg)](https://codecov.io/gh/tsmarsh/UnderBar)
-
-
 #Underbar
 
 ## Summary
