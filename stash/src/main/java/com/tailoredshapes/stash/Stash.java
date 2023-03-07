@@ -1,10 +1,9 @@
 package com.tailoredshapes.stash;
 
+import com.google.gson.Gson;
 import com.tailoredshapes.underbar.dates.Dates;
 import com.tailoredshapes.underbar.ocho.UnderBar;
 import com.tailoredshapes.underbar.ocho.UnderString;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONValue;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -27,9 +26,8 @@ import static java.util.Optional.ofNullable;
  * <p>
  * With basic functionality for type safe access to members
  */
-public class Stash implements JSONAware, Cloneable {
-    private final Map<String, Object> m = new HashMap<>();
-
+public class Stash extends HashMap<String, Object> implements Cloneable {
+    
     public Stash(Map<String, ?> m) {
         each(m, this::update);
     }
@@ -38,7 +36,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public Stash(Stash m) {
-        this(m.m);
+        super(m);
     }
 
     public static <T> Stash stashFromPairs(Iterable<T> ts, Function<T, Map.Entry<String, Object>> toEntry) {
@@ -46,11 +44,12 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public static <V> Stash stashFromKeys(Iterable<String> ks, Function<String, V> toV) {
-        return stashFromPairs(ks, k -> entry(k, toV.apply(k)));
+        return stashFromPairs(ks, k -> UnderBar.entry(k, toV.apply(k)));
     }
 
     public static Stash parseJSON(String json) {
-        return new Stash((Map<String, Object>) dieIfNull(JSONValue.parse(json), () -> "error parsing JSON: " + json));
+        Gson gson = new Gson();
+        return new Stash(dieIfNull(gson.fromJson(json, Stash.class), () -> "error parsing JSON: " + json));
     }
 
     public static Stash stash() {
@@ -157,15 +156,12 @@ public class Stash implements JSONAware, Cloneable {
      */
     public Stash update(String k, Object v) {
         if (v == null || v.equals(""))
-            m.put(k, null);
+            this.put(k, null);
         else
-            m.put(k, v);
+            this.put(k, v);
         return this;
     }
-
-    public long size() {
-        return m.size();
-    }
+    
 
     /**
      * Returns a copy of nonce Stash apply new values
@@ -208,7 +204,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public <T> T get(String k, T missing) {
-        return (T) m.getOrDefault(k, missing);
+        return (T) this.getOrDefault(k, missing);
     }
 
     //Accessors
@@ -278,7 +274,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public String asString(String k) {
-        return m.get(k).toString();
+        return this.get(k).toString();
     }
 
     public Stash asStash(String key) {
@@ -298,51 +294,51 @@ public class Stash implements JSONAware, Cloneable {
 
 
     public int parseInteger(String k) {
-        return Integer.parseInt((String) m.get(k));
+        return Integer.parseInt((String) super.get(k));
     }
 
     public int parseInteger(String k, int missing) {
-        return ofNullable((String) m.get(k)).map(Integer::parseInt).orElse(missing);
+        return ofNullable((String) super.get(k)).map(Integer::parseInt).orElse(missing);
     }
 
     public long parseLong(String k) {
-        return Long.parseLong((String) m.get(k));
+        return Long.parseLong((String) super.get(k));
     }
 
     public long parseLong(String key, long missing) {
-        return ofNullable((String) m.get(key)).map(Long::parseLong).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Long::parseLong).orElse(missing);
     }
 
     public double parseDouble(String k) {
-        return Double.parseDouble((String) m.get(k));
+        return Double.parseDouble((String) super.get(k));
     }
 
     public double parseDouble(String key, double missing) {
-        return ofNullable((String) m.get(key)).map(Double::parseDouble).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Double::parseDouble).orElse(missing);
     }
 
     public float parseFloat(String k) {
-        return Float.parseFloat((String) m.get(k));
+        return Float.parseFloat((String) super.get(k));
     }
 
     public float parseFloat(String key, float missing) {
-        return ofNullable((String) m.get(key)).map(Float::parseFloat).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Float::parseFloat).orElse(missing);
     }
 
     public boolean parseBoolean(String k) {
-        return Boolean.parseBoolean((String) m.get(k));
+        return Boolean.parseBoolean((String) super.get(k));
     }
 
     public boolean parseBoolean(String key, boolean missing) {
-        return ofNullable((String) m.get(key)).map(Boolean::parseBoolean).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Boolean::parseBoolean).orElse(missing);
     }
 
     public short parseShort(String k) {
-        return Short.parseShort((String) m.get(k));
+        return Short.parseShort((String) super.get(k));
     }
 
     public short parseShort(String key, short missing) {
-        return ofNullable((String) m.get(key)).map(Short::parseShort).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Short::parseShort).orElse(missing);
     }
 
     public Stash parseJson(String key) {
@@ -351,7 +347,7 @@ public class Stash implements JSONAware, Cloneable {
 
 
     public Stash parseJson(String key, Stash missing) {
-        return ofNullable((String) m.get(key)).map(Stash::parseJSON).orElse(missing);
+        return ofNullable((String) super.get(key)).map(Stash::parseJSON).orElse(missing);
     }
 
     public Date parseDate(String key) {
@@ -367,53 +363,61 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public <T> List<T> map(BiFunction<String, Object, T> toT) {
-        return UnderBar.map(m, toT);
+        return UnderBar.map(this, toT);
     }
 
     public Map<String, Object> putInto(Map<String, Object> other) {
-        other.putAll(m);
+        other.putAll(this);
         return other;
     }
 
     public Stash putInto(Stash other) {
-        other.m.putAll(m);
+        other.putAll(this);
         return other;
     }
 
     public boolean contains(String key) {
-        return m.containsKey(key);
+        return this.containsKey(key);
     }
 
     public boolean containsValue(String key) {
-        return contains(key) && m.get(key) != null && (!(m.get(key) instanceof Optional) || ((Optional) m.get(key)).isPresent());
+        return contains(key) && this.get(key) != null && (!(this.get(key) instanceof Optional) || ((Optional) this.get(key)).isPresent());
     }
 
 
     private <T> T getCast(String k, Function<T, T> onT) {
-        Object value = dieIfMissing(m, k);
+        Object value = dieIfMissing(this, k);
         return rethrow(() -> onT.apply((T) value),
                 () -> "Value at key " + k + ":" + value + " is a " + value.getClass());
     }
 
 
-    @Override
+//    @Override
+//    public String toJSONString() {
+//        return JSONValue.toJSONString(modifyValues(m, this::toJSONString));
+//    }
+
+
     public String toJSONString() {
-        return JSONValue.toJSONString(modifyValues(m, this::toJSONString));
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
-    private Object toJSONString(Object v) {
-        if (v instanceof Optional<?>) return toJSONString(((Optional<?>) v).orElse(null));
-        if (v instanceof Date) return isoString((Date) v);
-        if (v instanceof Instant) return isoString((Instant) v);
-        if (v instanceof UUID) return v.toString();
-        if (v instanceof File) return ((File) v).getAbsolutePath();
-        if (v instanceof Path) return v.toString();
-        if (v instanceof Map) return new Stash((Map<String, Object>) v).toJSONString();
-        return v;
-    }
+
+//
+//    private Object toJSONString(Object v) {
+//        if (v instanceof Optional<?>) return toJSONString(((Optional<?>) v).orElse(null));
+//        if (v instanceof Date) return isoString((Date) v);
+//        if (v instanceof Instant) return isoString((Instant) v);
+//        if (v instanceof UUID) return v.toString();
+//        if (v instanceof File) return ((File) v).getAbsolutePath();
+//        if (v instanceof Path) return v.toString();
+//        if (v instanceof Map) return new Stash((Map<String, Object>) v).toJSONString();
+//        return v;
+//    }
 
     public Stash filterKeys(Predicate<String> predicate) {
-        return new Stash(UnderBar.filterKeys(m, predicate));
+        return new Stash(UnderBar.filterKeys(this, predicate));
     }
 
     public Stash rejectKeys(String... keys) {
@@ -436,7 +440,7 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public Map<String, Object> toMap() {
-        return new HashMap<>(m);
+        return new HashMap<>(this);
     }
 
     public Map<String, Object> toMapDeep() {
@@ -460,20 +464,20 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public <T> T remove(String key) {
-        return (T) m.remove(key);
+        return (T) super.remove(key);
     }
 
     public boolean hasContent(String key) {
-        return contains(key) && UnderString.hasContent((String) m.get(key));
+        return contains(key) && UnderString.hasContent((String) this.get(key));
     }
 
     public Stash merge(Stash overrides) {
-        return new Stash(UnderBar.merge(m, overrides.m));
+        return new Stash(UnderBar.merge(this, overrides));
     }
 
 
     public boolean isEmpty() {
-        return m.isEmpty();
+        return super.isEmpty();
     }
 
     public boolean isEmpty(String key) {
@@ -481,15 +485,15 @@ public class Stash implements JSONAware, Cloneable {
     }
 
     public boolean isNull(String key) {
-        return m.get(key) == null;
+        return super.get(key) == null;
     }
 
     public Set<String> keys() {
-        return m.keySet();
+        return super.keySet();
     }
 
     public Class type(String key) {
-        return m.get(key).getClass();
+        return super.get(key).getClass();
     }
 
     public String join(String seperator, BiFunction<String, Object, String> bf){
@@ -516,12 +520,12 @@ public class Stash implements JSONAware, Cloneable {
 
     @Override
     public Stash clone() {
-        return new Stash(m);
+        return new Stash(this);
     }
 
     @Override
     public String toString() {
-        return new TreeMap<>(m).toString();
+        return new TreeMap<>(this).toString();
     }
 
     @Override
@@ -529,10 +533,10 @@ public class Stash implements JSONAware, Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stash stringMap = (Stash) o;
-        if (!m.keySet().equals(stringMap.m.keySet())) return false;
-        for (String k : m.keySet()) {
-            Object us = m.get(k);
-            Object them = stringMap.m.get(k);
+        if (!this.keySet().equals(stringMap.keySet())) return false;
+        for (String k : this.keySet()) {
+            Object us = this.get(k);
+            Object them = stringMap.get(k);
             if (((us instanceof Integer && them instanceof Long) || (us instanceof Long && them instanceof Integer))) {
                 // JSON has no notion of longs vs int
                 if (((Number) us).longValue() != ((Number) them).longValue())
@@ -544,10 +548,5 @@ public class Stash implements JSONAware, Cloneable {
                 return false;
         }
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return java.util.Objects.hash(m);
     }
 }

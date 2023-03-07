@@ -228,8 +228,8 @@ public class StashTest {
 
     @Test
     public void parseJsonTest() throws Exception {
-        assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs"));
-        assertEquals(stash("foo", 5), stash("eggs", "{\"foo\": 5}").parseJson("eggs", stash()));
+        assertEquals(stash("foo", 5.0), stash("eggs", "{\"foo\": 5}").parseJson("eggs"));
+        assertEquals(stash("foo", 5.0), stash("eggs", "{\"foo\": 5}").parseJson("eggs", stash()));
         assertEquals(stash(), stash("eggs", "{\"foo\": 5}").parseJson("farp", stash()));
     }
 
