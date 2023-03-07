@@ -270,7 +270,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public String asString(String k) {
-        return this.get(k).toString();
+        return  super.get(k).toString();
     }
 
     public Stash asStash(String key) {
@@ -377,7 +377,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public boolean containsValue(String key) {
-        return contains(key) && this.get(key) != null && (!(this.get(key) instanceof Optional) || ((Optional) this.get(key)).isPresent());
+        return contains(key) &&  super.get(key) != null && (!( super.get(key) instanceof Optional) || ((Optional)  super.get(key)).isPresent());
     }
 
 
@@ -464,7 +464,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public boolean hasContent(String key) {
-        return contains(key) && UnderString.hasContent((String) this.get(key));
+        return contains(key) && UnderString.hasContent((String)  super.get(key));
     }
 
     public Stash merge(Stash overrides) {
@@ -531,7 +531,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
         Stash stringMap = (Stash) o;
         if (!this.keySet().equals(stringMap.keySet())) return false;
         for (String k : this.keySet()) {
-            Object us = this.get(k);
+            Object us =  super.get(k);
             Object them = stringMap.get(k);
             if (((us instanceof Integer && them instanceof Long) || (us instanceof Long && them instanceof Integer))) {
                 // JSON has no notion of longs vs int
