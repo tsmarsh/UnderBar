@@ -35,10 +35,6 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     public Stash() {
     }
 
-    public Stash(Stash m) {
-        super(m);
-    }
-
     public static <T> Stash stashFromPairs(Iterable<T> ts, Function<T, Map.Entry<String, Object>> toEntry) {
         return new Stash(mapFromEntry(ts, toEntry));
     }
