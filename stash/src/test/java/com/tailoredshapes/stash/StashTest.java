@@ -22,7 +22,7 @@ public class StashTest {
         Stash smap = stash();
         smap.update("foo", "bar");
 
-        assertEquals("bar", smap.get("foo"));
+        assertEquals("bar", smap.grab("foo"));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class StashTest {
 
     @Test
     public void assocTest() throws Exception {
-        assertEquals("bar", stash().assoc("foo", "bar").get("foo"));
+        assertEquals("bar", stash().assoc("foo", "bar").grab("foo"));
     }
 
     @Test
@@ -192,9 +192,9 @@ public class StashTest {
     @Test
     public void getTest() throws Exception {
         Stash stash = stash("foo", "bar");
-        assertEquals("bar",stash.get("foo"));
-        assertEquals("bar", stash.get("foo", String.class));
-        assertEquals("bar", stash.get("fred", "bar"));
+        assertEquals("bar",stash.grab("foo"));
+        assertEquals("bar", stash.grab("foo", String.class));
+        assertEquals("bar", stash.grab("fred", "bar"));
     }
 
     @Test
@@ -211,7 +211,7 @@ public class StashTest {
 
     @Test
     public void smapTest() throws Exception {
-        assertEquals(stash("eggs", "ham"), stash("foo", stash("eggs", "ham")).get("foo"));
+        assertEquals(stash("eggs", "ham"), stash("foo", stash("eggs", "ham")).grab("foo"));
     }
 
     @Test

@@ -15,7 +15,19 @@
 
   <description>Java 8s missing STring HaSH.</description>
 
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+
   <dependencies>
+    <dependency>
+      <groupId>net.jimblackler.jsonschemafriend</groupId>
+      <artifactId>core</artifactId>
+      <version>0.11.4</version>
+    </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>

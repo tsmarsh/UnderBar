@@ -5,7 +5,6 @@ import com.tailoredshapes.underbar.dates.Dates;
 import com.tailoredshapes.underbar.ocho.UnderBar;
 import com.tailoredshapes.underbar.ocho.UnderString;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -188,18 +187,18 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     public <T> Optional<T> maybe(String key) {
         if (!contains(key) || isNull(key)) return UnderBar.optional();
         if (type(key) == Optional.class) return optional(key);
-        return UnderBar.optional(get(key));
+        return UnderBar.optional(grab(key));
     }
 
-    public <T> T get(String key) {
+    public <T> T grab(String key) {
         return getCast(key, x -> x);
     }
 
-    public <T> T get(String key, Class<T> clazz) {
+    public <T> T grab(String key, Class<T> clazz) {
         return getCast(key, x -> x);
     }
 
-    public <T> T get(String k, T missing) {
+    public <T> T grab(String k, T missing) {
         return (T) this.getOrDefault(k, missing);
     }
 
@@ -282,7 +281,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public Path asPath(String key) {
-        return Paths.get(get(key));
+        return Paths.get(grab(key));
     }
 
 
@@ -338,7 +337,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public Stash parseJson(String key) {
-        return parseJSON(get(key));
+        return parseJSON(grab(key));
     }
 
 
@@ -347,15 +346,15 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public Date parseDate(String key) {
-        return Dates.date((String) get(key));
+        return Dates.date((String) grab(key));
     }
 
     public Instant parseInstant(String k) {
-        return Dates.instant(get(k));
+        return Dates.instant(grab(k));
     }
 
     public UUID parseUUID(String key) {
-        return UUID.fromString(get(key));
+        return UUID.fromString(grab(key));
     }
 
     public <T> List<T> map(BiFunction<String, Object, T> toT) {
@@ -503,15 +502,15 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
     public <V, R> R ifLet(String key, Function<V, R> onK, Supplier<R> noK){
-        return contains(key) ? onK.apply(get(key)) : noK.get();
+        return contains(key) ? onK.apply(grab(key)) : noK.get();
     }
 
     public <V, R> Optional<R> ifLet(String key, Function<V, R> onK){
-        return contains(key) ? UnderBar.optional(onK.apply(get(key))) : UnderBar.optional();
+        return contains(key) ? UnderBar.optional(onK.apply(grab(key))) : UnderBar.optional();
     }
 
     public <V, R> R ifLetPun(String key, Function<V, R> onK){
-        return contains(key) ? onK.apply(get(key)) : null;
+        return contains(key) ? onK.apply(grab(key)) : null;
     }
 
     @Override
