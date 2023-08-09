@@ -23,8 +23,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
         server-id: 'ossrh-snapshot'
-        server-username: 'tsmarsh'
-        server-password: '${{ secrets.NEXUS_PASSWORD }}'
+        server-username: ${{ secrets.NEXUS_USER }} 
+        server-password: ${{ secrets.NEXUS_PASSWORD }}
       
     - name: Build with Maven
       run: mvn -B package --file pom.xml
