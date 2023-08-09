@@ -19,10 +19,12 @@
     <dependency>
       <groupId>com.tailoredshapes</groupId>
       <artifactId>stash</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>com.tailoredshapes</groupId>
       <artifactId>underbar.ocho</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
   </dependencies>
 </project>

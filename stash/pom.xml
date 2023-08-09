@@ -36,12 +36,12 @@
     <dependency>
       <groupId>com.tailoredshapes</groupId>
       <artifactId>underbar.ocho</artifactId>
-      <version>${parent.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>com.tailoredshapes</groupId>
       <artifactId>underbar.dates</artifactId>
-      <version>${parent.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
   </dependencies>
 </project>
