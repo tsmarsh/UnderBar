@@ -18,10 +18,10 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-        gpg-private-key: ${{ secrets.GPG_SECRET }}
-        server-id: ossrh-snapshot
+        gpg-private-key: '${{ secrets.GPG_SECRET }}'
+        server-id: 'ossrh-snapshot'
         server-username: 'tsmarsh'
-        server-password: ${{ secrets.NEXUS_PASSWORD }}
+        server-password: '${{ secrets.NEXUS_PASSWORD }}'
       
     - name: Build with Maven
       run: mvn -B package --file pom.xml
