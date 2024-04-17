@@ -1,12 +1,8 @@
-[![Build Status](https://travis-ci.org/tsmarsh/UnderBar.svg?branch=master)](https://travis-ci.org/tsmarsh/UnderBar)
-[![codecov](https://codecov.io/gh/tsmarsh/UnderBar/branch/master/graph/badge.svg)](https://codecov.io/gh/tsmarsh/UnderBar)
-
-
 #Underbar
 
 ## Summary
 
-This project is a demonstration of how to craft a reusable Java 8 library that promotes the use of type inference, data and lambda over traditional OO Java.
+This project is a demonstration of how to craft a reusable Java library that promotes the use of type inference, data and lambda over traditional OO Java.
 
 It does not represent a complete solution. There maybe polymorphs of certain functions that you find essential. In those situations you have two options:
 
@@ -26,14 +22,14 @@ I have split the project into 4 modules.
 
 This project was cooked up after a series of conversations with [Jeff Bay](https://www.linkedin.com/in/jeff-bay-7411b6) as he explained why:
 
-1. Java 8 is the best platform he's ever used
+1. Java is the best platform he's ever used
 2. I was doing it wrong
 
 The first point was interesting. I know Jeff because, along with [Eric Knell](https://www.linkedin.com/in/eric-knell-31bb072), he was my boss at Outpace, a company that I joined predominantly because it was a Clojure shop. After Outpace they had worked together again and 'fixed' Java.
 
 The second... the second bit peeked my interest.
 
-Jeff and Eric's premise is that Java 8 can become functional enough if you abandon classes, tricky in a language where everything is a class based object. The trick?
+Jeff and Eric's premise is that Java can become functional enough if you abandon classes, tricky in a language where everything is a class based object. The trick?
 
 ### Static functions
 
@@ -67,7 +63,7 @@ Set<Integer> s = set(1,1,2);
 Int[] a = array(1,2,3,4);
 ```
 
-The other major change with Java 8 is the introduction of static
+The other major change with Java is the introduction of static
 implementations in interfaces, providing an equivalent of Scalas
 'object's 
 

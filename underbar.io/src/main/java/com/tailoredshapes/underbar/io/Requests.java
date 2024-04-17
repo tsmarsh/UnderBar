@@ -28,12 +28,12 @@ public interface Requests {
   }
 
   static <R> R requestNoBody(Stash options, Function<String, R> then, Function<Exception, R> error){
-    URL request_url = rethrow(() -> new URL(options.get("url")), () -> "Not a valid url");
+    URL request_url = rethrow(() -> new URL(options.grab("url")), () -> "Not a valid url");
 
     HttpURLConnection http_conn = (HttpURLConnection) rethrow((ExceptionalFunctions.SupplierWithOops<URLConnection>) request_url::openConnection);
 
-    http_conn.setConnectTimeout(options.get("connectionTimeout"));
-    http_conn.setReadTimeout(options.get("readTimeout"));
+    http_conn.setConnectTimeout(options.grab("connectionTimeout"));
+    http_conn.setReadTimeout(options.grab("readTimeout"));
 
     try {
       String body = slurp(rethrow(http_conn::getInputStream));
@@ -68,7 +68,7 @@ public interface Requests {
   }
 
   static <R> R requestWithBody(Stash options, String body, String method, Function<String, R> then, Function<Exception, R> error){
-    URL request_url = rethrow(() -> new URL(options.get("url")), () -> "Not a valid url");
+    URL request_url = rethrow(() -> new URL(options.grab("url")), () -> "Not a valid url");
 
     HttpURLConnection http_conn = (HttpURLConnection) rethrow((ExceptionalFunctions.SupplierWithOops<URLConnection>) request_url::openConnection);
 
@@ -80,8 +80,8 @@ public interface Requests {
     rethrow(() -> outputStream.write(body.getBytes()));
     rethrow(outputStream::close);
 
-    http_conn.setConnectTimeout(options.get("connectionTimeout"));
-    http_conn.setReadTimeout(options.get("readTimeout"));
+    http_conn.setConnectTimeout(options.grab("connectionTimeout"));
+    http_conn.setReadTimeout(options.grab("readTimeout"));
 
     try {
 

@@ -5,31 +5,43 @@
   <name>Stash</name>
 
   <artifactId>stash</artifactId>
-  <version>0.1.3-SNAPSHOT</version>
+  <version>0.3.4-SNAPSHOT</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.3.4-SNAPSHOT</version>
   </parent>
 
   <description>Java 8s missing STring HaSH.</description>
 
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
-      <version>1.1.1</version>
+      <groupId>net.jimblackler.jsonschemafriend</groupId>
+      <artifactId>core</artifactId>
+      <version>0.12.2</version>
     </dependency>
     <dependency>
-      <groupId>com.tailoredshapes.underbar</groupId>
-      <artifactId>ocho</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
     </dependency>
     <dependency>
-      <groupId>com.tailoredshapes.underbar</groupId>
-      <artifactId>dates</artifactId>
-      <version>0.1.3-SNAPSHOT</version>
+      <groupId>com.tailoredshapes</groupId>
+      <artifactId>underbar.ocho</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tailoredshapes</groupId>
+      <artifactId>underbar.dates</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
   </dependencies>
 </project>
