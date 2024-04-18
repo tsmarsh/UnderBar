@@ -28,7 +28,17 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - id: install-secret-key
+      name: Install gpg secret key
+      run: |
+        # Install gpg secret key
+        cat <(echo -e "${{ secrets.GPG_SECRET }}") | gpg --batch --import
+        # Verify gpg secret key
+        gpg --list-secret-keys --keyid-format LONG
+    
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+        MAVEN_USERNAME: ${{ secrets.NEXUS_USER }}
+        MAVEN_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
