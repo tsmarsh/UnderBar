@@ -61,7 +61,7 @@ public interface Requests {
     Stash options = stash("connectionTimeout", 100000,
             "readTimeout", 100000,
             "url", url);
-    return put(options, body, then);
+    return patch(options, body, then);
   }
 
 
@@ -84,7 +84,7 @@ public interface Requests {
     Stash options = stash("connectionTimeout", 100000,
             "readTimeout", 100000,
             "url", url);
-    return delete(options, then);
+    return head(options, then);
   }
 
 
@@ -95,7 +95,12 @@ public interface Requests {
       HttpURLConnection http_conn = (HttpURLConnection) rethrow((ExceptionalFunctions.SupplierWithOops<URLConnection>) request_url::openConnection);
 
       http_conn.setDoOutput(true);
-      rethrow(()-> http_conn.setRequestMethod(method));
+      if(method.equals("PATCH")){
+        rethrow(() -> http_conn.setRequestMethod("POST"));
+        http_conn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+      } else {
+        rethrow(()-> http_conn.setRequestMethod(method));
+      }
 
       try(OutputStream outputStream = rethrow(http_conn::getOutputStream)) {
         rethrow(() -> outputStream.write(body.getBytes()));
@@ -121,8 +126,12 @@ public interface Requests {
       http_conn.setConnectTimeout(options.grab("connectionTimeout"));
       http_conn.setReadTimeout(options.grab("readTimeout"));
 
+
       try{
-        String body = slurp(rethrow(http_conn::getInputStream));
+        String body = null;
+        if(method.equals("GET")) {
+          body = slurp(rethrow(http_conn::getInputStream));
+        }
         return then.apply(body);
       }catch(Exception e){
         return error.apply(e);
