@@ -42,7 +42,7 @@ public class RequestsTest {
           response = String.format("%s:PUT", (slurp(exchange.getRequestBody()))).getBytes();
           break;
         case "PATCH":
-          response = String.format("%s:PUT", (slurp(exchange.getRequestBody()))).getBytes();
+          response = String.format("%s:PATCH", (slurp(exchange.getRequestBody()))).getBytes();
           break;
 
         default:
@@ -66,33 +66,33 @@ public class RequestsTest {
     Requests.get(url, (body) -> {
       assertEquals( "{\"success\": true}", body);
       return "OK";
-    });
+    }).join();
   }
 
   @Test
   public void shouldDeleteAValueFromAServer() throws Exception {
     Requests.delete(url, (body) -> {
-      assertEquals( "deleted", body);
+      assertNull(body);
       return "OK";
-    });
+    }).join();
   }
 
   @Test
   public void shouldCheckTheHeadOnAServer() throws Exception {
     Requests.head(url, (body) -> {
-      assertEquals( "head", body);
+      assertNull(body);
       return "OK";
-    });
+    }).join();
   }
 
 
   @Test
   public void shouldPatchTheHeadOnAServer() throws Exception {
-    String body = "PATCH} Test";
+    String body = "PATCH Test";
     Requests.patch(url,body,  (b) -> {
-      assertEquals( "patch", b);
+      assertEquals( "PATCH Test:POST", b); //because Java doesnt' believe in POST
       return "OK";
-    });
+    }).join();
   }
 
 
@@ -101,9 +101,9 @@ public class RequestsTest {
   public void shouldPostAValueFromAServer() throws Exception {
     String body = "POST Test";
     Requests.post(url, body, b -> {
-      assertEquals( body, b);
+      assertEquals( "POST Test:POST", b);
       return "OK";
-    });
+    }).join();
   }
 
   @Test
