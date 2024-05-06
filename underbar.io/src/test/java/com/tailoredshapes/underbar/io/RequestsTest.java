@@ -30,10 +30,21 @@ public class RequestsTest {
         case "GET":
           response = "{\"success\": true}".getBytes();
           break;
-        case "POST":
-        case "PUT":
-          response = slurp(exchange.getRequestBody()).getBytes();
+        case "HEAD":
           break;
+        case "DELETE":
+          response = "deleted".getBytes();
+          break;
+        case "POST":
+          response = String.format("%s:POST", (slurp(exchange.getRequestBody()))).getBytes();
+          break;
+        case "PUT":
+          response = String.format("%s:PUT", (slurp(exchange.getRequestBody()))).getBytes();
+          break;
+        case "PATCH":
+          response = String.format("%s:PUT", (slurp(exchange.getRequestBody()))).getBytes();
+          break;
+
         default:
           die("Unsupported HTTP Method");
       }
@@ -57,6 +68,34 @@ public class RequestsTest {
       return "OK";
     });
   }
+
+  @Test
+  public void shouldDeleteAValueFromAServer() throws Exception {
+    Requests.delete(url, (body) -> {
+      assertEquals( "deleted", body);
+      return "OK";
+    });
+  }
+
+  @Test
+  public void shouldCheckTheHeadOnAServer() throws Exception {
+    Requests.head(url, (body) -> {
+      assertEquals( "head", body);
+      return "OK";
+    });
+  }
+
+
+  @Test
+  public void shouldPatchTheHeadOnAServer() throws Exception {
+    String body = "PATCH} Test";
+    Requests.patch(url,body,  (b) -> {
+      assertEquals( "patch", b);
+      return "OK";
+    });
+  }
+
+
 
   @Test
   public void shouldPostAValueFromAServer() throws Exception {
