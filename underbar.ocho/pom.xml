@@ -6,12 +6,12 @@
 
   <groupId>com.tailoredshapes</groupId>
   <artifactId>underbar.ocho</artifactId>
-  <version>0.3.7</version>
+  <version>0.3.6-SNAPSHOT</version>
 
   <parent>
     <groupId>com.tailoredshapes</groupId>
     <artifactId>underbar</artifactId>
-    <version>0.3.7</version>
+    <version>0.3.6-SNAPSHOT</version>
   </parent>
 
   <description>Foundational functions inspired by Clojure and underscore.js</description>
