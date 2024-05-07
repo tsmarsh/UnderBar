@@ -4,12 +4,12 @@
 
     <name>IO</name>
     <artifactId>underbar.io</artifactId>
-    <version>0.3.8</version>
+    <version>0.3.9-SNAPSHOT</version>
 
     <parent>
         <groupId>com.tailoredshapes</groupId>
         <artifactId>underbar</artifactId>
-        <version>0.3.8</version>
+        <version>0.3.9-SNAPSHOT</version>
     </parent>
 
     <description>Functional wrappers for Java 8 IO</description>
