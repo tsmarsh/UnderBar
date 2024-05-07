@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <name>IO</name>
     <artifactId>underbar.io</artifactId>
-    <version>0.3.8-SNAPSHOT</version>
+    <version>0.3.6-SNAPSHOT</version>
 
     <parent>
         <groupId>com.tailoredshapes</groupId>
         <artifactId>underbar</artifactId>
-        <version>0.3.8-SNAPSHOT</version>
+        <version>0.3.6-SNAPSHOT</version>
     </parent>
 
     <description>Functional wrappers for Java 8 IO</description>
