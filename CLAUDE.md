@@ -103,3 +103,41 @@ Tests use JUnit 4. Each module has corresponding test classes:
 2. `lazy()` uses a global cache - call `clearLazyCache()` if memory is a concern
 3. `Stash.grab()` throws on missing keys; use `maybe()` or `optional()` for safe access
 4. Crypto uses AES-256/CBC/PKCS5Padding - ensure JCE unlimited strength policy if needed
+
+## Publishing to Maven Central
+
+Publishing uses the new Central Portal (central.sonatype.com) via GitHub Actions.
+
+### GitHub Secrets Required
+
+Configure these in Settings → Secrets → Actions:
+
+| Secret | Description |
+|--------|-------------|
+| `CENTRAL_USERNAME` | Your Central Portal username (from central.sonatype.com) |
+| `CENTRAL_TOKEN` | Your Central Portal token (generate at central.sonatype.com → Account → Tokens) |
+| `GPG_SECRET` | Your GPG private key (armored): `gpg --armor --export-secret-keys YOUR_KEY_ID` |
+
+### How to Publish
+
+1. Ensure all tests pass on `main`
+2. Create a GitHub Release with tag `v0.3.9` (or desired version)
+3. The workflow automatically:
+   - Sets the version from the tag
+   - Builds with source and javadoc JARs
+   - Signs artifacts with GPG
+   - Publishes to Maven Central
+
+### Local Release Testing
+
+```bash
+# Test the release profile locally (without actually publishing)
+mvn clean verify -Prelease -Dgpg.skip=true
+```
+
+### First-Time Setup
+
+1. Create account at https://central.sonatype.com
+2. Verify namespace ownership for `com.tailoredshapes`
+3. Generate an access token
+4. Add secrets to GitHub repository
