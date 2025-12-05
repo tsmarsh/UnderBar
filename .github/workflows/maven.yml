@@ -24,6 +24,18 @@ jobs:
       - name: Build and Test
         run: mvn -B verify --file pom.xml
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: |
+            underbar.ocho/target/site/jacoco/jacoco.xml,
+            underbar.dates/target/site/jacoco/jacoco.xml,
+            stash/target/site/jacoco/jacoco.xml,
+            underbar.io/target/site/jacoco/jacoco.xml,
+            underbar.crypto/target/site/jacoco/jacoco.xml
+          fail_ci_if_error: false
+
       - name: Update dependency graph
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: advanced-security/maven-dependency-submission-action@v4
