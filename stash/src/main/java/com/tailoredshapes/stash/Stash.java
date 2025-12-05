@@ -243,7 +243,7 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     public int asInteger(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.intValue(), result ->
-                dieUnless(result == value.longValue(), () -> value + " to large for int"));
+                dieUnless(result == value.longValue(), () -> value + " too large for int"));
     }
 
     public double asDouble(String k) {
@@ -253,19 +253,19 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     public float asFloat(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.floatValue(), result ->
-                dieUnless(result == value.longValue(), () -> value + " to large for float"));
+                dieUnless(result == value.doubleValue(), () -> value + " too large for float"));
     }
 
     public short asShort(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.shortValue(), result ->
-                dieUnless(result == value.shortValue(), () -> value + " to large for short"));
+                dieUnless(result == value.shortValue(), () -> value + " too large for short"));
     }
 
     public byte asByte(String k) {
         Number value = getCast(k, x -> (Number) x);
         return tap(value.byteValue(), result ->
-                dieUnless(result == value.byteValue(), () -> value + " to large for byte"));
+                dieUnless(result == value.byteValue(), () -> value + " too large for byte"));
     }
 
     public String asString(String k) {
@@ -387,29 +387,10 @@ public class Stash extends HashMap<String, Object> implements Cloneable {
     }
 
 
-//    @Override
-//    public String toJSONString() {
-//        return JSONValue.toJSONString(modifyValues(m, this::toJSONString));
-//    }
-
-
     public String toJSONString() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
-
-
-//
-//    private Object toJSONString(Object v) {
-//        if (v instanceof Optional<?>) return toJSONString(((Optional<?>) v).orElse(null));
-//        if (v instanceof Date) return isoString((Date) v);
-//        if (v instanceof Instant) return isoString((Instant) v);
-//        if (v instanceof UUID) return v.toString();
-//        if (v instanceof File) return ((File) v).getAbsolutePath();
-//        if (v instanceof Path) return v.toString();
-//        if (v instanceof Map) return new Stash((Map<String, Object>) v).toJSONString();
-//        return v;
-//    }
 
     public Stash filterKeys(Predicate<String> predicate) {
         return new Stash(UnderBar.filterKeys(this, predicate));

@@ -54,10 +54,15 @@ public interface AES {
         }
     }
 
+    /**
+     * Generates a new AES-256 secret key using SecureRandom.
+     *
+     * @return a new 256-bit AES SecretKey
+     */
     static SecretKey aesKey(){
         KeyGenerator keyGenerator = rethrow(()->getInstance("AES"));
         SecureRandom random = new SecureRandom();
-        keyGenerator.init(random);
+        keyGenerator.init(256, random);
         return keyGenerator.generateKey();
     }
 

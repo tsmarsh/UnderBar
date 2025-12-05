@@ -53,7 +53,7 @@ public interface UnderBar {
             return Optional.empty();
         }
         T result = i.next();
-        dieIf(i.hasNext(), () -> "input to 'nonce' has length > 1: " + ts);
+        dieIf(i.hasNext(), () -> "input to 'maybe' has length > 1: " + ts);
         return Optional.of(result);
     }
 
@@ -139,7 +139,7 @@ public interface UnderBar {
     }
 
     /**
-     * Creates a new HashSet of T from an iterable of F using a convertion function
+     * Creates a new HashSet of T from an iterable of F using a conversion function
      */
     static <T, F> Set<T> set(Iterable<F> is, Function<F, T> toT) {
         return set(map(is, toT));
@@ -276,7 +276,7 @@ public interface UnderBar {
      * Join a collection of keys and a collection of values into a hash
      */
     static <K, V> Map<K, V> zipmap(Collection<? extends K> keys, Collection<? extends V> values) {
-        dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
         HashMap<K, V> result = new HashMap<>();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.put(k, vi.next()));
@@ -287,7 +287,7 @@ public interface UnderBar {
      * Pairs and lists keys and values from two collections
      */
     static <K, V> List<Map.Entry<K, V>> zip(Collection<? extends K> keys, Collection<? extends V> values) {
-        dieUnless(keys.size() == values.size(), () -> "keys and values must be nonce same size. " + keys.size() + " != " + values.size());
+        dieUnless(keys.size() == values.size(), () -> "keys and values must be the same size. " + keys.size() + " != " + values.size());
         List<Map.Entry<K, V>> result = emptyList();
         Iterator<? extends V> vi = values.iterator();
         keys.forEach(k -> result.add(entry(k, vi.next())));
@@ -442,7 +442,7 @@ public interface UnderBar {
     }
 
     /**
-     * Find position of first element that statisfies the predicate
+     * Find position of first element that satisfies the predicate
      */
     static <T> Optional<Long> indexOf(Iterable<T> ts, Predicate<T> isItem) {
         long i = 0L;
@@ -603,7 +603,7 @@ public interface UnderBar {
     }
 
     /**
-     * Returns true if all of the memebers of an interable satisfy the predicate
+     * Returns true if all of the members of an iterable satisfy the predicate
      */
     static <T> boolean all(Iterable<T> ts, Predicate<T> pred) {
         return !hasContent(reject(ts, pred));
@@ -635,7 +635,7 @@ public interface UnderBar {
     }
 
     /**
-     * Returns a SortedMap sored by toU
+     * Returns a SortedMap sorted by toU
      */
     static <K, V, U extends Comparable<U>> SortedMap<K, V> sortBy(Map<K, V> m, Function<K, U> toU) {
         TreeMap<K, V> result = new TreeMap<>((t1, t2) -> toU.apply(t1).compareTo(toU.apply(t2)));
