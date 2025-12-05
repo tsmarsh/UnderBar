@@ -20,8 +20,10 @@ jobs:
           cache: maven
 
       - name: Set up GPG
+        env:
+          GPG_SECRET: ${{ secrets.GPG_SECRET }}
         run: |
-          echo "${{ secrets.GPG_SECRET }}" | gpg --batch --import
+          echo -e "$GPG_SECRET" | gpg --batch --import
           echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
           gpgconf --reload gpg-agent
 
